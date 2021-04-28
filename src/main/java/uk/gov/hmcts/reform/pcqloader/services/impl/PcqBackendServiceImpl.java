@@ -15,7 +15,6 @@ import uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils;
 import uk.gov.hmcts.reform.pcq.commons.utils.JsonFeignResponseUtil;
 import uk.gov.hmcts.reform.pcqloader.services.PcqBackendService;
 
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
