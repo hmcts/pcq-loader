@@ -8,10 +8,12 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswers;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
+import org.springframework.web.reactive.function.BodyInserters;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.Collections;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -20,6 +22,7 @@ import static org.junit.Assert.assertNull;
 @Slf4j
 public class PcqLoaderTestBase {
 
+    private static final String OPT_OUT_YES = "Y";
 
     protected PcqAnswerRequest getTestAnswerRecord(String pcqId, String apiUrl) throws IOException {
         return getResponseFromBackend(apiUrl, pcqId);
@@ -43,6 +46,20 @@ public class PcqLoaderTestBase {
             .defaultUriVariables(Collections.singletonMap("url", apiUrl))
             .build();
     }
+
+    protected void deleteTestAnswerRecord(PcqAnswerRequest answerRequest, String apiUrl) throws IOException {
+        answerRequest.setOptOut(OPT_OUT_YES);
+        deleteTestRecordFromBackend(apiUrl, answerRequest);
+    }
+
+    protected void deleteTestRecordFromBackend(String apiUrl, PcqAnswerRequest answerRequest) {
+        WebClient pcqWebClient = createPcqBackendWebClient(apiUrl);
+        WebClient.RequestHeadersSpec requestBodySpec = pcqWebClient.post().uri(URI.create(
+            apiUrl + "/pcq/backend/submitAnswers/")).body(BodyInserters.fromValue(answerRequest));
+        Map response3 = requestBodySpec.retrieve().bodyToMono(Map.class).block();
+        log.info("Returned response " + response3.toString());
+    }
+
 
     protected int countBlobs(PagedIterable<BlobItem> blobs) {
         int blobCount = 0;
