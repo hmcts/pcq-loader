@@ -11,6 +11,7 @@ trigger:
     include:
       - master
       - ithc
+      - perftest
 
   tags:
     include:
