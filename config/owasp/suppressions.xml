@@ -7,4 +7,14 @@
     <cpe>cpe:/a:pivotal_software:spring_security</cpe>
     <cve>CVE-2018-1258</cve>
   </suppress>
+  <suppress>
+    <notes><![CDATA[
+             Suppressing as it's a false positive
+            ]]></notes>
+    <filePath regex="true">.*netty.*Final.*.jar</filePath>
+    <cpe>cpe:/cpe:2.3:a:netty:nettyy</cpe>
+    <cpe>cpe:/a:2.3:a:netty:nettyy</cpe>
+    <cve>CVE-2021-37136</cve>
+    <cve>CVE-2021-37137</cve>
+  </suppress>
 </suppressions>
