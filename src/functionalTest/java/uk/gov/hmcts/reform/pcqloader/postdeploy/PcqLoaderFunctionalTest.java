@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +19,8 @@ import uk.gov.hmcts.reform.pcqloader.services.BlobStorageManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestApplicationConfiguration.class)
@@ -95,21 +96,19 @@ public class PcqLoaderFunctionalTest extends PcqLoaderTestBase {
         //Collect blobs
         PagedIterable<BlobItem> totalBlobs =
             blobStorageManager.getPcqContainer().listBlobs();
+        assertEquals("Successful number of total blobs", EXPECT_SUCCESSFUL_TESTS, countBlobs(totalBlobs));
+
         PagedIterable<BlobItem> unprocessedBlobs =
             blobStorageManager.getPcqContainer().listBlobsByHierarchy(BLOB_CONTAINER_DEFAULT_DIR);
+        assertEquals("No blobs should remain", EXPECT_UNPROCESSED_TESTS, countBlobs(unprocessedBlobs));
+
         PagedIterable<BlobItem> processedBlobs =
             blobStorageManager.getPcqContainer().listBlobsByHierarchy(BLOB_CONTAINER_PROCESSED_DIR);
+        assertEquals("Successful number of processed blobs",
+                     EXPECT_SUCCESSFUL_TESTS, countBlobs(processedBlobs));
+
         PagedIterable<BlobItem> rejectedBlobs =
             blobStorageManager.getRejectedPcqContainer().listBlobs();
-
-        //Check results
-        Assertions.assertEquals(EXPECT_SUCCESSFUL_TESTS, countBlobs(totalBlobs),
-                                "Successful number of total blobs");
-        Assertions.assertEquals(EXPECT_SUCCESSFUL_TESTS, countBlobs(processedBlobs),
-                                "Successful number of processed blobs");
-        Assertions.assertEquals(EXPECT_UNPROCESSED_TESTS, countBlobs(unprocessedBlobs),
-                                "No blobs should remain");
-        Assertions.assertEquals(EXPECT_REJECTED_TESTS, countBlobs(rejectedBlobs),
-                                "Number of blobs expected to be rejected");
+        assertEquals("Blobs expected to be rejected", EXPECT_REJECTED_TESTS, countBlobs(rejectedBlobs));
     }
 }
