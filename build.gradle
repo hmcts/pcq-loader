@@ -9,7 +9,7 @@ buildscript {
 plugins {
     id 'application'
     id 'checkstyle'
-    id 'uk.gov.hmcts.java' version '0.12.0'
+    id 'uk.gov.hmcts.java' version '0.12.18'
     id 'pmd'
     id 'jacoco'
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
@@ -309,7 +309,7 @@ dependencies {
 
     implementation group: "io.jsonwebtoken", name: "jjwt", version: "0.9.1"
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
-    implementation group: 'com.github.hmcts', name: 'pcq-commons', version: '1.1.4'
+    implementation group: 'com.github.hmcts', name: 'pcq-commons', version: '1.1.5'
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: versions.junit
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
