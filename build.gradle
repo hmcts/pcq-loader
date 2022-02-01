@@ -203,7 +203,7 @@ dependencyCheck {
 
 dependencyManagement {
     dependencies {
-        dependency group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.64'
+        dependency group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.69'
         // CVE-2018-10237 - Unbounded memory allocation
         // CVE-2020-8908 - Temp directory creation vulnerability
         dependencySet(group: 'com.google.guava', version: '30.1-jre') {
@@ -212,6 +212,11 @@ dependencyManagement {
 
         // CVE-2021-29425
         dependency group: 'commons-io', name: 'commons-io', version: '2.11.0'
+
+        dependencySet(group: 'org.springframework.cloud', version: '3.0.5') {
+          entry 'spring-cloud-starter-openfeign'
+          entry 'spring-cloud-openfeign-core'
+        }
     }
     imports {
       mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2020.0.3'
@@ -292,8 +297,8 @@ dependencies {
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.7.RELEASE'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.0.5'
 
     implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     implementation group: "com.networknt", name: "json-schema-validator", version: "1.0.31"
