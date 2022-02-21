@@ -217,6 +217,11 @@ dependencyManagement {
           entry 'spring-cloud-starter-openfeign'
           entry 'spring-cloud-openfeign-core'
         }
+
+        dependencySet(group: 'org.springframework.security', version: '5.6.1') {
+          entry 'spring-security-core'
+          entry 'spring-security-test'
+        }
     }
     imports {
       mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2020.0.3'
