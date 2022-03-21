@@ -52,7 +52,7 @@ public class PcqLoaderComponent {
 
 
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis"})
-    public void execute() {
+    public void execute() throws InterruptedException {
 
         log.info("PcqLoaderComponent started...");
 
@@ -100,7 +100,6 @@ public class PcqLoaderComponent {
                         invokeSubmitAnswers(mappedAnswers, tmpZipFileName, blobContainerClient);
                     }
                 }
-
 
             } catch (Exception ioe) {
                 log.error("Error during processing " + ioe.getMessage(), ioe);

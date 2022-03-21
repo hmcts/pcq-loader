@@ -49,6 +49,13 @@
       <property name="minimum" value="35" /><!-- should be reduced -->
     </properties>
   </rule>
+  <rule ref="category/java/design.xml/CyclomaticComplexity">
+    <properties>
+      <property name="classReportLevel" value="80" />
+      <property name="methodReportLevel" value="20" />
+      <property name="cycloOptions" value="" />
+    </properties>
+  </rule>
   <rule ref="category/java/design.xml/LawOfDemeter">
     <properties>
       <property name="violationSuppressRegex" value="(.*method chain calls.*|.*object not created locally.*)" />
