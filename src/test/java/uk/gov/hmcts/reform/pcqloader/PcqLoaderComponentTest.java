@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
@@ -819,6 +821,50 @@ class PcqLoaderComponentTest {
         verify(blobStorageManager, times(1)).moveFileToProcessedFolder(TEST_BLOB_FILENAME1, blobContainerClient);
         verify(fileUtil, times(1)).deleteFilesFromLocalStorage(zipDirectory, unzippedFile);
 
+    }
+
+    @Test
+    void testInterruptedException() throws InterruptedException {
+        List<String> blobFileNames = Arrays.asList(TEST_BLOB_FILENAME1);
+        File metaDataFile = new File(PAYLOAD_TEST_FILE);
+        File[] listedFiles = {metaDataFile};
+        PcqAnswerRequest answerRequest = getAnswerRequest();
+        String jsonTestMetaData = "{}";
+
+        when(blobStorageManager.getPcqContainer()).thenReturn(blobContainerClient);
+        when(blobContainerClient.exists()).thenReturn(true);
+        when(blobStorageManager.collectBlobFileNamesFromContainer(blobContainerClient)).thenReturn(blobFileNames);
+        when(blobStorageManager.downloadFileFromBlobStorage(blobContainerClient, TEST_BLOB_FILENAME1))
+            .thenReturn(zipDirectory);
+        when(fileUtil.unzipBlobDownloadZipFile(zipDirectory)).thenReturn(unzippedFile);
+        when(unzippedFile.listFiles()).thenReturn(listedFiles);
+        when(fileUtil.getMetaDataFile(listedFiles)).thenReturn(metaDataFile);
+        try {
+            when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
+            when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
+                .thenReturn(answerRequest);
+        } catch (Exception e) {
+            fail(EXCEPTION_UNEXPECTED + e.getMessage());
+        }
+        when(pcqBackendService.submitAnswers(answerRequest)).thenThrow(
+                new ExternalApiException(HttpStatus.SERVICE_UNAVAILABLE, "Test Error"));
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                pcqLoaderComponent.execute();
+            }
+        };
+
+        thread.start();
+        thread.interrupt();
+        assertTrue("Thread is not Interrupted", thread.isInterrupted());
+        thread.join();
+        assertFalse("Thread is Interrupted", thread.isInterrupted());
+
+        verify(blobStorageManager, times(1)).getPcqContainer();
+        verify(blobContainerClient, times(1)).exists();
+        verify(blobStorageManager, times(1)).collectBlobFileNamesFromContainer(blobContainerClient);
     }
 
 

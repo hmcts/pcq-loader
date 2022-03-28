@@ -49,6 +49,13 @@
       <property name="minimum" value="35" /><!-- should be reduced -->
     </properties>
   </rule>
+  <rule ref="category/java/design.xml/CyclomaticComplexity">
+    <properties>
+      <property name="classReportLevel" value="80" />
+      <property name="methodReportLevel" value="15" />
+      <property name="cycloOptions" value="" />
+    </properties>
+  </rule>
   <rule ref="category/java/design.xml/LawOfDemeter">
     <properties>
       <property name="violationSuppressRegex" value="(.*method chain calls.*|.*object not created locally.*)" />
@@ -67,7 +74,9 @@
   <rule ref="category/java/errorprone.xml">
     <exclude name="BeanMembersShouldSerialize" />
   </rule>
-  <rule ref="category/java/multithreading.xml" />
+  <rule ref="category/java/multithreading.xml" >
+    <exclude name="DoNotUseThreads" />
+  </rule>
   <rule ref="category/java/performance.xml" />
   <rule ref="category/java/security.xml" />
 

@@ -248,7 +248,8 @@ def versions = [
         pitest              : '1.6.3',
         sonarPitest         : '0.5',
         testcontainers      : '1.15.1',
-        springFramework     : '5.3.15'
+        springFramework     : '5.3.15',
+        fasterXmlJackson    : '2.13.2'
 ]
 
 ext['spring-framework.version'] = '5.3.12'
@@ -263,7 +264,7 @@ configurations.all {
                 details.useVersion '2.12.10'
             }
             if (details.requested.group in ['org.apache.tomcat.embed']) {
-                details.useVersion '10.1.0-M10'
+                details.useVersion '9.0.59'
             }
             if (details.requested.group in ['org.apache.httpcomponents.httpclient']) {
               details.useVersion '4.5.13'
@@ -320,6 +321,11 @@ dependencies {
     implementation group: "io.jsonwebtoken", name: "jjwt", version: "0.9.1"
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
     implementation group: 'com.github.hmcts', name: 'pcq-commons', version: '1.1.5'
+
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.2.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.fasterXmlJackson
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.fasterXmlJackson
+    implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.fasterXmlJackson, ext: 'pom'
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: versions.junit
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
