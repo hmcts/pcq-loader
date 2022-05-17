@@ -16,7 +16,9 @@ import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswers;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
 
 import java.nio.charset.Charset;
+import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -152,8 +154,9 @@ class PcqBackendServiceImplTest {
     @Test
     void executeFeignApiError() {
         PcqAnswerRequest testRequest = generateTestRequest();
+        Map<String, Collection<String>> maps = new ConcurrentHashMap<>();
         FeignException feignException = new FeignException.BadGateway("Bade Gateway Error", mock(Request.class),
-                                                                      "Test".getBytes());
+                                                                      "Test".getBytes(),maps);
 
         when(mockPcqBackendFeignClient.submitAnswers(anyString(), anyString(), any(PcqAnswerRequest.class)))
             .thenThrow(feignException);
@@ -167,8 +170,9 @@ class PcqBackendServiceImplTest {
     @Test
     void executeFeignApiUnknownError() {
         PcqAnswerRequest testRequest = generateTestRequest();
+        Map<String, Collection<String>> maps = new ConcurrentHashMap<>();
         FeignException feignException = new FeignException.FeignServerException(-1, "Bad error", mock(Request.class),
-                                                                                "TestError".getBytes());
+                                                                                "TestError".getBytes(),maps);
 
         when(mockPcqBackendFeignClient.submitAnswers(anyString(), anyString(), any(PcqAnswerRequest.class)))
             .thenThrow(feignException);
