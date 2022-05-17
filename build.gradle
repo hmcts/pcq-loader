@@ -222,6 +222,9 @@ dependencyManagement {
           entry 'spring-security-core'
           entry 'spring-security-test'
         }
+      dependencySet(group: 'io.netty', version: '4.1.77.Final') {
+        entry 'netty-codec-http'
+      }
     }
     imports {
       mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2021.0.2'
