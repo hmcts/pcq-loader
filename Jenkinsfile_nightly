@@ -50,7 +50,6 @@ withNightlyPipeline(type, product, component) {
   enableAksStagingDeployment()
   disableLegacyDeployment()
   nonServiceApp()
-  enableSecurityScan()
   enableMutationTest()
   enableFortifyScan()
 
