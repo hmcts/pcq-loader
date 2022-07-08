@@ -317,7 +317,7 @@ dependencies {
 
     implementation group: 'com.azure', name: 'azure-storage-blob', version: '12.14.1'
 
-    implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '11.0'
+    implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '11.9'
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap',version: '3.1.2'
