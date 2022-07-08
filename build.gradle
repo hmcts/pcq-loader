@@ -218,7 +218,7 @@ dependencyManagement {
           entry 'spring-security-core'
           entry 'spring-security-test'
         }
-        dependencySet(group: 'io.netty', version: '4.1.77.Final') {
+        dependencySet(group: 'io.netty', version: '4.1.78.Final') {
           entry 'netty-buffer'
           entry 'netty-codec'
           entry 'netty-codec-http'
