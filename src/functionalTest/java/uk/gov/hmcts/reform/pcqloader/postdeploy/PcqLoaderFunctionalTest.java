@@ -53,14 +53,6 @@ public class PcqLoaderFunctionalTest extends PcqLoaderTestBase {
     public void beforeTests() throws FileNotFoundException {
         log.info("Starting PcqLoaderComponent functional tests");
 
-        // Delete test containers if they already exist
-        if (blobStorageManager.getContainer(FUNC_TEST_PCQ_CONTAINER_NAME).exists()) {
-            blobStorageManager.deleteContainer(FUNC_TEST_PCQ_CONTAINER_NAME);
-        }
-        if (blobStorageManager.getContainer(FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME).exists()) {
-            blobStorageManager.deleteContainer(FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME);
-        }
-
         // Create test containers
         BlobContainerClient blobContainerClient = blobStorageManager.createContainer(FUNC_TEST_PCQ_CONTAINER_NAME);
         blobStorageManager.createContainer(FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME);
