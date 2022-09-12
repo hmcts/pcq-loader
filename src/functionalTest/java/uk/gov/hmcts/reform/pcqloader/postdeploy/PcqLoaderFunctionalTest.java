@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -48,6 +49,8 @@ public class PcqLoaderFunctionalTest extends PcqLoaderTestBase {
     @Autowired
     private BlobStorageManager blobStorageManager;
 
+    @Value("${telemetry.wait.period:10000}")
+    private int waitPeriod;
 
     @Before
     public void beforeTests() throws FileNotFoundException {
@@ -74,8 +77,10 @@ public class PcqLoaderFunctionalTest extends PcqLoaderTestBase {
     }
 
     @After
-    public void afterTests() {
+    public void afterTests() throws InterruptedException {
         log.info("Stopping PcqLoaderComponent functional tests");
+        log.info("Waiting for 10 Sec before deleting to allow tests to finish");
+        waitToDeleteContainer();
         blobStorageManager.deleteContainer(FUNC_TEST_PCQ_CONTAINER_NAME);
         blobStorageManager.deleteContainer(FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME);
     }
@@ -103,5 +108,9 @@ public class PcqLoaderFunctionalTest extends PcqLoaderTestBase {
             blobStorageManager.getRejectedPcqContainer().listBlobs();
         assertEquals("Number of blobs expected to be rejected",
                      EXPECT_REJECTED_TESTS, countBlobs(rejectedBlobs));
+    }
+
+    private void waitToDeleteContainer() throws InterruptedException {
+        Thread.sleep(waitPeriod);
     }
 }
