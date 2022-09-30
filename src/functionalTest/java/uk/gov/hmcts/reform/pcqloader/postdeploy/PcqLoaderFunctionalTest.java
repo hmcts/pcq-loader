@@ -49,7 +49,7 @@ public class PcqLoaderFunctionalTest extends PcqLoaderTestBase {
     @Autowired
     private BlobStorageManager blobStorageManager;
 
-    @Value("${telemetry.wait.period:10000}")
+    @Value("${functional-test.wait.period:10000}")
     private int waitPeriod;
 
     @Before

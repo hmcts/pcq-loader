@@ -348,7 +348,7 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.fasterXmlJackson
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.fasterXmlJackson
     implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.fasterXmlJackson, ext: 'pom'
-    implementation group: 'org.yaml', name: 'snakeyaml', version: '1.31'
+    implementation group: 'org.yaml', name: 'snakeyaml', version: '1.32'
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: versions.junit
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
