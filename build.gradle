@@ -9,7 +9,7 @@ buildscript {
 plugins {
     id 'application'
     id 'checkstyle'
-    id 'uk.gov.hmcts.java' version '0.12.18'
+    id 'uk.gov.hmcts.java' version '0.12.33'
     id 'pmd'
     id 'jacoco'
     id 'io.spring.dependency-management' version '1.1.0'
