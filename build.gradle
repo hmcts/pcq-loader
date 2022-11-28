@@ -365,7 +365,7 @@ dependencies {
     testImplementation group: 'io.rest-assured', name: 'json-path', version: versions.restAssured
 
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.9.0'
-    testImplementation group: 'org.mockito', name: 'mockito-inline', version: '3.4.6'
+    testImplementation group: 'org.mockito', name: 'mockito-inline', version: '4.9.0'
 
     testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.33.2'
 
