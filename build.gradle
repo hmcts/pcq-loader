@@ -145,7 +145,7 @@ jacocoTestReport {
 project.tasks['sonarqube'].dependsOn jacocoTestReport
 
 pitest {
-    junit5PluginVersion = '0.12'
+    junit5PluginVersion = '0.14'
     targetClasses = ['uk.gov.hmcts.reform.pcqloader.*']
     threads = 10
     enableDefaultIncrementalAnalysis = true
@@ -261,9 +261,7 @@ def versions = [
         springfoxSwagger    : '3.0.0',
         restAssured         : '4.2.0',
         lombok              : '1.18.12',
-        gradlePitest        : '1.6.0',
-        pitest              : '1.6.3',
-        sonarPitest         : '0.5',
+        pitest              : '1.9.11',
         testcontainers      : '1.15.1',
         springFramework     : '5.3.20',
         fasterXmlJackson    : '2.14.0-rc1',
@@ -315,7 +313,7 @@ dependencies {
     implementation group: 'org.springframework', name:'spring-web', version: versions.springFramework
     implementation group: 'org.springframework', name:'spring-webmvc', version: versions.springFramework
 
-    implementation group: 'com.azure', name: 'azure-storage-blob', version: '12.20.1'
+    implementation group: 'com.azure', name: 'azure-storage-blob', version: '12.19.0'
 
     implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '12.1'
 
@@ -358,7 +356,7 @@ dependencies {
     testImplementation group: 'org.springframework.security', name: 'spring-security-test'
 
     testImplementation group: 'org.pitest', name: 'pitest', version: versions.pitest
-    testImplementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.9.0'
+    testImplementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.9.11'
     testImplementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
 
     testImplementation group: 'io.rest-assured', name: 'xml-path', version: versions.restAssured
