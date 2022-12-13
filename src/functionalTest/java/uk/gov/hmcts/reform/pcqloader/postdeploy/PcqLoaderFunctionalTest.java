@@ -79,10 +79,12 @@ public class PcqLoaderFunctionalTest extends PcqLoaderTestBase {
     @After
     public void afterTests() throws InterruptedException {
         log.info("Stopping PcqLoaderComponent functional tests");
-        log.info("Waiting {}ms before deleting containers to allow all tests to finish", waitPeriod);
-        waitToDeleteContainer();
+        log.info("Deleting blob storage container: {}", FUNC_TEST_PCQ_CONTAINER_NAME);
         blobStorageManager.deleteContainer(FUNC_TEST_PCQ_CONTAINER_NAME);
+        log.info("Deleting blob storage container: {}", FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME);
         blobStorageManager.deleteContainer(FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME);
+        log.info("Waiting {}ms before finishing to allow container deletion process to cool off", waitPeriod);
+        waitToDeleteContainer();
     }
 
     @Test

@@ -30,7 +30,7 @@ unit-test:
     submit_answer: /pcq/backend/submitAnswers
 functional-test:
   wait:
-    period: 120000
+    period: 30000
 
 spring:
   application:
