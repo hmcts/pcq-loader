@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.pcqloader.postdeploy;
 
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.storage.blob.BlobContainerClient;
+import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.models.BlobItem;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
@@ -15,8 +16,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.ResourceUtils;
 import uk.gov.hmcts.reform.pcqloader.PcqLoaderComponent;
+import uk.gov.hmcts.reform.pcqloader.config.BlobStorageProperties;
 import uk.gov.hmcts.reform.pcqloader.config.TestApplicationConfiguration;
 import uk.gov.hmcts.reform.pcqloader.services.BlobStorageManager;
+import uk.gov.hmcts.reform.pcqloader.utils.ZipFileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -47,8 +50,13 @@ public class PcqLoaderFunctionalTest extends PcqLoaderTestBase {
     @Autowired
     private PcqLoaderComponent pcqLoaderComponent;
 
-    @Autowired
     private BlobStorageManager blobStorageManager;
+    @Autowired
+    private BlobStorageProperties blobStorageProperties;
+    @Autowired
+    private BlobServiceClient blobServiceClient;
+    @Autowired
+    private ZipFileUtils zipFileUtil;
 
     @Value("${functional-test.wait.period:10000}")
     private int waitPeriod;
@@ -63,6 +71,9 @@ public class PcqLoaderFunctionalTest extends PcqLoaderTestBase {
         //generate random values from 0-10
         int intRandom = rand.nextInt(upperbound);
         this.randomNumber = intRandom;
+        blobStorageProperties.setBlobPcqContainer(FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME + randomNumber);
+        blobStorageProperties.setBlobPcqRejectedContainer(FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME + randomNumber);
+        blobStorageManager = new BlobStorageManager(blobStorageProperties,blobServiceClient,zipFileUtil);
 
         // Create test containers
         BlobContainerClient blobContainerClient = blobStorageManager.createContainer(
