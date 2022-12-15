@@ -20,6 +20,7 @@ import uk.gov.hmcts.reform.pcqloader.services.BlobStorageManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,8 +31,8 @@ import static org.junit.Assert.assertEquals;
 public class PcqLoaderFunctionalTest extends PcqLoaderTestBase {
 
     private static final String CLASSPATH_BLOBTESTFILES_PATH = "classpath:BlobTestFiles/";
-    private static final String FUNC_TEST_PCQ_CONTAINER_NAME = "pcq-func-tests";
-    private static final String FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME = "pcq-func-test-rejected";
+    private static final String FUNC_TEST_PCQ_CONTAINER_NAME = "pcq-func-tests-";
+    private static final String FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME = "pcq-func-test-rejected-";
     private static final String BLOB_FILENAME_1 = "1579002492_31-08-2020-11-35-10.zip";
     private static final String BLOB_FILENAME_2 = "1579002493_31-08-2020-11-48-42.zip";
     private static final String BLOB_FILENAME_3_LARGE_FILE = "1579002494_27-03-2021-12-30-00.zip";
@@ -52,13 +53,21 @@ public class PcqLoaderFunctionalTest extends PcqLoaderTestBase {
     @Value("${functional-test.wait.period:10000}")
     private int waitPeriod;
 
+    private int randomNumber;
+
     @Before
     public void beforeTests() throws FileNotFoundException {
         log.info("Starting PcqLoaderComponent functional tests");
+        Random rand = new Random(); //instance of random class
+        int upperbound = 10;
+        //generate random values from 0-10
+        int intRandom = rand.nextInt(upperbound);
+        this.randomNumber = intRandom;
 
         // Create test containers
-        BlobContainerClient blobContainerClient = blobStorageManager.createContainer(FUNC_TEST_PCQ_CONTAINER_NAME);
-        blobStorageManager.createContainer(FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME);
+        BlobContainerClient blobContainerClient = blobStorageManager.createContainer(
+            FUNC_TEST_PCQ_CONTAINER_NAME + randomNumber);
+        blobStorageManager.createContainer(FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME + randomNumber);
 
         log.info("Created test container: {}", blobContainerClient.getBlobContainerUrl());
 
@@ -79,10 +88,12 @@ public class PcqLoaderFunctionalTest extends PcqLoaderTestBase {
     @After
     public void afterTests() throws InterruptedException {
         log.info("Stopping PcqLoaderComponent functional tests");
-        log.info("Waiting for 10 Sec before deleting to allow tests to finish");
+        log.info("Deleting blob storage container: {}", FUNC_TEST_PCQ_CONTAINER_NAME + randomNumber);
+        blobStorageManager.deleteContainer(FUNC_TEST_PCQ_CONTAINER_NAME + randomNumber);
+        log.info("Deleting blob storage container: {}", FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME + randomNumber);
+        blobStorageManager.deleteContainer(FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME + randomNumber);
+        log.info("Waiting {}ms before finishing to allow container deletion process to cool off", waitPeriod);
         waitToDeleteContainer();
-        blobStorageManager.deleteContainer(FUNC_TEST_PCQ_CONTAINER_NAME);
-        blobStorageManager.deleteContainer(FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME);
     }
 
     @Test
