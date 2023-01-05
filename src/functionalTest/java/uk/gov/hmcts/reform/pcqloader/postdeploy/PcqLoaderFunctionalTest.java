@@ -71,7 +71,7 @@ public class PcqLoaderFunctionalTest extends PcqLoaderTestBase {
         //generate random values from 0-10
         int intRandom = rand.nextInt(upperbound);
         this.randomNumber = intRandom;
-        blobStorageProperties.setBlobPcqContainer(FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME + randomNumber);
+        blobStorageProperties.setBlobPcqContainer(FUNC_TEST_PCQ_CONTAINER_NAME + randomNumber);
         blobStorageProperties.setBlobPcqRejectedContainer(FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME + randomNumber);
         blobStorageManager = new BlobStorageManager(blobStorageProperties,blobServiceClient,zipFileUtil);
 
