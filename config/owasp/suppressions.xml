@@ -22,6 +22,14 @@
     <cve>CVE-2022-34305</cve>
   </suppress>
   <suppress>
+    <packageUrl regex="true">^pkg:maven/com.gilecode.yagson/j9-reflection-utils@.*$</packageUrl>
+    <cve>CVE-2021-4277</cve>
+  </suppress>
+  <suppress>
+    <packageUrl regex="true">^pkg:maven/org.latencyutils/LatencyUtils@.*$</packageUrl>
+    <cve>CVE-2021-4277</cve>
+  </suppress>
+  <suppress>
     <packageUrl regex="true">^pkg:maven/org.apache.logging.log4j/log4j-api@.*$</packageUrl>
     <cve>CVE-2022-33915</cve>
   </suppress>
