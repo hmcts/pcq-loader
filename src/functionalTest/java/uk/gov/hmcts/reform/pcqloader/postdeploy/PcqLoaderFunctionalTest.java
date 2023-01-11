@@ -66,11 +66,7 @@ public class PcqLoaderFunctionalTest extends PcqLoaderTestBase {
     @Before
     public void beforeTests() throws FileNotFoundException {
         log.info("Starting PcqLoaderComponent functional tests");
-        Random rand = new Random(); //instance of random class
-        int upperbound = 10;
-        //generate random values from 0-10
-        int intRandom = rand.nextInt(upperbound);
-        this.randomNumber = intRandom;
+        this.randomNumber = new Random().nextInt(10);
         blobStorageProperties.setBlobPcqContainer(FUNC_TEST_PCQ_CONTAINER_NAME + randomNumber);
         blobStorageProperties.setBlobPcqRejectedContainer(FUNC_TEST_PCQ_REJECTED_CONTAINER_NAME + randomNumber);
         blobStorageManager = new BlobStorageManager(blobStorageProperties,blobServiceClient,zipFileUtil);
