@@ -21,6 +21,7 @@ import java.util.zip.ZipFile;
 
 @Slf4j
 @Component
+@SuppressWarnings("PMD.UseTryWithResources")
 public class ZipFileUtils {
 
     private static final String ZIP_FOLDER_POSTFIX = ".zip";
