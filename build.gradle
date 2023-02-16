@@ -218,7 +218,7 @@ dependencyManagement {
           entry 'spring-cloud-openfeign-core'
         }
 
-        dependencySet(group: 'org.springframework.security', version: '5.7.5') {
+        dependencySet(group: 'org.springframework.security', version: '6.0.1') {
           entry 'spring-security-core'
           entry 'spring-security-test'
         }
