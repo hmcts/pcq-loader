@@ -22,7 +22,7 @@ import static uk.gov.hmcts.reform.pcq.commons.tests.utils.TestUtils.jsonStringFr
 
 @ExtendWith(SpringExtension.class)
 @SuppressWarnings("PMD.TooManyMethods")
-public class PayloadMappingHelperIntegTest {
+  class PayloadMappingHelperIntegTest {
 
     private static final String FAIL_ASSERT_MSG = "Method call failed.";
     private static final String FORM_ID_VALIDATION_MSG = "Form Id is not correct.";
@@ -45,7 +45,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("Payload cannot be decrypted.")
-    public void testBadDecryption() throws IOException {
+    void testBadDecryption() throws IOException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/decryptErrorMetaFile.json");
 
@@ -56,7 +56,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("Payload data had invalid numerical values.")
-    public void testInvalidNumericData() throws IOException {
+    void testInvalidNumericData() throws IOException {
 
         String metaDataPayLoad =
             jsonStringFromFile("testPayloadFiles/invalidNumericValuesPayloadMetaFile.json");
@@ -68,7 +68,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("Multiple choices test.")
-    public void testMultipleChoices() throws IOException {
+    void testMultipleChoices() throws IOException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/multipleChoiceMetaFile.json");
 
@@ -90,7 +90,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("Empty payload - User did not mark anything in the form.")
-    public void testEmptyPayload() throws IOException {
+    void testEmptyPayload() throws IOException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/emptyPayloadMetaFile.json");
 
@@ -103,7 +103,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("Missing Elements from the Payload - Exela/BulkScan error case")
-    public void testMissingElementsFromPayload() throws IOException {
+    void testMissingElementsFromPayload() throws IOException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/nullPayloadMetaFile.json");
 
@@ -115,7 +115,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("Other Text Field entered but user has not ticked the Other checkbox.")
-    public void testInvalidOtherTextInput() throws IOException {
+    void testInvalidOtherTextInput() throws IOException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/invalidOtherPayloadMetaFile.json");
 
@@ -127,7 +127,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("OtherWhite and OtherMixed Text Field entered but user has not ticked Only OtherWhite checkbox.")
-    public void testInvalidOtherWhiteTextInput() throws IOException {
+    void testInvalidOtherWhiteTextInput() throws IOException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/invalidOtherWhitePayloadMetaFile.json");
 
@@ -140,7 +140,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("OtherWhite and OtherMixed Text Field entered but user has not ticked Only OtherMixed checkbox.")
-    public void testInvalidOtherMixedTextInput() throws IOException {
+    void testInvalidOtherMixedTextInput() throws IOException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/invalidOtherMixedPayloadMetaFile.json");
 
@@ -153,7 +153,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("OtherWhite and OtherAsian Text Field entered but user has not ticked Only OtherAsian checkbox.")
-    public void testInvalidOtherAsianTextInput() throws IOException {
+    void testInvalidOtherAsianTextInput() throws IOException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/invalidOtherAsianPayloadMetaFile.json");
 
@@ -166,7 +166,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("OtherWhite and OtherCarib Text Field entered but user has not ticked Only OtherCarib checkbox.")
-    public void testInvalidOtherCaribTextInput() throws IOException {
+    void testInvalidOtherCaribTextInput() throws IOException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/invalidOtherCaribPayloadMetaFile.json");
 
@@ -179,7 +179,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("Valid other white ethnicity test")
-    public void testValidOtherWhiteTextInput() throws IOException {
+    void testValidOtherWhiteTextInput() throws IOException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/validOtherWhitePayloadMetaFile.json");
 
@@ -192,7 +192,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("Valid other mixed ethnicity test")
-    public void testValidOtherMixedTextInput() throws IOException {
+    void testValidOtherMixedTextInput() throws IOException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/validOtherMixedPayloadMetaFile.json");
 
@@ -206,7 +206,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("Valid other Asian ethnicity test")
-    public void testValidOtherAsianTextInput() throws IOException {
+    void testValidOtherAsianTextInput() throws IOException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/validOtherAsianPayloadMetaFile.json");
 
@@ -220,7 +220,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("Valid other Carib ethnicity test")
-    public void testValidOtherCaribTextInput() throws IOException {
+    void testValidOtherCaribTextInput() throws IOException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/validOtherCaribPayloadMetaFile.json");
 
@@ -234,7 +234,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("Valid other ethnicity test")
-    public void testValidOtherEthnicityTextInput() throws IOException {
+    void testValidOtherEthnicityTextInput() throws IOException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/validOtherEthnicityPayloadMetaFile.json");
 
@@ -248,7 +248,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("A valid scenario test where user has supplied a valid form.")
-    public void testValidFormSubmission() throws IOException {
+    void testValidFormSubmission() throws IOException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/validPayloadMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -260,7 +260,7 @@ public class PayloadMappingHelperIntegTest {
 
     @Test
     @DisplayName("A valid scenario test where valid form is supplied but with unKnown fields.")
-    public void testValidFormWithUnknownFields() throws IOException {
+    void testValidFormWithUnknownFields() throws IOException {
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/unknownFieldsPayloadMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
 

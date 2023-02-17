@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.ArrayUtils;
+//import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,32 +17,19 @@ import uk.gov.hmcts.reform.pcq.commons.model.PcqPayloadContents;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqScannableItems;
 import uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils;
 
-import java.lang.reflect.Field;
-
 import static uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils.nullIfEmpty;
 
 @Component
 @Slf4j
-public class PayloadMappingHelper {
+public class PayloadMappingHelper extends PayloadMappingHelperBase {
 
     private static final String EMPTY_STRING = "";
-
-    private final String[] submitAnswerIntElements = {"dob_provided", "language_main", "english_language_level", "sex",
-        "gender_different", "sexuality", "marriage", "ethnicity", "religion", "disability_condition",
-        "disability_impact", "disability_vision", "disability_hearing", "disability_mobility", "disability_dexterity",
-        "disability_learning", "disability_memory", "disability_mental_health", "disability_stamina",
-        "disability_social", "disability_other", "disability_none", "pregnancy"};
-
-    private final String[] submitAnswerIntFields = {"dobProvided", "languageMain", "englishLanguageLevel", "sex",
-        "genderDifferent", "sexuality", "marriage", "ethnicity", "religion", "disabilityConditions",
-        "disabilityImpact", "disabilityVision", "disabilityHearing", "disabilityMobility", "disabilityDexterity",
-        "disabilityLearning", "disabilityMemory", "disabilityMentalHealth", "disabilityStamina",
-        "disabilitySocial", "disabilityOther", "disabilityNone", "pregnancy"};
 
     private final PayloadValidationHelper payloadValidationHelper;
 
     @Autowired
     public PayloadMappingHelper(PayloadValidationHelper payloadValidationHelper) {
+        super();
         this.payloadValidationHelper = payloadValidationHelper;
     }
 
@@ -84,8 +71,7 @@ public class PayloadMappingHelper {
         return null;
     }
 
-    private PcqAnswerRequest performMapping(PcqMetaData metaData, PcqPayLoad payLoad)
-        throws IllegalAccessException, NoSuchFieldException {
+    private PcqAnswerRequest performMapping(PcqMetaData metaData, PcqPayLoad payLoad) {
         PcqAnswerRequest pcqAnswerRequest = new PcqAnswerRequest();
 
         //Set the default values
@@ -102,10 +88,14 @@ public class PayloadMappingHelper {
         PcqAnswers answers = new PcqAnswers();
         PcqPayloadContents[] payloadContents = payLoad.getMetaDataContents();
 
-        //For all the integer schema elements, set the values in the schema object first.
-        for (String schemaElement : submitAnswerIntElements) {
-            mapIntegerElements(payloadContents, answers, schemaElement);
-        }
+        mapLanguageFields(payloadContents,answers);
+        mapGenderFields(payloadContents,answers);
+        mapGeneralFields(payloadContents,answers);
+        mapDisabilityFields(payloadContents,answers);
+        mapDisabilityOtherFields(payloadContents,answers);
+        mapDisabilityOther2Fields(payloadContents,answers);
+        mapDisabilityOther3Fields(payloadContents,answers);
+        mapDisabilityNoneAndPregnancyFields(payloadContents,answers);
 
         //<element>_other field check
         mapOtherFields(payloadContents, answers);
@@ -133,30 +123,6 @@ public class PayloadMappingHelper {
         pcqAnswerRequest.setPcqAnswers(answers);
 
         return pcqAnswerRequest;
-    }
-
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    private void mapIntegerElements(PcqPayloadContents[] payloadContents, PcqAnswers answers, String schemaElement)
-        throws IllegalAccessException, NoSuchFieldException {
-        for (PcqPayloadContents payloadContent : payloadContents) {
-            if (payloadContent.getFieldName().equals(schemaElement)) {
-                // Find the field name of the element in the SubmitAnswers object.
-                int index = ArrayUtils.indexOf(submitAnswerIntElements, schemaElement);
-                Field schemaField = PcqAnswers.class.getDeclaredField(submitAnswerIntFields[index]);
-                // Make the field accessible
-                PcqUtils.makeFieldAccessible(schemaField);
-                // If the element value has been already set in answers object i.e. more than one check-box
-                // has been ticked by the user, then set the answer to "-1".
-                if (schemaField.get(answers) == null) {
-                    if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                        schemaField.set(answers, Integer.valueOf(payloadContent.getFieldValue()));
-                    }
-                } else {
-                    log.error("Invalid answer for " + schemaElement + ", found more than one value in payload.");
-                    schemaField.set(answers, -1);
-                }
-            }
-        }
     }
 
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.CyclomaticComplexity"})

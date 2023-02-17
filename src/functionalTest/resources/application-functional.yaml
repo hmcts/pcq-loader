@@ -24,10 +24,13 @@ api-schema-file:
   submitanswer-schema: JsonSchema/submitAnswersSchema.json
 api-version-number: 1
 
-#Application specific unit test properties
+#Application specific test properties
 unit-test:
   api-urls:
     submit_answer: /pcq/backend/submitAnswers
+functional-test:
+  wait:
+    period: 30000
 
 spring:
   application:

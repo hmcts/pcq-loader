@@ -115,9 +115,9 @@ public class PcqLoaderComponent {
     }
 
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked","PMD.CognitiveComplexity"})
     private void invokeSubmitAnswers(PcqAnswerRequest mappedAnswers, String tmpZipFileName,
-                                     BlobContainerClient sourceContainer)  {
+                                     BlobContainerClient sourceContainer) {
         int retryCount = 0;
         while (retryCount < MAX_RETRIES) {
             try {

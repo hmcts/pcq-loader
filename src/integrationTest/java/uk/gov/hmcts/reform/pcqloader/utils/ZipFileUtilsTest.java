@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
-public class ZipFileUtilsTest {
+class ZipFileUtilsTest {
 
     private static final String BLOB_FILENAME_1 = "1579002492_31-08-2020-11-35-10.zip";
     private static final String TEST_UNPACK_ZIP_FOLDER = "/var/tmp/pcq-loader/unpack-test/blobs";
@@ -40,7 +40,7 @@ public class ZipFileUtilsTest {
 
     @Test
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    public void testUnzipBlobDownloadZipFile() throws IOException {
+    void testUnzipBlobDownloadZipFile() throws IOException {
         File fileToUnzip = new File(TEST_UNPACK_ZIP_FOLDER + File.separator + BLOB_FILENAME_1);
         if (zipFileUtils.confirmFileCanBeCreated(fileToUnzip)) {
             FileUtils.copyFile(blobFile1, fileToUnzip);
@@ -61,7 +61,7 @@ public class ZipFileUtilsTest {
     }
 
     @Test
-    public void testDeleteFilesFromLocalStorage() throws IOException {
+    void testDeleteFilesFromLocalStorage() throws IOException {
         File fileToTest = new File(TEST_UNPACK_ZIP_FOLDER + File.separator + BLOB_FILENAME_2);
         if (zipFileUtils.confirmFileCanBeCreated(fileToTest)) {
             FileUtils.copyFile(blobFile2, fileToTest);
@@ -75,7 +75,7 @@ public class ZipFileUtilsTest {
     }
 
     @Test
-    public void testGetMetaDataFile() throws IOException {
+    void testGetMetaDataFile() throws IOException {
         File fileToTest = new File(TEST_UNPACK_ZIP_FOLDER + File.separator + BLOB_FILENAME_2);
         if (zipFileUtils.confirmFileCanBeCreated(fileToTest)) {
             FileUtils.copyFile(blobFile2, fileToTest);
@@ -88,7 +88,7 @@ public class ZipFileUtilsTest {
     }
 
     @Test
-    public void testReadAllData() throws IOException {
+    void testReadAllData() throws IOException {
         File fileToTest = new File(TEST_UNPACK_ZIP_FOLDER + File.separator + BLOB_FILENAME_2);
         if (zipFileUtils.confirmFileCanBeCreated(fileToTest)) {
             FileUtils.copyFile(blobFile2, fileToTest);
