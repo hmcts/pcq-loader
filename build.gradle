@@ -352,6 +352,7 @@ dependencies {
     implementation group: 'org.yaml', name: 'snakeyaml', version: '1.33'
     implementation group: 'com.fasterxml.woodstox', name: 'woodstox-core', version: '6.5.0'
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
+    implementation group: 'commons-net', name: 'commons-net', version: '3.9.0'
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: versions.junit
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
