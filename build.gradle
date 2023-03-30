@@ -213,7 +213,7 @@ dependencyManagement {
         // CVE-2021-29425
         dependency group: 'commons-io', name: 'commons-io', version: '2.11.0'
 
-        dependencySet(group: 'org.springframework.cloud', version: '3.1.5') {
+        dependencySet(group: 'org.springframework.cloud', version: '4.0.2') {
           entry 'spring-cloud-starter-openfeign'
           entry 'spring-cloud-openfeign-core'
         }
@@ -324,7 +324,7 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap',version: '4.0.1'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.5'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.0.2'
 
     implementation group: 'org.springframework.security', name: 'spring-security-web', version: versions.springSecurity
     implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: versions.springSecurity
