@@ -13,7 +13,7 @@ plugins {
     id 'pmd'
     id 'jacoco'
     id 'io.spring.dependency-management' version '1.1.0'
-    id 'org.springframework.boot' version '2.7.5'
+    id 'org.springframework.boot' version '3.0.5'
     id 'org.owasp.dependencycheck' version '8.2.1'
     id 'com.github.ben-manes.versions' version '0.46.0'
     id "info.solidsoft.pitest" version '1.9.0'
@@ -25,7 +25,7 @@ plugins {
 apply plugin: "com.gorylenko.gradle-git-properties"
 
 group = 'uk.gov.hmcts.reform'
-version = '0.1.0'
+version = '1.0.2'
 
 java {
   toolchain {
@@ -204,16 +204,11 @@ dependencyCheck {
 dependencyManagement {
     dependencies {
         dependency group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.70'
-        // CVE-2018-10237 - Unbounded memory allocation
-        // CVE-2020-8908 - Temp directory creation vulnerability
-        dependencySet(group: 'com.google.guava', version: '31.1-jre') {
-          entry 'guava'
-        }
 
         // CVE-2021-29425
         dependency group: 'commons-io', name: 'commons-io', version: '2.11.0'
 
-        dependencySet(group: 'org.springframework.cloud', version: '3.1.5') {
+        dependencySet(group: 'org.springframework.cloud', version: '4.0.2') {
           entry 'spring-cloud-starter-openfeign'
           entry 'spring-cloud-openfeign-core'
         }
@@ -245,13 +240,12 @@ dependencyManagement {
         }
     }
     imports {
-      mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2021.0.5'
+      mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2022.0.2'
     }
 }
 
 repositories {
     mavenLocal()
-    jcenter()
     mavenCentral()
     maven {
         url 'https://jitpack.io'
@@ -260,31 +254,22 @@ repositories {
 
 def versions = [
         junit               : '5.9.2',
-        reformLogging       : '5.1.1',
         springBoot          : springBoot.class.package.implementationVersion,
         springfoxSwagger    : '3.0.0',
-        restAssured         : '4.2.0',
+        restAssured         : '5.2.1',
         lombok              : '1.18.22',
         pitest              : '1.9.0',
-        testcontainers      : '1.17.6',
-        springFramework     : '5.3.20',
-        fasterXmlJackson    : '2.14.2',
-        springSecurity      : '5.7.5'
+        testcontainers      : '1.17.6'
 ]
-
-ext['spring-framework.version'] = '5.3.12'
 
 configurations.all {
     resolutionStrategy {
         eachDependency { DependencyResolveDetails details ->
             if (details.requested.group in ['org.apache.logging.log4j']) {
-                details.useVersion '2.17.2'
+                details.useVersion '2.20.0'
             }
             if (details.requested.group in ['org.scala-lang']) {
                 details.useVersion '2.12.10'
-            }
-            if (details.requested.group in ['org.apache.tomcat.embed']) {
-                details.useVersion '9.0.69'
             }
             if (details.requested.group in ['org.apache.httpcomponents.httpclient']) {
               details.useVersion '4.5.13'
@@ -307,28 +292,13 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
 
-    implementation group: 'org.springframework', name:'spring-aop', version: versions.springFramework
-    implementation group: 'org.springframework', name:'spring-beans', version: versions.springFramework
-    implementation group: 'org.springframework', name:'spring-context', version: versions.springFramework
-    implementation group: 'org.springframework', name:'spring-core', version: versions.springFramework
-    implementation group: 'org.springframework', name:'spring-expression', version: versions.springFramework
-    implementation group: 'org.springframework', name:'spring-jcl', version: versions.springFramework
-    implementation group: 'org.springframework', name:'spring-oxm', version: versions.springFramework
-    implementation group: 'org.springframework', name:'spring-web', version: versions.springFramework
-    implementation group: 'org.springframework', name:'spring-webmvc', version: versions.springFramework
-
     implementation group: 'com.azure', name: 'azure-storage-blob', version: '12.19.0'
 
-    implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '12.2'
+    implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '12.3'
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap',version: '4.0.1'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.5'
-
-    implementation group: 'org.springframework.security', name: 'spring-security-web', version: versions.springSecurity
-    implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: versions.springSecurity
-    implementation group: 'org.springframework.security', name: 'spring-security-config', version: versions.springSecurity
 
     implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     implementation group: "com.networknt", name: "json-schema-validator", version: "1.0.73"
@@ -337,30 +307,26 @@ dependencies {
     implementation group: 'io.github.openfeign.form', name: 'feign-form-spring', version: '3.8.0'
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
 
-    implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version:'0.1.0', withoutSpringCloudContext
-    implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.reformLogging
-    implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.reformLogging
+    implementation group: 'com.github.hmcts', name: 'properties-volume-spring-boot-starter', version:'0.1.1', withoutSpringCloudContext
+    implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '5.1.9'
+    implementation group: 'com.microsoft.azure', name: 'applicationinsights-core', version: '3.4.11'
 
     implementation group: "io.jsonwebtoken", name: "jjwt", version: "0.9.1"
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
-    implementation group: 'com.github.hmcts', name: 'pcq-commons', version: '1.1.5'
+    implementation group: 'com.github.hmcts', name: 'pcq-commons', version: '1.2.2'
 
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.fasterXmlJackson
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.fasterXmlJackson
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.fasterXmlJackson
-    implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.fasterXmlJackson, ext: 'pom'
     implementation group: 'org.yaml', name: 'snakeyaml', version: '1.33'
-    implementation group: 'com.fasterxml.woodstox', name: 'woodstox-core', version: '6.5.0'
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
     implementation group: 'commons-net', name: 'commons-net', version: '3.9.0'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
 
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: versions.junit
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
-    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junit
-
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'3.0.3'
-    testImplementation group: 'org.springframework.security', name: 'spring-security-test'
-
+    testImplementation(platform(group: 'org.junit', name: 'junit-bom', version: '5.9.2'))
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine'
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
+      exclude group: 'junit', module: 'junit'
+      exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+  
     testImplementation group: 'org.pitest', name: 'pitest', version: versions.pitest
     testImplementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.9.0'
     testImplementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
@@ -368,7 +334,7 @@ dependencies {
     testImplementation group: 'io.rest-assured', name: 'xml-path', version: versions.restAssured
     testImplementation group: 'io.rest-assured', name: 'json-path', version: versions.restAssured
 
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.1.1'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.3.0'
     testImplementation group: 'org.mockito', name: 'mockito-inline', version: '5.2.0'
 
     testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.33.2'
@@ -404,7 +370,7 @@ test {
 mainClassName = 'uk.gov.hmcts.reform.pcqloader.PcqLoaderApplication'
 
 bootJar {
-    archiveName = 'pcq-loader.jar'
+    archiveFileName = 'pcq-loader.jar'
 
     manifest {
         attributes('Implementation-Version': project.version.toString())

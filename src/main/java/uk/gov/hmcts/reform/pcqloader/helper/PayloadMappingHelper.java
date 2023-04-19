@@ -4,11 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-//import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Base64Utils;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswers;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqMetaData;
@@ -16,6 +14,8 @@ import uk.gov.hmcts.reform.pcq.commons.model.PcqPayLoad;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqPayloadContents;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqScannableItems;
 import uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils;
+
+import java.util.Base64;
 
 import static uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils.nullIfEmpty;
 
@@ -48,7 +48,7 @@ public class PayloadMappingHelper extends PayloadMappingHelperBase {
                 && StringUtils.isNotEmpty(scannedItems[0].getOcrData())) {
 
                 // Step 3. Retrieve and decode the Ocr Data.
-                String ocrData = new String(Base64Utils.decodeFromString(scannedItems[0].getOcrData()));
+                String ocrData = new String(Base64.getDecoder().decode(scannedItems[0].getOcrData()));
 
                 //Step 4. Get the payload object for the Json ocrData
                 PcqPayLoad pcqPayLoad = new ObjectMapper().readValue(ocrData, PcqPayLoad.class);

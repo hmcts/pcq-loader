@@ -4,7 +4,6 @@ import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.models.BlobItem;
-import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
@@ -58,7 +57,7 @@ public class BlobStorageManager {
         for (BlobItem blob : blobContainerClient.listBlobsByHierarchy(BLOB_CONTAINER_FOLDER)) {
             if (!blob.isDeleted() && null == blob.isPrefix()) {
                 String fileName = FilenameUtils.getName(blob.getName());
-                if (Strings.isNullOrEmpty(fileName)) {
+                if (fileName == null || fileName.isEmpty()) {
                     log.error("Unable to retrieve blob filename from container: {}", blob.getName());
                 } else {
                     zipFilenames.add(fileName);
