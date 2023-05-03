@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.pcqloader.helper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.micrometer.common.util.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -549,11 +550,11 @@ class PayloadMappingHelperTest {
         return new ObjectMapper().readValue(jsonString, PcqMetaData.class);
     }
 
-    private byte[] decodeFromString(String code) {
-        if (code.isEmpty()) {
+    private byte[] decodeFromString(String src) {
+        if (StringUtils.isEmpty(src)) {
             return new byte[0];
         }
-        return Base64.getDecoder().decode(code);
+        return Base64.getDecoder().decode(src);
     }
 
 }

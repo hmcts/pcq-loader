@@ -28,3 +28,6 @@ git.properties
 infrastructure/.terraform
 
 .DS_Store
+
+lib/applicationinsights-agent-*.jar
+lib/applicationinsights.log

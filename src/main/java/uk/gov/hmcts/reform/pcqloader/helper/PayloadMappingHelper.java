@@ -54,9 +54,7 @@ public class PayloadMappingHelper extends PayloadMappingHelperBase {
                 PcqPayLoad pcqPayLoad = new ObjectMapper().readValue(ocrData, PcqPayLoad.class);
 
                 //Step 5. Perform the mapping and get the PcqAnswers object.
-                PcqAnswerRequest answerRequest = performMapping(pcqMetaData, pcqPayLoad);
-                log.info("Successfully completed mapping from payload to Answer Definition");
-                return answerRequest;
+                return performMapping(pcqMetaData, pcqPayLoad);
 
             } else {
                 log.error("No scanned items with ocr_data found in the meta-data file.");

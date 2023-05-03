@@ -13,7 +13,7 @@ plugins {
     id 'pmd'
     id 'jacoco'
     id 'io.spring.dependency-management' version '1.1.0'
-    id 'org.springframework.boot' version '3.0.5'
+    id 'org.springframework.boot' version '3.0.6'
     id 'org.owasp.dependencycheck' version '8.2.1'
     id 'com.github.ben-manes.versions' version '0.46.0'
     id "info.solidsoft.pitest" version '1.9.0'
@@ -213,7 +213,7 @@ dependencyManagement {
           entry 'spring-cloud-openfeign-core'
         }
 
-        dependencySet(group: 'org.springframework.security', version: '6.0.1') {
+        dependencySet(group: 'org.springframework.security', version: '6.0.3') {
           entry 'spring-security-core'
           entry 'spring-security-test'
         }
@@ -254,6 +254,7 @@ repositories {
 
 def versions = [
         junit               : '5.9.2',
+        reformLogging       : '6.0.1',
         springBoot          : springBoot.class.package.implementationVersion,
         springfoxSwagger    : '3.0.0',
         restAssured         : '5.2.1',
@@ -308,8 +309,9 @@ dependencies {
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
 
     implementation group: 'com.github.hmcts', name: 'properties-volume-spring-boot-starter', version:'0.1.1', withoutSpringCloudContext
-    implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '5.1.9'
-    implementation group: 'com.microsoft.azure', name: 'applicationinsights-core', version: '3.4.11'
+    implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
+    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '7.3'
+    implementation group: 'com.microsoft.azure', name: 'applicationinsights-web', version: '3.4.12'
 
     implementation group: "io.jsonwebtoken", name: "jjwt", version: "0.9.1"
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
@@ -326,7 +328,7 @@ dependencies {
       exclude group: 'junit', module: 'junit'
       exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-  
+
     testImplementation group: 'org.pitest', name: 'pitest', version: versions.pitest
     testImplementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.9.0'
     testImplementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'

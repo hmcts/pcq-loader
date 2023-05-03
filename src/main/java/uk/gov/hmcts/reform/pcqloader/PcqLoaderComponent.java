@@ -54,8 +54,6 @@ public class PcqLoaderComponent {
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis"})
     public void execute() {
 
-        log.info("PcqLoaderComponent started...");
-
         // Step 1. Connect and Authenticate with the PCQ Azure Blob Storage Account.
         BlobContainerClient blobContainerClient = blobStorageManager.getPcqContainer();
         Assert.isTrue(blobContainerClient.exists(), "Can't connect to Blob Storage.");
@@ -105,13 +103,10 @@ public class PcqLoaderComponent {
                 log.error("Error during processing " + ioe.getMessage(), ioe);
                 incrementServiceCount(jurisdiction + ERROR_SUFFIX);
             } finally {
-                log.info("File processing completed. Deleting file from local storage");
                 fileUtil.deleteFilesFromLocalStorage(blobZipDirectory, unzippedFiles);
             }
         }
         LogSummaryUtils.logSummary(serviceSummaryMap);
-
-        log.info("PcqLoaderComponent finished.");
     }
 
 

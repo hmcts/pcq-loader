@@ -6,6 +6,7 @@ import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.models.BlobItem;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.pcqloader.config.BlobStorageProperties;
 import uk.gov.hmcts.reform.pcqloader.exceptions.BlobProcessingException;
@@ -57,7 +58,7 @@ public class BlobStorageManager {
         for (BlobItem blob : blobContainerClient.listBlobsByHierarchy(BLOB_CONTAINER_FOLDER)) {
             if (!blob.isDeleted() && null == blob.isPrefix()) {
                 String fileName = FilenameUtils.getName(blob.getName());
-                if (fileName == null || fileName.isEmpty()) {
+                if (StringUtils.isEmpty(fileName)) {
                     log.error("Unable to retrieve blob filename from container: {}", blob.getName());
                 } else {
                     zipFilenames.add(fileName);
@@ -71,8 +72,6 @@ public class BlobStorageManager {
 
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis","PMD.LawOfDemeter"})
     public File downloadFileFromBlobStorage(BlobContainerClient blobContainerClient, String blobName) {
-        log.debug("Downloading blob name {} to {} path",
-                  blobName, blobStorageProperties.getBlobStorageDownloadPath());
         String filePath = blobStorageProperties.getBlobStorageDownloadPath() + File.separator + blobName;
         File localFile = new File(filePath);
 
@@ -100,7 +99,7 @@ public class BlobStorageManager {
         log.debug("Uploading file {} to {} container",
                  localFileUpload.getName(), blobContainerClient.getBlobContainerName());
         BlobClient blobClient = blobContainerClient.getBlobClient(localFileUpload.getName());
-        log.info("Uploading to Blob storage as blob: {}", blobClient.getBlobUrl());
+        log.debug("Uploading to Blob storage as blob: {}", blobClient.getBlobUrl());
         blobClient.uploadFromFile(filePath);
     }
 
