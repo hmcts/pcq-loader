@@ -14,6 +14,9 @@ management:
 spring:
   application:
     name: PCQ Loader Service
+  config:
+    import: "optional:configtree:/mnt/secrets/pcq/"
+
 
 smoke.test.enabled: false
 
