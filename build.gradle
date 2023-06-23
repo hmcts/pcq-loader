@@ -301,7 +301,7 @@ dependencies {
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
 
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
-    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '7.3'
+    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '7.4'
     implementation group: 'com.microsoft.azure', name: 'applicationinsights-web', version: '3.4.12'
 
     implementation group: "io.jsonwebtoken", name: "jjwt", version: "0.9.1"
