@@ -245,6 +245,7 @@ repositories {
 }
 
 def versions = [
+        jjwt                : '0.11.5',
         junit               : '5.9.2',
         reformLogging       : '6.0.1',
         springBoot          : springBoot.class.package.implementationVersion,
@@ -304,9 +305,11 @@ dependencies {
     implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '7.4'
     implementation group: 'com.microsoft.azure', name: 'applicationinsights-web', version: '3.4.12'
 
-    implementation group: "io.jsonwebtoken", name: "jjwt", version: "0.9.1"
+    implementation group: "io.jsonwebtoken", name: "jjwt-api", version: versions.jjwt
+    implementation group: "io.jsonwebtoken", name: "jjwt-impl", version: versions.jjwt
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-gson', version: versions.jjwt
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
-    implementation group: 'com.github.hmcts', name: 'pcq-commons', version: '1.2.2'
+    implementation group: 'com.github.hmcts', name: 'pcq-commons', version: '1.2.4'
 
     implementation group: 'org.yaml', name: 'snakeyaml', version: '2.0'
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
