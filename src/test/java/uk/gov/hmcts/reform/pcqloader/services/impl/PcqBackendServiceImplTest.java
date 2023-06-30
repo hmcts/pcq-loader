@@ -16,6 +16,8 @@ import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswers;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
 
 import java.nio.charset.Charset;
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,6 +25,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.mock;
@@ -55,7 +59,14 @@ class PcqBackendServiceImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        ReflectionTestUtils.setField(pcqBackendService, "jwtSecretKey", "TestKey");
+
+        SecureRandom random = new SecureRandom();
+        byte[] bytes = new byte[36];
+        random.nextBytes(bytes);
+        var encoder = Base64.getUrlEncoder().withoutPadding();
+        String key = encoder.encodeToString(bytes);
+
+        ReflectionTestUtils.setField(pcqBackendService, "jwtSecretKey", key);
         ReflectionTestUtils.setField(pcqBackendService, "coRelationHeader", HEADER_VALUE);
     }
 
