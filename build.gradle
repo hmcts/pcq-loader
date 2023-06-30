@@ -14,8 +14,6 @@ plugins {
     id "io.freefair.lombok" version "8.1.0"
 }
 
-apply plugin: "com.gorylenko.gradle-git-properties"
-
 group = 'uk.gov.hmcts.reform'
 version = '1.0.2'
 
@@ -209,7 +207,7 @@ dependencyManagement {
           entry 'spring-security-core'
           entry 'spring-security-test'
         }
-        dependencySet(group: 'io.netty', version: '4.1.86.Final') {
+        dependencySet(group: 'io.netty', version: '4.1.94.Final') {
           entry 'netty-buffer'
           entry 'netty-codec'
           entry 'netty-codec-http'
@@ -363,7 +361,9 @@ test {
     failFast = true
 }
 
-mainClassName = 'uk.gov.hmcts.reform.pcqloader.PcqLoaderApplication'
+application {
+  mainClass = 'uk.gov.hmcts.reform.pcqloader.PcqLoaderApplication'
+}
 
 bootJar {
     archiveFileName = 'pcq-loader.jar'
