@@ -196,7 +196,7 @@ dependencyManagement {
         dependency group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.70'
 
         // CVE-2021-29425
-        dependency group: 'commons-io', name: 'commons-io', version: '2.15.1'
+        dependency group: 'commons-io', name: 'commons-io', version: '2.16.0'
 
         dependencySet(group: 'org.springframework.cloud', version: '4.1.1') {
           entry 'spring-cloud-starter-openfeign'
