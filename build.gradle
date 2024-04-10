@@ -255,7 +255,7 @@ def versions = [
         springfoxSwagger    : '3.0.0',
         restAssured         : '5.4.0',
         lombok              : '1.18.32',
-        pitest              : '1.15.8',
+        pitest              : '1.16.0',
         testcontainers      : '1.19.7',
         springSecurity      : '6.1.2'
 ]
