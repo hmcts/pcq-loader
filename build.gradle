@@ -256,7 +256,7 @@ def versions = [
         restAssured         : '5.4.0',
         lombok              : '1.18.32',
         pitest              : '1.16.1',
-        testcontainers      : '1.19.7',
+        testcontainers      : '1.19.8',
         springSecurity      : '6.1.2'
 ]
 
