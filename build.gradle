@@ -203,7 +203,7 @@ dependencyManagement {
           entry 'spring-cloud-openfeign-core'
         }
 
-        dependencySet(group: 'org.springframework.security', version: '6.2.4') {
+        dependencySet(group: 'org.springframework.security', version: '6.3.0') {
           entry 'spring-security-core'
           entry 'spring-security-test'
         }
@@ -293,7 +293,7 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
 
-    implementation group: 'org.springframework.security', name: 'spring-security-core', version: '6.2.4'
+    implementation group: 'org.springframework.security', name: 'spring-security-core', version: '6.3.0'
 
     implementation group: 'com.azure', name: 'azure-storage-blob', version: '12.26.0'
 
