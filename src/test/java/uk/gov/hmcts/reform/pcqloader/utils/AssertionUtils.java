@@ -1,7 +1,7 @@
 package uk.gov.hmcts.reform.pcqloader.utils;
 
-import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswers;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
+import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswers;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqMetaData;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqPayLoad;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqPayloadContents;

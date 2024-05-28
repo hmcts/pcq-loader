@@ -7,8 +7,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswers;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
+import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswers;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqMetaData;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqScannableItems;
 
