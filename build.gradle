@@ -318,7 +318,7 @@ dependencies {
     implementation group: "io.jsonwebtoken", name: "jjwt-impl", version: versions.jjwt
     implementation group: 'io.jsonwebtoken', name: 'jjwt-gson', version: versions.jjwt
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
-    implementation group: 'com.github.hmcts', name: 'pcq-commons', version: '1.2.4'
+    implementation group: 'com.github.hmcts', name: 'pcq-commons', version: '1.2.5'
 
     implementation group: 'org.yaml', name: 'snakeyaml', version: '2.2'
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
