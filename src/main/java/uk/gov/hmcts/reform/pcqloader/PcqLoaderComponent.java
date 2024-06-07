@@ -1,8 +1,8 @@
 package uk.gov.hmcts.reform.pcqloader;
 
 import com.azure.storage.blob.BlobContainerClient;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class PcqLoaderComponent {
 
     private static final int MAX_RETRIES = 3;
@@ -38,17 +39,13 @@ public class PcqLoaderComponent {
     @Value("${apiExecutionThreadDelay:1000}")
     private int threadDelay;
 
-    @Autowired
-    private BlobStorageManager blobStorageManager;
+    private final BlobStorageManager blobStorageManager;
 
-    @Autowired
-    private PayloadMappingHelper payloadMappingHelper;
+    private final PayloadMappingHelper payloadMappingHelper;
 
-    @Autowired
-    private PcqBackendService pcqBackendService;
+    private final PcqBackendService pcqBackendService;
 
-    @Autowired
-    private ZipFileUtils fileUtil;
+    private final ZipFileUtils fileUtil;
 
 
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis"})

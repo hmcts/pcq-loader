@@ -1,8 +1,8 @@
 package uk.gov.hmcts.reform.pcqloader;
 
 import com.microsoft.applicationinsights.TelemetryClient;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -17,13 +17,12 @@ import org.springframework.context.ApplicationContext;
 @EnableConfigurationProperties
 @EnableFeignClients(basePackages = {"uk.gov.hmcts.reform.pcq.commons"})
 @Slf4j
+@RequiredArgsConstructor
 public class PcqLoaderApplication implements ApplicationRunner {
 
-    @Autowired
-    private TelemetryClient client;
+    private final TelemetryClient client;
 
-    @Autowired
-    private PcqLoaderComponent pcqLoaderComponent;
+    private final PcqLoaderComponent pcqLoaderComponent;
 
     @Value("${telemetry.wait.period:10000}")
     private int waitPeriod;

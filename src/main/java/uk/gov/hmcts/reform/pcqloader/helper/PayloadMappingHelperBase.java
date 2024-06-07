@@ -5,307 +5,144 @@ import org.apache.commons.lang3.StringUtils;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswers;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqPayloadContents;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 @Slf4j
-@SuppressWarnings({"PMD.GodClass","PMD.CyclomaticComplexity","PMD.CognitiveComplexity"})
 public class PayloadMappingHelperBase {
 
-    private static final String DISABILITY_NONE = "disability_none";
-    private static final String PREGNANCY = "pregnancy";
+    private final Set<String> seenFields = new HashSet<>();
+    private final Set<String> duplicates = new HashSet<>();
 
-    protected void mapLanguageFields(PcqPayloadContents[] payloadContents, PcqAnswers answers) {
+    private static final Set<String> NUMERIC_FIELDS = new HashSet<>(Arrays.asList(
+        "dob_provided",
+        "language_main",
+        "english_language_level",
+        "sex",
+        "gender_different",
+        "sexuality",
+        "marriage",
+        "ethnicity",
+        "religion",
+        "disability_condition",
+        "disability_impact",
+        "disability_vision",
+        "disability_hearing",
+        "disability_mobility",
+        "disability_dexterity",
+        "disability_learning",
+        "disability_memory",
+        "disability_mental_health",
+        "disability_stamina",
+        "disability_social",
+        "disability_other",
+        "disability_none",
+        "pregnancy"
+    ));
+
+    protected void checkForDuplicates(PcqPayloadContents... payloadContents) {
         for (PcqPayloadContents payloadContent : payloadContents) {
-            switch (payloadContent.getFieldName()) {
-                case "dob_provided":
-                    if (answers.getDobProvided() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setDobProvided(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for dob_provided, found more than one value in payload.");
-                        answers.setDobProvided(-1);
-                    }
-                    break;
-                case "language_main":
-                    if (answers.getLanguageMain() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setLanguageMain(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for language_main, found more than one value in payload.");
-                        answers.setLanguageMain(-1);
-                    }
-                    break;
-                case "english_language_level":
-                    if (answers.getEnglishLanguageLevel() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setEnglishLanguageLevel(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for english_language_level, found more than one value in payload.");
-                        answers.setEnglishLanguageLevel(-1);
-                    }
-                    break;
-                default:
-                    break;
+            String fieldName = payloadContent.getFieldName();
+            if (NUMERIC_FIELDS.contains(fieldName) && seenFields.contains(fieldName)) {
+                duplicates.add(fieldName);
+                log.error("Invalid answer for {}, found more than one value in payload.", fieldName);
             }
+            seenFields.add(fieldName);
         }
     }
 
-    protected void mapGenderFields(PcqPayloadContents[] payloadContents, PcqAnswers answers) {
+    protected void mapFields(PcqPayloadContents[] payloadContents, PcqAnswers answers) {
         for (PcqPayloadContents payloadContent : payloadContents) {
-            switch (payloadContent.getFieldName()) {
-                case "sex":
-                    if (answers.getSex() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setSex(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for sex, found more than one value in payload.");
-                        answers.setSex(-1);
-                    }
-                    break;
-                case "gender_different":
-                    if (answers.getGenderDifferent() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setGenderDifferent(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for gender_different, found more than one value in payload.");
-                        answers.setGenderDifferent(-1);
-                    }
-                    break;
-                case "sexuality":
-                    if (answers.getSexuality() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setSexuality(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for sexuality, found more than one value in payload.");
-                        answers.setSexuality(-1);
-                    }
-                    break;
-                default:
-                    break;
-            }
+            mapField(payloadContent, answers);
         }
     }
 
-    protected void mapGeneralFields(PcqPayloadContents[] payloadContents, PcqAnswers answers) {
-        for (PcqPayloadContents payloadContent : payloadContents) {
-            switch (payloadContent.getFieldName()) {
-                case "marriage":
-                    if (answers.getMarriage() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setMarriage(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for marriage, found more than one value in payload.");
-                        answers.setMarriage(-1);
-                    }
-                    break;
-                case "ethnicity":
-                    if (answers.getEthnicity() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setEthnicity(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for ethnicity, found more than one value in payload.");
-                        answers.setEthnicity(-1);
-                    }
-                    break;
-                case "religion":
-                    if (answers.getReligion() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setReligion(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for religion, found more than one value in payload.");
-                        answers.setReligion(-1);
-                    }
-                    break;
-                default:
-                    break;
-            }
+    private void mapField(PcqPayloadContents payloadContent, PcqAnswers answers) {
+        String fieldValue = payloadContent.getFieldValue();
+        String fieldName = payloadContent.getFieldName();
+        if (!NUMERIC_FIELDS.contains(fieldName) || StringUtils.isEmpty(fieldValue)) {
+            return;
         }
+
+        Integer value = duplicates.contains(fieldName) ? -1 : Integer.parseInt(fieldValue);
+        setFieldValue(fieldName, value, answers);
     }
 
-    protected void mapDisabilityFields(PcqPayloadContents[] payloadContents, PcqAnswers answers) {
-        for (PcqPayloadContents payloadContent : payloadContents) {
-            switch (payloadContent.getFieldName()) {
-                case "disability_condition":
-                    if (answers.getDisabilityConditions() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setDisabilityConditions(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for disability_condition, found more than one value in payload.");
-                        answers.setDisabilityConditions(-1);
-                    }
-                    break;
-                case "disability_impact":
-                    if (answers.getDisabilityImpact() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setDisabilityImpact(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for disability_impact, found more than one value in payload.");
-                        answers.setDisabilityImpact(-1);
-                    }
-                    break;
-                case "disability_vision":
-                    if (answers.getDisabilityVision() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setDisabilityVision(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for disability_vision, found more than one value in payload.");
-                        answers.setDisabilityVision(-1);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    protected void mapDisabilityOtherFields(PcqPayloadContents[] payloadContents, PcqAnswers answers) {
-        for (PcqPayloadContents payloadContent : payloadContents) {
-            switch (payloadContent.getFieldName()) {
-                case "disability_hearing":
-                    if (answers.getDisabilityHearing() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setDisabilityHearing(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for disability_hearing, found more than one value in payload.");
-                        answers.setDisabilityHearing(-1);
-                    }
-                    break;
-                case "disability_mobility":
-                    if (answers.getDisabilityMobility() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setDisabilityMobility(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for disability_mobility, found more than one value in payload.");
-                        answers.setDisabilityMobility(-1);
-                    }
-                    break;
-                case "disability_dexterity":
-                    if (answers.getDisabilityDexterity() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setDisabilityDexterity(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for disability_dexterity, found more than one value in payload.");
-                        answers.setDisabilityDexterity(-1);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    protected void mapDisabilityOther2Fields(PcqPayloadContents[] payloadContents, PcqAnswers answers) {
-        for (PcqPayloadContents payloadContent : payloadContents) {
-            switch (payloadContent.getFieldName()) {
-                case "disability_learning":
-                    if (answers.getDisabilityLearning() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setDisabilityLearning(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for disability_learning, found more than one value in payload.");
-                        answers.setDisabilityLearning(-1);
-                    }
-                    break;
-                case "disability_memory":
-                    if (answers.getDisabilityMemory() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setDisabilityMemory(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for disability_memory, found more than one value in payload.");
-                        answers.setDisabilityMemory(-1);
-                    }
-                    break;
-                case "disability_mental_health":
-                    if (answers.getDisabilityMentalHealth() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setDisabilityMentalHealth(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for disability_mental_health, found more than one value in payload.");
-                        answers.setDisabilityMentalHealth(-1);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    protected void mapDisabilityOther3Fields(PcqPayloadContents[] payloadContents, PcqAnswers answers) {
-        for (PcqPayloadContents payloadContent : payloadContents) {
-            switch (payloadContent.getFieldName()) {
-                case "disability_stamina":
-                    if (answers.getDisabilityStamina() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setDisabilityStamina(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for disability_stamina, found more than one value in payload.");
-                        answers.setDisabilityStamina(-1);
-                    }
-                    break;
-                case "disability_social":
-                    if (answers.getDisabilitySocial() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setDisabilitySocial(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for disability_social, found more than one value in payload.");
-                        answers.setDisabilitySocial(-1);
-                    }
-                    break;
-                case "disability_other":
-                    if (answers.getDisabilityOther() == null) {
-                        if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                            answers.setDisabilityOther(Integer.valueOf(payloadContent.getFieldValue()));
-                        }
-                    } else {
-                        log.error("Invalid answer for disability_other, found more than one value in payload.");
-                        answers.setDisabilityOther(-1);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    protected void mapDisabilityNoneAndPregnancyFields(PcqPayloadContents[] payloadContents, PcqAnswers answers) {
-        for (PcqPayloadContents payloadContent : payloadContents) {
-            if (DISABILITY_NONE.equals(payloadContent.getFieldName())) {
-                if (answers.getDisabilityNone() == null) {
-                    if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                        answers.setDisabilityNone(Integer.valueOf(payloadContent.getFieldValue()));
-                    }
-                } else {
-                    log.error("Invalid answer for disability_none, found more than one value in payload.");
-                    answers.setDisabilityNone(-1);
-                }
-            } else if (PREGNANCY.equals(payloadContent.getFieldName())) {
-                if (answers.getPregnancy() == null) {
-                    if (!StringUtils.isEmpty(payloadContent.getFieldValue())) {
-                        answers.setPregnancy(Integer.valueOf(payloadContent.getFieldValue()));
-                    }
-                } else {
-                    log.error("Invalid answer for pregnancy, found more than one value in payload.");
-                    answers.setPregnancy(-1);
-                }
-            }
+    @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.NcssCount"})
+    private void setFieldValue(String fieldName, Integer value, PcqAnswers answers) {
+        switch (fieldName) {
+            case "dob_provided":
+                answers.setDobProvided(value);
+                break;
+            case "language_main":
+                answers.setLanguageMain(value);
+                break;
+            case "english_language_level":
+                answers.setEnglishLanguageLevel(value);
+                break;
+            case "sex":
+                answers.setSex(value);
+                break;
+            case "gender_different":
+                answers.setGenderDifferent(value);
+                break;
+            case "sexuality":
+                answers.setSexuality(value);
+                break;
+            case "marriage":
+                answers.setMarriage(value);
+                break;
+            case "ethnicity":
+                answers.setEthnicity(value);
+                break;
+            case "religion":
+                answers.setReligion(value);
+                break;
+            case "disability_condition":
+                answers.setDisabilityConditions(value);
+                break;
+            case "disability_impact":
+                answers.setDisabilityImpact(value);
+                break;
+            case "disability_vision":
+                answers.setDisabilityVision(value);
+                break;
+            case "disability_hearing":
+                answers.setDisabilityHearing(value);
+                break;
+            case "disability_mobility":
+                answers.setDisabilityMobility(value);
+                break;
+            case "disability_dexterity":
+                answers.setDisabilityDexterity(value);
+                break;
+            case "disability_learning":
+                answers.setDisabilityLearning(value);
+                break;
+            case "disability_memory":
+                answers.setDisabilityMemory(value);
+                break;
+            case "disability_mental_health":
+                answers.setDisabilityMentalHealth(value);
+                break;
+            case "disability_stamina":
+                answers.setDisabilityStamina(value);
+                break;
+            case "disability_social":
+                answers.setDisabilitySocial(value);
+                break;
+            case "disability_other":
+                answers.setDisabilityOther(value);
+                break;
+            case "disability_none":
+                answers.setDisabilityNone(value);
+                break;
+            case "pregnancy":
+                answers.setPregnancy(value);
+                break;
+            default:
+                break;
         }
     }
 }

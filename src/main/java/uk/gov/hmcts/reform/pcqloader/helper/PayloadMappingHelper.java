@@ -85,15 +85,8 @@ public class PayloadMappingHelper extends PayloadMappingHelperBase {
 
         PcqAnswers answers = new PcqAnswers();
         PcqPayloadContents[] payloadContents = payLoad.getMetaDataContents();
-
-        mapLanguageFields(payloadContents,answers);
-        mapGenderFields(payloadContents,answers);
-        mapGeneralFields(payloadContents,answers);
-        mapDisabilityFields(payloadContents,answers);
-        mapDisabilityOtherFields(payloadContents,answers);
-        mapDisabilityOther2Fields(payloadContents,answers);
-        mapDisabilityOther3Fields(payloadContents,answers);
-        mapDisabilityNoneAndPregnancyFields(payloadContents,answers);
+        checkForDuplicates(payloadContents);
+        mapFields(payloadContents, answers);
 
         //<element>_other field check
         mapOtherFields(payloadContents, answers);
@@ -127,26 +120,26 @@ public class PayloadMappingHelper extends PayloadMappingHelperBase {
     private void mapOtherFields(PcqPayloadContents[] payloadContents, PcqAnswers answers) {
         for (PcqPayloadContents payloadContent : payloadContents) {
             switch (payloadContent.getFieldName()) {
-                case "language_other" :
+                case "language_other":
                     answers.setLanguageOther(nullIfEmpty(payloadContent.getFieldValue()));
                     break;
-                case "other_religion_text" :
+                case "other_religion_text":
                     answers.setReligionOther(nullIfEmpty(payloadContent.getFieldValue()));
                     break;
-                case "other_white_ethnicity_text" :
-                case "other_mixed_ethnicity_text" :
-                case "other_asian_ethnicity_text" :
-                case "other_african_caribbean_ethnicity_text" :
-                case "other_ethnicity_text" :
+                case "other_white_ethnicity_text",
+                     "other_mixed_ethnicity_text",
+                     "other_asian_ethnicity_text",
+                     "other_african_caribbean_ethnicity_text",
+                     "other_ethnicity_text":
                     setEthnicity(payloadContent, answers);
                     break;
-                case "other_disability_details" :
+                case "other_disability_details":
                     answers.setDisabilityConditionOther(nullIfEmpty(payloadContent.getFieldValue()));
                     break;
-                case "other_sexuality_text" :
+                case "other_sexuality_text":
                     answers.setSexualityOther(nullIfEmpty(payloadContent.getFieldValue()));
                     break;
-                case "gender_different_text" :
+                case "gender_different_text":
                     answers.setGenderOther(nullIfEmpty(payloadContent.getFieldValue()));
                     break;
                 default:
@@ -162,13 +155,13 @@ public class PayloadMappingHelper extends PayloadMappingHelperBase {
         String dobYear = "";
         for (PcqPayloadContents payloadContent : payloadContents) {
             switch (payloadContent.getFieldName()) {
-                case "dob_day" :
+                case "dob_day":
                     dobDay = payloadContent.getFieldValue();
                     break;
-                case "dob_month" :
+                case "dob_month":
                     dobMonth = payloadContent.getFieldValue();
                     break;
-                case "dob_year" :
+                case "dob_year":
                     dobYear = payloadContent.getFieldValue();
                     break;
                 default:
