@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
@@ -39,6 +40,7 @@ public class PcqLoaderMappingFunctionalTest extends PcqLoaderTestBase {
     private PcqBackendService pcqBackendService;
 
     @Test
+    @DirtiesContext
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public void testAllSuccessfulPcqInvocation() throws IOException {
         String metaDataPayLoad = jsonStringFromFile("JsonTestFiles/successMetaFile.json");
@@ -66,6 +68,7 @@ public class PcqLoaderMappingFunctionalTest extends PcqLoaderTestBase {
     }
 
     @Test
+    @DirtiesContext
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public void testAllMultiplePcqInvocation() throws IOException {
         String metaDataPayLoad = jsonStringFromFile("JsonTestFiles/multipleReligionMetaFile.json");

@@ -42,6 +42,9 @@ public class PayloadMappingHelperBase {
     ));
 
     protected void checkForDuplicates(PcqPayloadContents... payloadContents) {
+        seenFields.clear();
+        duplicates.clear();
+
         for (PcqPayloadContents payloadContent : payloadContents) {
             String fieldName = payloadContent.getFieldName();
             if (NUMERIC_FIELDS.contains(fieldName) && seenFields.contains(fieldName)) {

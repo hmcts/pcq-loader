@@ -56,4 +56,4 @@ coRelationId: PCQ Loader Service
 apiExecutionThreadDelay: 15000
 security:
   jwt:
-    secret: ${JWT_SECRET:JwtSecretKey}
+    secret: ${JWT_SECRET:a-very-long-and-boring-secret-key}
