@@ -72,7 +72,7 @@ class BlobStorageManagerTest {
     private static final String ROOT_FOLDER = "";
 
     @BeforeEach
-    void setUp() throws IOException {
+    void setUp() {
         zipFileUtils = new ZipFileUtils();
         blobStorageProperties = new BlobStorageProperties();
         blobStorageProperties.setBlobPcqContainer(TEST_PCQ_CONTAINER_NAME);
@@ -219,7 +219,7 @@ class BlobStorageManagerTest {
     }
 
     @Test
-    void testDownloadFileFromBlobStorageError() throws IOException {
+    void testDownloadFileFromBlobStorageError() {
         when(pcqContainer.getBlobClient(TEST_BLOB_FILENAME1)).thenReturn(blobClient);
         when(blobClient.downloadToFile(TEST_PCQ_FILE_PATH + File.separator + TEST_BLOB_FILENAME1,
                                        true)).thenReturn(null);
@@ -238,7 +238,7 @@ class BlobStorageManagerTest {
     }
 
     @Test
-    void testDownloadFileFromBlobStorageWriteFileError() throws IOException {
+    void testDownloadFileFromBlobStorageWriteFileError() {
         when(zipFileUtilsMock.confirmFileCanBeCreated(ArgumentMatchers.any())).thenReturn(Boolean.FALSE);
 
         testBlobStorageManager = new BlobStorageManager(blobStorageProperties, blobServiceClient, zipFileUtilsMock);

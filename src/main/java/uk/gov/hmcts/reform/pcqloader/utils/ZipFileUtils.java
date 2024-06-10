@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Enumeration;
@@ -21,7 +22,6 @@ import java.util.zip.ZipFile;
 
 @Slf4j
 @Component
-@SuppressWarnings("PMD.UseTryWithResources")
 public class ZipFileUtils {
 
     private static final String ZIP_FOLDER_POSTFIX = ".zip";
@@ -35,7 +35,7 @@ public class ZipFileUtils {
         if ((blobFolder.exists() || blobFolder.mkdirs()) && blobFolder.isDirectory()) {
             try {
                 if (!blobFile.exists()) {
-                    return blobFile.createNewFile() && blobFile.delete();
+                    return blobFile.createNewFile() && cleanUp(blobFile);
                 }
                 return true;
 
@@ -75,29 +75,26 @@ public class ZipFileUtils {
         }
     }
 
-    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.CollapsibleIfStatements"})
     public void deleteFilesFromLocalStorage(File zipFile, File unzippedFiles) {
-
-        if (zipFile != null && !zipFile.delete()) {
+        if (zipFile != null && !cleanUp(zipFile)) {
             log.warn("Zip file {} not removed from local storage.", zipFile.getName());
         }
 
         if (unzippedFiles != null) {
             File[] files = unzippedFiles.listFiles();
             for (File file : Objects.requireNonNull(files)) {
-                if (!file.delete()) {
+                if (!cleanUp(file)) {
                     log.warn("File {} not removed from local storage.", file.getName());
                 }
             }
-            if (!unzippedFiles.delete()) {
+            if (!cleanUp(unzippedFiles)) {
                 log.warn("File {} not removed from local storage.", unzippedFiles.getName());
             }
         }
 
     }
 
-    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.UseVarargs"})
-    public File getMetaDataFile(File[] unzippedFiles) {
+    public File getMetaDataFile(File... unzippedFiles) {
         File metaDataFile = null;
         for (File file : unzippedFiles) {
             if (METADATA_FILE_NAME.equals(file.getName())) {
@@ -120,12 +117,9 @@ public class ZipFileUtils {
 
     public void checkUnzipFileSize(ZipFile zipFile, ZipEntry ze, File outputDir, String simpleName) throws IOException {
         var fileToCreate = outputDir.toPath().resolve(simpleName);
-        InputStream in = null;
-        OutputStream out = null;
         byte[] buffer = new byte[1248];
-        try {
-            in = zipFile.getInputStream(ze);
-            out = Files.newOutputStream(Paths.get(fileToCreate.toString()));
+        Path outPath = Paths.get(fileToCreate.toString());
+        try (InputStream in = zipFile.getInputStream(ze); OutputStream out = Files.newOutputStream(outPath)) {
             int bytes;
             double totalSizeEntry = 0;
             bytes = in.read(buffer);
@@ -144,14 +138,11 @@ public class ZipFileUtils {
             log.error("An error occurred while unzipping file from blob storage",e);
             throw new ZipProcessingException("Unable to unpack zip file "
                                                  + ze.getName(), e);
-        } finally {
-            if (out != null) {
-                out.close();
-            }
-            if (in != null) {
-                in.close();
-            }
         }
         Files.copy(zipFile.getInputStream(ze), fileToCreate, StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    private boolean cleanUp(File file) {
+        return file.delete();
     }
 }
