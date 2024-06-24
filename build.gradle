@@ -270,7 +270,7 @@ dependencies {
     implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     implementation group: "com.networknt", name: "json-schema-validator", version: "1.4.2"
 
-    implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '13.2.1'
+    implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '13.3'
     implementation group: 'io.github.openfeign.form', name: 'feign-form', version: versions.feignForm
     implementation group: 'io.github.openfeign.form', name: 'feign-form-spring', version: versions.feignForm
 
