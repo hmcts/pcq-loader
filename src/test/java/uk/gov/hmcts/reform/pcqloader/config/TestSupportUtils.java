@@ -3,830 +3,829 @@ package uk.gov.hmcts.reform.pcqloader.config;
 @SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TestClassWithoutTestCases"})
 public final class TestSupportUtils {
 
-    public static final String SUCCESS_PAYLOAD = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"2000\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String SUCCESS_PAYLOAD = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "1" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "2" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "2000" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "1" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String MULTIPLE_RELIGION_PAYLOAD = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"4\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"2000\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String MULTIPLE_RELIGION_PAYLOAD = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "1" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "2" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "religion", "metadata_field_value": "4" },
+              { "metadata_field_name": "religion", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "2000" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "1" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String INVALID_DOB_PAYLOAD = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"AB\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"00\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String INVALID_DOB_PAYLOAD = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "1" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "2" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "AB" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "00" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String INVALID_DOB_EMPTY_PROVIDED_PAYLOAD = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"AB\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"00\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String INVALID_DOB_EMPTY_PROVIDED_PAYLOAD = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "1" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "2" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "AB" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "00" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String DISABILITY_NONE_PAYLOAD = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"2000\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String DISABILITY_NONE_PAYLOAD = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "1" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "2" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "2000" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "1" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "1" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String NO_DISABILITY_CONDITION_PAYLOAD = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"2000\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String NO_DISABILITY_CONDITION_PAYLOAD = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "1" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "2" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "2000" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String NO_DISABILITY_IMPACT_PAYLOAD = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"2000\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String NO_DISABILITY_IMPACT_PAYLOAD = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "1" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "2" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "2000" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "3" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String NOT_PREFER_DISABILITY_IMPACT_PAYLOAD = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"2000\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String NOT_PREFER_DISABILITY_IMPACT_PAYLOAD = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "1" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "2" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "2000" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String NOT_PREFER_DISABILITY_CONDITION_PAYLOAD = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"2000\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String NOT_PREFER_DISABILITY_CONDITION_PAYLOAD = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "1" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "2" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "2000" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String MULTIPLE_ETHNICITY_PAYLOAD = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"2000\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"8\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"Mixed\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": "
-        + "\"MixedAsian\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String MULTIPLE_ETHNICITY_PAYLOAD = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "1" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "2" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "2000" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "1" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "8" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "Mixed" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "MixedAsian" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String INVALID_OTHER_PAYLOAD = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"OtherInvalid\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"InvalidReligion\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"2000\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"Mixed\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"Invalid\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"Invalid\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String INVALID_OTHER_PAYLOAD = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "1" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "OtherInvalid" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "2" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "InvalidReligion" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "2000" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "1" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "Mixed" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "Invalid" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "Invalid" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String MULTIPLE_INVALID_OTHER_PAYLOAD = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"OtherInvalid\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"8\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"InvalidReligion\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"2000\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"8\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"Mixed\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"4\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"Invalid\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"Invalid\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String MULTIPLE_INVALID_OTHER_PAYLOAD = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "1" },
+              { "metadata_field_name": "language_main", "metadata_field_value": "2" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "OtherInvalid" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "2" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "religion", "metadata_field_value": "8" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "InvalidReligion" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "2000" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "1" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "3" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "8" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "Mixed" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "4" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "Invalid" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "2" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "Invalid" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String DOB_NOT_PROVIDED_PAYLOAD = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"2001\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String DOB_NOT_PROVIDED_PAYLOAD = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "1" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "2" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "2001" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "0" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String DOB_EMPTY_NOT_PROVIDED_PAYLOAD = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String DOB_EMPTY_NOT_PROVIDED_PAYLOAD = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "1" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "2" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "0" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String SUCCESS_EMPTY_DOB_PROVIDED_PAYLOAD = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"2000\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String SUCCESS_EMPTY_DOB_PROVIDED_PAYLOAD = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "1" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "2" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "2000" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String EMPTY_LANGUAGE_LEVEL = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"2000\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String EMPTY_LANGUAGE_LEVEL = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "1" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "2000" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "1" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String EMPTY_MAIN_LANGUAGE = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"2000\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String EMPTY_MAIN_LANGUAGE = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "1" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "2000" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "1" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String MAIN_LANG_NOT_PREFERRED = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"2000\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String MAIN_LANG_NOT_PREFERRED = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "0" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "1" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "2000" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "1" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
-    public static final String OTHER_MAIN_LANGUAGE = "{\n"
-        + "    \"Metadata_file\": [\n"
-        + "      { \"metadata_field_name\": \"language_main\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"language_other\", \"metadata_field_value\": \"Test\" },\n"
-        + "      { \"metadata_field_name\": \"english_language_level\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"religion\", \"metadata_field_value\": \"3\" },\n"
-        + "      { \"metadata_field_name\": \"other_religion_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"dob_day\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_month\", \"metadata_field_value\": \"01\" },\n"
-        + "      { \"metadata_field_name\": \"dob_year\", \"metadata_field_value\": \"2000\" },\n"
-        + "      { \"metadata_field_name\": \"dob_provided\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"ethnicity\", \"metadata_field_value\": \"5\" },\n"
-        + "      { \"metadata_field_name\": \"other_white_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_mixed_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_asian_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"other_african_caribbean_ethnicity_text\", \"metadata_field_value\": \"\""
-        + "},\n"
-        + "      { \"metadata_field_name\": \"other_ethnicity_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"disability_condition\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_impact\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"disability_vision\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_hearing\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mobility\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_dexterity\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_learning\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_memory\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_mental_health\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_stamina\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"disability_social\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"disability_other\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_disability_details\", \"metadata_field_value\": "
-        + "\"Other disability\" },\n"
-        + "      { \"metadata_field_name\": \"disability_none\", \"metadata_field_value\": \"0\" },\n"
-        + "      { \"metadata_field_name\": \"pregnancy\", \"metadata_field_value\": \"2\" },\n"
-        + "      { \"metadata_field_name\": \"sexuality\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"other_sexuality_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"sex\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different\", \"metadata_field_value\": \"1\" },\n"
-        + "      { \"metadata_field_name\": \"gender_different_text\", \"metadata_field_value\": \"\" },\n"
-        + "      { \"metadata_field_name\": \"marriage\", \"metadata_field_value\": \"2\" }\n"
-        + "    ]\n"
-        + "}";
+    public static final String OTHER_MAIN_LANGUAGE = """
+        {
+            "Metadata_file": [
+              { "metadata_field_name": "language_main", "metadata_field_value": "2" },
+              { "metadata_field_name": "language_other", "metadata_field_value": "Test" },
+              { "metadata_field_name": "english_language_level", "metadata_field_value": "2" },
+              { "metadata_field_name": "religion", "metadata_field_value": "3" },
+              { "metadata_field_name": "other_religion_text", "metadata_field_value": "" },
+              { "metadata_field_name": "dob_day", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_month", "metadata_field_value": "01" },
+              { "metadata_field_name": "dob_year", "metadata_field_value": "2000" },
+              { "metadata_field_name": "dob_provided", "metadata_field_value": "1" },
+              { "metadata_field_name": "ethnicity", "metadata_field_value": "5" },
+              { "metadata_field_name": "other_white_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_mixed_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_asian_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "other_african_caribbean_ethnicity_text", "metadata_field_value": ""},
+              { "metadata_field_name": "other_ethnicity_text", "metadata_field_value": "" },
+              { "metadata_field_name": "disability_condition", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_impact", "metadata_field_value": "2" },
+              { "metadata_field_name": "disability_vision", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_hearing", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mobility", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_dexterity", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_learning", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_memory", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_mental_health", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_stamina", "metadata_field_value": "0" },
+              { "metadata_field_name": "disability_social", "metadata_field_value": "1" },
+              { "metadata_field_name": "disability_other", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_disability_details", "metadata_field_value": "Other disability" },
+              { "metadata_field_name": "disability_none", "metadata_field_value": "0" },
+              { "metadata_field_name": "pregnancy", "metadata_field_value": "2" },
+              { "metadata_field_name": "sexuality", "metadata_field_value": "1" },
+              { "metadata_field_name": "other_sexuality_text", "metadata_field_value": "" },
+              { "metadata_field_name": "sex", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different", "metadata_field_value": "1" },
+              { "metadata_field_name": "gender_different_text", "metadata_field_value": "" },
+              { "metadata_field_name": "marriage", "metadata_field_value": "2" }
+            ]
+        }
+        """;
 
     private TestSupportUtils() {
 

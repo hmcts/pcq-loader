@@ -6,10 +6,11 @@ import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswers;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Slf4j
-@SuppressWarnings({"PMD.GodClass","PMD.TooManyMethods"})
+@SuppressWarnings({"PMD.GodClass", "PMD.TooManyMethods"})
 public class PayloadValidationHelper {
 
     private final String[] submitAnswerOtherFields = {"languageOther", "genderOther", "sexualityOther",
@@ -49,10 +50,13 @@ public class PayloadValidationHelper {
     }
 
     public void validateLanguageLevel(PcqAnswers answers) {
-        //If user has selected the main language as English/Welsh or Prefer Not to Say then
-        //set the language level to null.
-        if (answers.getEnglishLanguageLevel() != null && answers.getLanguageMain() != null
-            && (answers.getLanguageMain() == 1 || answers.getLanguageMain() == 0)) {
+        // If user has selected the main language as English, Welsh, English or Welsh (legacy language option)
+        // or Prefer Not to Say then set the English language level to null. Option "Other" is number 2
+        boolean isNonOtherSelected = Optional.ofNullable(answers.getLanguageMain())
+            .map(languageMain -> List.of(0, 1, 3, 4).contains(languageMain))
+            .orElse(false);
+
+        if (isNonOtherSelected && answers.getEnglishLanguageLevel() != null) {
             answers.setEnglishLanguageLevel(null);
             log.info("Setting english language level to null because main language value is not 2");
         }
@@ -112,7 +116,7 @@ public class PayloadValidationHelper {
     public void validateOtherEthnicity(PcqAnswers answers, int index) {
         if (answers.getEthnicityOther() != null && answers.getEthnicity() != null) {
             List<String> splitList = Arrays.asList(submitAnswerOtherIntFieldValues[index].split(","));
-            if (! splitList.contains(String.valueOf(answers.getEthnicity()))) {
+            if (!splitList.contains(String.valueOf(answers.getEthnicity()))) {
                 answers.setEthnicityOther(null);
             }
         }

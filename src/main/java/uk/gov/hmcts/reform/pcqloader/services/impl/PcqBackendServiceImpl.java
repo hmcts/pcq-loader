@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.pcq.commons.controller.feign.PcqBackendFeignClient;
 import uk.gov.hmcts.reform.pcq.commons.exception.ExternalApiException;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
-import uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils;
 import uk.gov.hmcts.reform.pcq.commons.utils.JsonFeignResponseUtil;
+import uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils;
 import uk.gov.hmcts.reform.pcqloader.services.PcqBackendService;
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ public class PcqBackendServiceImpl implements PcqBackendService {
     @Value("${coRelationId:Test}")
     private String coRelationHeader;
 
-    @Value("${security.jwt.secret:JwtSecretKey}")
+    @Value("${security.jwt.secret:a-very-long-and-boring-secret-key}")
     private String jwtSecretKey;
 
     @Autowired

@@ -52,11 +52,11 @@ public class BlobStorageManager {
         return getContainer(blobStorageProperties.getBlobPcqRejectedContainer());
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis","PMD.LawOfDemeter"})
     public List<String> collectBlobFileNamesFromContainer(BlobContainerClient blobContainerClient) {
         List<String> zipFilenames = new ArrayList<>();
         for (BlobItem blob : blobContainerClient.listBlobsByHierarchy(BLOB_CONTAINER_FOLDER)) {
-            if (!blob.isDeleted() && null == blob.isPrefix()) {
+            if (!blob.isDeleted() && Boolean.FALSE.equals(blob.isPrefix())) {
                 String fileName = FilenameUtils.getName(blob.getName());
                 if (StringUtils.isEmpty(fileName)) {
                     log.error("Unable to retrieve blob filename from container: {}", blob.getName());

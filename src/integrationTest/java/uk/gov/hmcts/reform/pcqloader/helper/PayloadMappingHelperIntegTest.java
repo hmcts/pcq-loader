@@ -7,8 +7,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswers;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
+import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswers;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqMetaData;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqScannableItems;
 
@@ -33,6 +33,7 @@ import static uk.gov.hmcts.reform.pcq.commons.tests.utils.TestUtils.jsonStringFr
     private static final String ETHNICITY_OTHER_MSG = "Ethnicity Other is not correct.";
     private static final String ETHNICITY_STRING = "Ethnicity";
     private static final String DCN_VALIDATION_MSG = "DCN Number is not correct";
+    private static final String LANGUAGE_MSG = "Language not correct";
 
     private PayloadMappingHelper payloadMappingHelper;
 
@@ -244,6 +245,25 @@ import static uk.gov.hmcts.reform.pcq.commons.tests.utils.TestUtils.jsonStringFr
                      ETHNICITY_OTHER_MSG);
         assertNotNull(mappedAnswers.getDcnNumber(), DCN_VALIDATION_MSG);
 
+    }
+
+    @Test
+    @DisplayName("Valid Welsh language test")
+    void testMainLanguageWelshTextInput() throws IOException {
+        String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/validWelshLanguageOption.json");
+        PcqAnswerRequest mappedAnswers = invokeMappingHelper(metaDataPayLoad);
+
+        assertEquals(3, mappedAnswers.getPcqAnswers().getLanguageMain(), LANGUAGE_MSG);
+    }
+
+
+    @Test
+    @DisplayName("Valid English language test")
+    void testMainLanguageEnglishTextInput() throws IOException {
+        String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/validEnglishLanguageOption.json");
+        PcqAnswerRequest mappedAnswers = invokeMappingHelper(metaDataPayLoad);
+
+        assertEquals(4, mappedAnswers.getPcqAnswers().getLanguageMain(), LANGUAGE_MSG);
     }
 
     @Test

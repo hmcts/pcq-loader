@@ -11,8 +11,8 @@
       <notes><![CDATA[name: io.netty 4.1.100.Final]]></notes>
       <cve>CVE-2023-4586</cve>
   </suppress>
-  <suppress until="2023-12-31">
-    <notes><![CDATA[name: azure-core-http-netty-1.13.10.jar]]></notes>
+  <suppress until="2024-12-01">
+    <notes><![CDATA[name: azure-core-http-netty-1.15.2.jar]]></notes>
     <cve>CVE-2023-36052</cve>
   </suppress>
 </suppressions>

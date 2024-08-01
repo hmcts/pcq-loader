@@ -33,7 +33,7 @@ class PcqLoaderApplicationTest {
     }
 
     @Test
-    void testApplicationError() throws Exception {
+    void testApplicationError() {
         Assertions.assertThrows(Exception.class, () -> {
             doThrow(new Exception()).when(pcqLoaderComponent).execute();
             testPcqLoaderApplication.run(null);

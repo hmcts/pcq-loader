@@ -72,7 +72,7 @@ class BlobStorageManagerTest {
     private static final String ROOT_FOLDER = "";
 
     @BeforeEach
-    void setUp() throws IOException {
+    void setUp() {
         zipFileUtils = new ZipFileUtils();
         blobStorageProperties = new BlobStorageProperties();
         blobStorageProperties.setBlobPcqContainer(TEST_PCQ_CONTAINER_NAME);
@@ -139,8 +139,8 @@ class BlobStorageManagerTest {
 
     @Test
     void testCollectBlobFileNamesSuccess() {
-        BlobItem blobItem1 = new BlobItem().setName(TEST_BLOB_FILENAME1).setDeleted(false).setIsPrefix(null);
-        BlobItem blobItem2 = new BlobItem().setName(TEST_BLOB_FILENAME2).setDeleted(false).setIsPrefix(null);
+        BlobItem blobItem1 = new BlobItem().setName(TEST_BLOB_FILENAME1).setDeleted(false).setIsPrefix(false);
+        BlobItem blobItem2 = new BlobItem().setName(TEST_BLOB_FILENAME2).setDeleted(false).setIsPrefix(false);
         List<BlobItem> blobs = Arrays.asList(blobItem1, blobItem2);
 
         when(pcqContainer.listBlobsByHierarchy(ROOT_FOLDER)).thenReturn(pageIterableBlobs);
@@ -170,8 +170,8 @@ class BlobStorageManagerTest {
     }
 
     @Test
-    void testCollectBlobFileNamesMissingName() {
-        BlobItem blobItem1 = new BlobItem().setDeleted(false).setIsPrefix(null);
+    void testCollectBlobFileNamesWithNameNull() {
+        BlobItem blobItem1 = new BlobItem().setDeleted(false).setIsPrefix(false).setName(null);
         var blobs = Arrays.asList(blobItem1);
 
         when(pcqContainer.listBlobsByHierarchy(ROOT_FOLDER)).thenReturn(pageIterableBlobs);
@@ -181,7 +181,24 @@ class BlobStorageManagerTest {
         List<String> response = testBlobStorageManager.collectBlobFileNamesFromContainer(pcqContainer);
 
         verify(pageIterableBlobs, times(1)).iterator();
-        Assertions.assertEquals(0, response.size(), "No files added as no name was provided");
+        Assertions.assertEquals(0, response.size(),
+                                "Response size should be 0 as no files should be added as name provided was null.");
+    }
+
+    @Test
+    void testCollectBlobFileNamesWithPrefixTrue() {
+        BlobItem blobItem1 = new BlobItem().setIsPrefix(true);
+        var blobs = Arrays.asList(blobItem1);
+
+        when(pcqContainer.listBlobsByHierarchy(ROOT_FOLDER)).thenReturn(pageIterableBlobs);
+        when(pageIterableBlobs.iterator()).thenReturn(blobs.iterator());
+
+        testBlobStorageManager = new BlobStorageManager(blobStorageProperties, blobServiceClient, zipFileUtils);
+        List<String> response = testBlobStorageManager.collectBlobFileNamesFromContainer(pcqContainer);
+
+        verify(pageIterableBlobs, times(1)).iterator();
+        Assertions.assertEquals(0, response.size(),
+                                "Response size should be 0 as no files should be added to list as isPrefix is true");
     }
 
     @Test
@@ -202,7 +219,7 @@ class BlobStorageManagerTest {
     }
 
     @Test
-    void testDownloadFileFromBlobStorageError() throws IOException {
+    void testDownloadFileFromBlobStorageError() {
         when(pcqContainer.getBlobClient(TEST_BLOB_FILENAME1)).thenReturn(blobClient);
         when(blobClient.downloadToFile(TEST_PCQ_FILE_PATH + File.separator + TEST_BLOB_FILENAME1,
                                        true)).thenReturn(null);
@@ -221,7 +238,7 @@ class BlobStorageManagerTest {
     }
 
     @Test
-    void testDownloadFileFromBlobStorageWriteFileError() throws IOException {
+    void testDownloadFileFromBlobStorageWriteFileError() {
         when(zipFileUtilsMock.confirmFileCanBeCreated(ArgumentMatchers.any())).thenReturn(Boolean.FALSE);
 
         testBlobStorageManager = new BlobStorageManager(blobStorageProperties, blobServiceClient, zipFileUtilsMock);
