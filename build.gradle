@@ -284,7 +284,7 @@ dependencies {
     implementation group: 'org.yaml', name: 'snakeyaml', version: '2.2'
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
     implementation group: 'commons-net', name: 'commons-net', version: '3.11.1'
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.15.0'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.16.0'
 
     testImplementation(platform(group: 'org.junit', name: 'junit-bom', version: '5.10.3'))
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine'
