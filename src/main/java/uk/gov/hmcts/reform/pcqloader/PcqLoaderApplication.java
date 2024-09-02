@@ -35,6 +35,11 @@ public class PcqLoaderApplication implements ApplicationRunner {
             pcqLoaderComponent.execute();
             log.info("Completed the Pcq Loader job successfully.");
         } catch (Exception e) {
+            //This specific message error has been added in Azure log to look for these traces in alert
+            // query and create alert if disposer-idam-user throw any exception because of any reason.
+            log.error("Error executing Pcq Loader : " +  e);
+            //To have stack trace of this exception as we are catching the exception
+            // stack trace will not be logged by azure
             log.error("Error executing Pcq Loader", e);
         } finally {
             client.flush();
