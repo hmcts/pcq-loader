@@ -243,7 +243,7 @@ repositories {
 def versions = [
         feignForm           : '3.8.0',
         junit               : '5.9.2',
-        reformLogging       : '6.1.6',
+        reformLogging       : '6.1.7',
         springBoot          : springBoot.class.package.implementationVersion,
         restAssured         : '5.5.0',
         lombok              : '1.18.34',
