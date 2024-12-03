@@ -195,7 +195,7 @@ dependencyManagement {
         // CVE-2021-29425
         dependency group: 'commons-io', name: 'commons-io', version: '2.18.0'
 
-        dependencySet(group: 'org.springframework.cloud', version: '4.1.4') {
+        dependencySet(group: 'org.springframework.cloud', version: '4.2.0') {
           entry 'spring-cloud-starter-openfeign'
           entry 'spring-cloud-openfeign-core'
         }
@@ -261,8 +261,8 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap',version: '4.1.5'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.1.4'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap',version: '4.2.0'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.2.0'
 
     implementation group: 'com.azure', name: 'azure-storage-blob', version: '12.29.0'
 
