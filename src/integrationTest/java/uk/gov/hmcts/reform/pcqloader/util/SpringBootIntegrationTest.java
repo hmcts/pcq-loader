@@ -4,7 +4,7 @@ import com.azure.storage.blob.BlobServiceClient;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.hmcts.reform.pcq.commons.controller.feign.PcqBackendFeignClient;
 import uk.gov.hmcts.reform.pcqloader.PcqLoaderComponent;
@@ -25,16 +25,16 @@ public abstract class SpringBootIntegrationTest {
     @Autowired
     protected PcqBackendFeignClient pcqBackendFeignClient;
 
-    @MockBean
+    @MockitoBean
     protected PcqLoaderComponent pcqLoaderComponent;
 
-    @MockBean
+    @MockitoBean
     protected BlobStorageManager blobStorageManager;
 
-    @MockBean
+    @MockitoBean
     protected BlobStorageConfiguration blobStorageConfiguration;
 
-    @MockBean
+    @MockitoBean
     protected BlobServiceClient blobServiceClient;
 
 }
