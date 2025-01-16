@@ -5,8 +5,8 @@ plugins {
     id 'pmd'
     id 'jacoco'
     id 'io.spring.dependency-management' version '1.1.7'
-    id 'org.springframework.boot' version '3.4.0'
-    id 'org.owasp.dependencycheck' version '11.1.1'
+    id 'org.springframework.boot' version '3.4.1'
+    id 'org.owasp.dependencycheck' version '12.0.0'
     id 'com.github.ben-manes.versions' version '0.51.0'
     id "info.solidsoft.pitest" version '1.15.0'
     id 'org.sonarqube' version '6.0.1.5171'
@@ -112,7 +112,7 @@ task fortifyScan(type: JavaExec)  {
 
 checkstyle {
   maxWarnings = 0
-  toolVersion = '10.21.0'
+  toolVersion = '10.21.1'
   // need to set configDir to rootDir otherwise submodule will use submodule/config/checkstyle
   configDirectory = new File(rootDir, 'config/checkstyle')
 }
@@ -204,7 +204,7 @@ dependencyManagement {
           entry 'spring-security-core'
           entry 'spring-security-test'
         }
-        dependencySet(group: 'io.netty', version: '4.1.116.Final') {
+        dependencySet(group: 'io.netty', version: '4.1.117.Final') {
           entry 'netty-buffer'
           entry 'netty-codec'
           entry 'netty-codec-http'
@@ -267,7 +267,7 @@ dependencies {
     implementation group: 'com.azure', name: 'azure-storage-blob', version: '12.29.0'
 
     implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-    implementation group: "com.networknt", name: "json-schema-validator", version: "1.5.4"
+    implementation group: "com.networknt", name: "json-schema-validator", version: "1.5.5"
 
     implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '13.5'
     implementation group: 'io.github.openfeign.form', name: 'feign-form', version: versions.feignForm
