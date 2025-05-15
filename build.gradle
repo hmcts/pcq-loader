@@ -245,7 +245,7 @@ def versions = [
         junit               : '5.9.2',
         reformLogging       : '6.1.9',
         springBoot          : springBoot.class.package.implementationVersion,
-        restAssured         : '5.5.1',
+        restAssured         : '5.5.2',
         lombok              : '1.18.38',
         testcontainers      : '1.21.0',
         springSecurity      : '6.1.2'
