@@ -298,7 +298,7 @@ dependencies {
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.18.0'
     testImplementation group: 'org.mockito', name: 'mockito-inline', version: '5.2.0'
 
-    testImplementation group: 'org.wiremock', name: 'wiremock', version: '3.13.0'
+    testImplementation group: 'org.wiremock', name: 'wiremock', version: '3.13.1'
 
     testImplementation 'com.github.hmcts:fortify-client:1.4.9:all'
 
