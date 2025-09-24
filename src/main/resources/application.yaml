@@ -34,7 +34,7 @@ pcqBackendUrl: ${PCQ_BACKEND_URL:http://localhost:4550}
 
 storage:
   account_name: ${STORAGE_ACCOUNT_NAME:devstoreaccount1}
-  key: ${STORAGE_KEY:Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;} #Base 64 encoded
+  key: ${STORAGE_KEY:some_random_value;} #Base 64 encoded
   url: ${STORAGE_URL:http://0.0.0.0:10000/devstoreaccount1}
   blob_storage_download_path: ${STORAGE_DOWNLOAD_PATH:/var/tmp/pcq-loader/download/blobs}
   blob_lease_timeout: ${STORAGE_BLOB_LEASE_TIMEOUT:15}
