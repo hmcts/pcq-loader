@@ -264,7 +264,7 @@ dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap',version: '4.3.0'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.3.0'
 
-    implementation group: 'com.azure', name: 'azure-storage-blob', version: '12.31.2'
+    implementation group: 'com.azure', name: 'azure-storage-blob', version: '12.32.0'
 
     implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     implementation group: "com.networknt", name: "json-schema-validator", version: "1.5.9"
