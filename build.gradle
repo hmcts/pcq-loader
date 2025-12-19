@@ -112,7 +112,7 @@ task fortifyScan(type: JavaExec)  {
 
 checkstyle {
   maxWarnings = 0
-  toolVersion = '12.2.0'
+  toolVersion = '12.3.0'
   // need to set configDir to rootDir otherwise submodule will use submodule/config/checkstyle
   configDirectory = new File(rootDir, 'config/checkstyle')
 }
@@ -204,7 +204,7 @@ dependencyManagement {
           entry 'spring-security-core'
           entry 'spring-security-test'
         }
-        dependencySet(group: 'io.netty', version: '4.2.7.Final') {
+        dependencySet(group: 'io.netty', version: '4.2.9.Final') {
           entry 'netty-buffer'
           entry 'netty-codec'
           entry 'netty-codec-http'
@@ -247,7 +247,7 @@ def versions = [
         springBoot          : springBoot.class.package.implementationVersion,
         restAssured         : '5.5.6',
         lombok              : '1.18.42',
-        testcontainers      : '1.21.3',
+        testcontainers      : '1.21.4',
         springSecurity      : '6.1.2'
 ]
 
@@ -295,7 +295,7 @@ dependencies {
     testImplementation group: 'io.rest-assured', name: 'xml-path', version: versions.restAssured
     testImplementation group: 'io.rest-assured', name: 'json-path', version: versions.restAssured
 
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.20.0'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.21.0'
     testImplementation group: 'org.mockito', name: 'mockito-inline', version: '5.2.0'
 
     testImplementation group: 'org.wiremock', name: 'wiremock', version: '3.13.2'
