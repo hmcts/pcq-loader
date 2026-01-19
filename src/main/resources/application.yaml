@@ -20,12 +20,6 @@ spring:
 
 smoke.test.enabled: false
 
-application-insights:
-  default:
-    modules:
-      WebSyntheticRequestTelemetryInitializer:
-        enabled: false
-
 pcqBackendUrl: ${PCQ_BACKEND_URL:http://localhost:4550}
 
 storage:
