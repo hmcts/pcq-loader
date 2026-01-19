@@ -83,7 +83,7 @@ Required for production:
 - `STORAGE_URL` - Azure blob endpoint URL for the account.
 
 Common optional overrides:
-- `APPINSIGHTS_INSTRUMENTATIONKEY` - Application Insights instrumentation key; if unset, App Insights telemetry is effectively disabled.
+- `APPINSIGHTS_INSTRUMENTATIONKEY` - Application Insights instrumentation key.
 - `STORAGE_DOWNLOAD_PATH` - local path for temporary blob downloads.
 - `STORAGE_BLOB_PCQ_CONTAINER` - source container name (default `pcq`).
 - `STORAGE_BLOB_PCQ_REJECTED_CONTAINER` - rejected container name (default `pcq-rejected`).
@@ -94,7 +94,8 @@ Common optional overrides:
 
 Local setup example values:
 ```bash
-export APPINSIGHTS_INSTRUMENTATIONKEY="Test" # Any placeholder is fine for local runs.
+# Any placeholder is fine for local runs.
+export APPINSIGHTS_INSTRUMENTATIONKEY="Test" 
 export STORAGE_KEY="some_random_value;"
 export JWT_SECRET="a-very-long-and-boring-secret-key"
 ```
