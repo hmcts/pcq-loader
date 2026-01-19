@@ -75,15 +75,12 @@ You should get a response similar to this:
 
 The service reads configuration from environment variables (defaults are in `src/main/resources/application.yaml`) and optionally from a Kubernetes config tree mounted at `/mnt/secrets/pcq/` (see `spring.config.import`).
 
-Required for production:
+Environment Variables:
 - `PCQ_BACKEND_URL` - URL for the PCQ backend API.
 - `JWT_SECRET` - shared secret used to sign/verify JWTs.
 - `STORAGE_ACCOUNT_NAME` - Azure storage account name.
 - `STORAGE_KEY` - Azure storage account key (base64 encoded).
 - `STORAGE_URL` - Azure blob endpoint URL for the account.
-
-Common optional overrides:
-- `APPINSIGHTS_INSTRUMENTATIONKEY` - Application Insights instrumentation key.
 - `STORAGE_DOWNLOAD_PATH` - local path for temporary blob downloads.
 - `STORAGE_BLOB_PCQ_CONTAINER` - source container name (default `pcq`).
 - `STORAGE_BLOB_PCQ_REJECTED_CONTAINER` - rejected container name (default `pcq-rejected`).
