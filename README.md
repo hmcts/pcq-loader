@@ -86,7 +86,7 @@ Common optional overrides:
 - `APPINSIGHTS_INSTRUMENTATIONKEY` - Application Insights instrumentation key.
 - `STORAGE_DOWNLOAD_PATH` - local path for temporary blob downloads.
 - `STORAGE_BLOB_PCQ_CONTAINER` - source container name (default `pcq`).
-- `STORAGE_BLOB_PCQ_REJECTED-CONTAINER` - rejected container name (default `pcq-rejected`).
+- `STORAGE_BLOB_PCQ_REJECTED_CONTAINER` - rejected container name (default `pcq-rejected`).
 - `STORAGE_BLOB_LEASE_TIMEOUT` - blob lease timeout in seconds.
 - `BLOB_COPY_TIMEOUT_IN_MILLIS` - timeout for blob copy operations.
 - `BLOB_COPY_POLLING_DELAY_IN_MILLIS` - polling delay for blob copy operations.

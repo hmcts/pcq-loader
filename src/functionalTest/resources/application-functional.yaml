@@ -43,7 +43,7 @@ storage:
   key: ${STORAGE_KEY:some_random_value;} #Base 64 encoded
   url: ${STORAGE_URL:http://0.0.0.0:10000/devstoreaccount1}
   blob_pcq_container: ${STORAGE_BLOB_PCQ_CONTAINER:pcq-func-tests}
-  blob_pcq_rejected-container: ${STORAGE_BLOB_PCQ_REJECTED-CONTAINER:pcq-func-test-rejected}
+  blob_pcq_rejected_container: ${STORAGE_BLOB_PCQ_REJECTED_CONTAINER:pcq-func-test-rejected}
   blob_storage_download_path: ${STORAGE_DOWNLOAD_PATH:/var/tmp/pcq-loader/download/blobs}
   processed_folder_name: processed
 
