@@ -92,14 +92,6 @@ Common optional overrides:
 - `BLOB_COPY_POLLING_DELAY_IN_MILLIS` - polling delay for blob copy operations.
 - `LEASE_ACQUIRE_DELAY_IN_SECONDS` - delay before acquiring blob lease.
 
-Local setup example values:
-```bash
-# Any placeholder is fine for local runs.
-export APPINSIGHTS_INSTRUMENTATIONKEY="Test" 
-export STORAGE_KEY="some_random_value;"
-export JWT_SECRET="a-very-long-and-boring-secret-key"
-```
-
 Deployment patterns:
 - Helm chart at `charts/pcq-loader` wires Key Vault secrets (JWT + storage credentials) to env vars for the CronJob.
 - Ensure the pod has write access to `STORAGE_DOWNLOAD_PATH` or the default `/var/tmp/pcq-loader/download/blobs`.
