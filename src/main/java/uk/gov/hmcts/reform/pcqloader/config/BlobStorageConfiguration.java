@@ -24,8 +24,6 @@ public class BlobStorageConfiguration {
             key
         );
 
-        log.info("BlobStorageConfiguration using connection string {}", connectionString);
-
         return new BlobServiceClientBuilder()
             .connectionString(connectionString)
             .buildClient();
