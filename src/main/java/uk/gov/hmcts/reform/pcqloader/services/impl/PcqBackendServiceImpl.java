@@ -29,7 +29,7 @@ public class PcqBackendServiceImpl implements PcqBackendService {
     @Value("${coRelationId:Test}")
     private String coRelationHeader;
 
-    @Value("${security.jwt.secret:a-very-long-and-boring-secret-key}")
+    @Value("${security.jwt.secret}")
     private String jwtSecretKey;
 
     @Autowired
