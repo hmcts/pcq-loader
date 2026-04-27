@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.pcqloader;
 import com.azure.storage.blob.BlobContainerClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER;
 
 @Component
 @Slf4j
@@ -75,6 +78,7 @@ public class PcqLoaderComponent {
                 // Step 7. Read the file and generate the mapping to the PcqAnswers object.
                 File metaDataFile = fileUtil.getMetaDataFile(Objects.requireNonNull(unzippedFiles.listFiles()));
                 if (metaDataFile == null) {
+                    MDC.put("errorType", PCQ_LOADER_ERROR_MARKER);
                     log.error("metadata.json file not found, moving the zip file to Rejected container");
                     blobStorageManager.moveFileToRejectedContainer(tmpZipFileName, blobContainerClient);
                     incrementServiceCount(jurisdiction + ERROR_SUFFIX);
@@ -95,7 +99,8 @@ public class PcqLoaderComponent {
                     }
                 }
             } catch (Exception ioe) {
-                log.error("Error during processing " + ioe.getMessage(), ioe);
+                MDC.put("errorType", PCQ_LOADER_ERROR_MARKER);
+                log.error("Error during processing {} ", ioe.getMessage(), ioe);
                 incrementServiceCount(jurisdiction + ERROR_SUFFIX);
             } finally {
                 fileUtil.deleteFilesFromLocalStorage(blobZipDirectory, unzippedFiles);

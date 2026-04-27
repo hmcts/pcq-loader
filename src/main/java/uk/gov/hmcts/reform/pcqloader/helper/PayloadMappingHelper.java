@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
@@ -18,6 +19,7 @@ import uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils;
 import java.util.Base64;
 
 import static uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils.nullIfEmpty;
+import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER;
 
 @Component
 @Slf4j
@@ -61,9 +63,13 @@ public class PayloadMappingHelper extends PayloadMappingHelperBase {
             }
 
         } catch (JsonProcessingException jpe) {
-            log.error("JsonProcessingException during payload parsing - " + jpe.getMessage());
+            MDC.put("errorType", PCQ_LOADER_ERROR_MARKER);
+            log.error("JsonProcessingException during payload parsing - {}  ", jpe.getMessage());
+
         } catch (NumberFormatException nfe) {
-            log.error("NumberFormatException during payload parsing - " + nfe.getMessage());
+            MDC.put("errorType", PCQ_LOADER_ERROR_MARKER);
+            log.error("NumberFormatException during payload parsing - {} ", nfe.getMessage());
+
         }
 
         return null;
