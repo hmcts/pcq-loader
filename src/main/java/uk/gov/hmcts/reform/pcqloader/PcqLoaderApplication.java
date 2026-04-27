@@ -13,6 +13,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
 
+import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.ERROR_TYPE;
 import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER;
 
 
@@ -38,7 +39,7 @@ public class PcqLoaderApplication implements ApplicationRunner {
             pcqLoaderComponent.execute();
             log.info("Completed the Pcq Loader job successfully.");
         } catch (Exception e) {
-            MDC.put("errorType", PCQ_LOADER_ERROR_MARKER);
+            MDC.put(ERROR_TYPE, PCQ_LOADER_ERROR_MARKER);
             log.error("Error executing Pcq Loader", e);
         } finally {
             MDC.clear();

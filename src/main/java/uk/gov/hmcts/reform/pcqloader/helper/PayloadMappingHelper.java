@@ -19,6 +19,7 @@ import uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils;
 import java.util.Base64;
 
 import static uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils.nullIfEmpty;
+import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.ERROR_TYPE;
 import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER;
 
 @Component
@@ -59,15 +60,16 @@ public class PayloadMappingHelper extends PayloadMappingHelperBase {
                 return performMapping(pcqMetaData, pcqPayLoad);
 
             } else {
+                MDC.put(ERROR_TYPE, PCQ_LOADER_ERROR_MARKER);
                 log.error("No scanned items with ocr_data found in the meta-data file.");
             }
 
         } catch (JsonProcessingException jpe) {
-            MDC.put("errorType", PCQ_LOADER_ERROR_MARKER);
+            MDC.put(ERROR_TYPE, PCQ_LOADER_ERROR_MARKER);
             log.error("JsonProcessingException during payload parsing - {}  ", jpe.getMessage());
 
         } catch (NumberFormatException nfe) {
-            MDC.put("errorType", PCQ_LOADER_ERROR_MARKER);
+            MDC.put(ERROR_TYPE, PCQ_LOADER_ERROR_MARKER);
             log.error("NumberFormatException during payload parsing - {} ", nfe.getMessage());
 
         }
