@@ -19,6 +19,7 @@ import uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils;
 import java.util.Base64;
 
 import static uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils.nullIfEmpty;
+import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.ERROR_TYPE;
 import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER;
 
 @Component
@@ -26,7 +27,6 @@ import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.PCQ_LOADER_
 public class PayloadMappingHelper extends PayloadMappingHelperBase {
 
     private static final String EMPTY_STRING = "";
-    private static final String ERROR_TYPE = "errorType";
 
     private final PayloadValidationHelper payloadValidationHelper;
 

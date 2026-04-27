@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.ERROR_TYPE;
 import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER;
 
 @Component
@@ -78,7 +79,7 @@ public class PcqLoaderComponent {
                 // Step 7. Read the file and generate the mapping to the PcqAnswers object.
                 File metaDataFile = fileUtil.getMetaDataFile(Objects.requireNonNull(unzippedFiles.listFiles()));
                 if (metaDataFile == null) {
-                    MDC.put("errorType", PCQ_LOADER_ERROR_MARKER);
+                    MDC.put(ERROR_TYPE, PCQ_LOADER_ERROR_MARKER);
                     log.error("metadata.json file not found, moving the zip file to Rejected container");
                     blobStorageManager.moveFileToRejectedContainer(tmpZipFileName, blobContainerClient);
                     incrementServiceCount(jurisdiction + ERROR_SUFFIX);
