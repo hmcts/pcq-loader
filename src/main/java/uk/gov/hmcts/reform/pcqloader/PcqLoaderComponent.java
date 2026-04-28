@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.pcqloader;
 import com.azure.storage.blob.BlobContainerClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +15,7 @@ import uk.gov.hmcts.reform.pcqloader.helper.PayloadMappingHelper;
 import uk.gov.hmcts.reform.pcqloader.services.BlobStorageManager;
 import uk.gov.hmcts.reform.pcqloader.services.PcqBackendService;
 import uk.gov.hmcts.reform.pcqloader.utils.LogSummaryUtils;
+import uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants;
 import uk.gov.hmcts.reform.pcqloader.utils.ZipFileUtils;
 
 import java.io.File;
@@ -24,9 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.ERROR_TYPE;
-import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER;
 
 @Component
 @Slf4j
@@ -79,8 +76,8 @@ public class PcqLoaderComponent {
                 // Step 7. Read the file and generate the mapping to the PcqAnswers object.
                 File metaDataFile = fileUtil.getMetaDataFile(Objects.requireNonNull(unzippedFiles.listFiles()));
                 if (metaDataFile == null) {
-                    MDC.put(ERROR_TYPE, PCQ_LOADER_ERROR_MARKER);
-                    log.error("metadata.json file not found, moving the zip file to Rejected container");
+                    log.error("[{}] metadata.json file not found, moving the zip file to Rejected container",
+                              PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER);
                     blobStorageManager.moveFileToRejectedContainer(tmpZipFileName, blobContainerClient);
                     incrementServiceCount(jurisdiction + ERROR_SUFFIX);
                 } else {
@@ -100,8 +97,8 @@ public class PcqLoaderComponent {
                     }
                 }
             } catch (Exception ioe) {
-                MDC.put("errorType", PCQ_LOADER_ERROR_MARKER);
-                log.error("Error during processing {} ", ioe.getMessage(), ioe);
+                log.error("[{}] Error during processing {} ", PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER,
+                          ioe.getMessage(),ioe);
                 incrementServiceCount(jurisdiction + ERROR_SUFFIX);
             } finally {
                 fileUtil.deleteFilesFromLocalStorage(blobZipDirectory, unzippedFiles);

@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.pcqloader;
 import com.microsoft.applicationinsights.TelemetryClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -12,9 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
-
-import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.ERROR_TYPE;
-import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER;
+import uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants;
 
 
 @SpringBootApplication(scanBasePackages = "uk.gov.hmcts.reform")
@@ -39,10 +36,14 @@ public class PcqLoaderApplication implements ApplicationRunner {
             pcqLoaderComponent.execute();
             log.info("Completed the Pcq Loader job successfully.");
         } catch (Exception e) {
-            MDC.put(ERROR_TYPE, PCQ_LOADER_ERROR_MARKER);
+            //This specific message error has been added in Azure log to look for these traces in alert
+            // query and create alert if pcq-loader throw any exception because of any reason.
+            log.error("[{}] Error executing Pcq Loader : {} ",
+                      PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER, e.getMessage());
+            //To have stack trace of this exception as we are catching the exception
+            // stack trace will not be logged by azure
             log.error("Error executing Pcq Loader", e);
         } finally {
-            MDC.clear();
             client.flush();
             waitTelemetryGracefulPeriod();
         }

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
@@ -15,12 +14,11 @@ import uk.gov.hmcts.reform.pcq.commons.model.PcqPayLoad;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqPayloadContents;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqScannableItems;
 import uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils;
+import uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants;
 
 import java.util.Base64;
 
 import static uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils.nullIfEmpty;
-import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.ERROR_TYPE;
-import static uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER;
 
 @Component
 @Slf4j
@@ -60,18 +58,19 @@ public class PayloadMappingHelper extends PayloadMappingHelperBase {
                 return performMapping(pcqMetaData, pcqPayLoad);
 
             } else {
-                MDC.put(ERROR_TYPE, PCQ_LOADER_ERROR_MARKER);
-                log.error("No scanned items with ocr_data found in the meta-data file.");
+                log.error("[{}] No scanned items with ocr_data found in the meta-data file.",
+                          PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER);
             }
 
         } catch (JsonProcessingException jpe) {
-            MDC.put(ERROR_TYPE, PCQ_LOADER_ERROR_MARKER);
-            log.error("JsonProcessingException during payload parsing - {}  ", jpe.getMessage());
+            log.error("[{}] JsonProcessingException during payload parsing -  {}",
+                      PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER,
+                      jpe.getMessage());
 
         } catch (NumberFormatException nfe) {
-            MDC.put(ERROR_TYPE, PCQ_LOADER_ERROR_MARKER);
-            log.error("NumberFormatException during payload parsing - {} ", nfe.getMessage());
-
+            log.error("[{}] NumberFormatException during payload parsing - {}",
+                      PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER,
+                 nfe.getMessage());
         }
 
         return null;
