@@ -247,8 +247,7 @@ def versions = [
         springBoot          : springBoot.class.package.implementationVersion,
         restAssured         : '6.0.0',
         lombok              : '1.18.46',
-        testcontainers      : '1.21.4',
-        springSecurity      : '6.1.2'
+        testcontainers      : '1.21.4'
 ]
 
 dependencies {
@@ -261,8 +260,8 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap',version: '4.3.0'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.3.0'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign'
 
     implementation group: 'com.azure', name: 'azure-storage-blob', version: '12.32.0'
 
@@ -277,10 +276,10 @@ dependencies {
     implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '9.0'
     implementation group: 'com.microsoft.azure', name: 'applicationinsights-core', version: '3.7.8'
 
-    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient'
     implementation group: 'com.github.hmcts', name: 'pcq-commons', version: '1.3.2'
 
-    implementation group: 'org.yaml', name: 'snakeyaml', version: '2.6'
+    implementation group: 'org.yaml', name: 'snakeyaml'
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.6.0'
     implementation group: 'commons-net', name: 'commons-net', version: '3.13.0'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.20.0'
@@ -295,8 +294,7 @@ dependencies {
     testImplementation group: 'io.rest-assured', name: 'xml-path', version: versions.restAssured
     testImplementation group: 'io.rest-assured', name: 'json-path', version: versions.restAssured
 
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.23.0'
-    testImplementation group: 'org.mockito', name: 'mockito-inline', version: '5.2.0'
+    testImplementation group: 'org.mockito', name: 'mockito-core'
 
     testImplementation group: 'org.wiremock', name: 'wiremock', version: '3.13.2'
 
