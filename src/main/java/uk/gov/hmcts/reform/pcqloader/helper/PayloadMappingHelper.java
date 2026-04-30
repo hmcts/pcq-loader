@@ -17,6 +17,7 @@ import uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils;
 import uk.gov.hmcts.reform.pcqloader.utils.PcqLoaderConstants;
 
 import java.util.Base64;
+import java.util.Set;
 
 import static uk.gov.hmcts.reform.pcq.commons.utils.PcqUtils.nullIfEmpty;
 
@@ -92,8 +93,8 @@ public class PayloadMappingHelper extends PayloadMappingHelperBase {
 
         PcqAnswers answers = new PcqAnswers();
         PcqPayloadContents[] payloadContents = payLoad.getMetaDataContents();
-        checkForDuplicates(payloadContents);
-        mapFields(payloadContents, answers);
+        Set<String> duplicates = checkForDuplicates(payloadContents);
+        mapFields(payloadContents, answers, duplicates);
 
         //<element>_other field check
         mapOtherFields(payloadContents, answers);
