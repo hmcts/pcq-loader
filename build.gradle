@@ -246,10 +246,12 @@ def versions = [
         reformLogging       : '8.0.0',
         springBoot          : springBoot.class.package.implementationVersion,
         restAssured         : '6.0.0',
+        lombok              : '1.18.46',
         testcontainers      : '1.21.4'
 ]
 
 dependencies {
+    
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web-services'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
@@ -263,7 +265,7 @@ dependencies {
 
     implementation group: 'com.azure', name: 'azure-storage-blob', version: '12.32.0'
 
-    implementation group: 'org.projectlombok', name: 'lombok'
+    implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     implementation group: "com.networknt", name: "json-schema-validator", version: "3.0.2"
 
     implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '13.12'
@@ -304,8 +306,8 @@ dependencies {
 
     functionalTestImplementation sourceSets.main.runtimeClasspath
     functionalTestImplementation sourceSets.test.runtimeClasspath
-    functionalTestCompileOnly group: 'org.projectlombok', name: 'lombok'
-    functionalTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok'
+    functionalTestCompileOnly group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+    functionalTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 
     smokeTestImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
     smokeTestRuntime group: 'io.rest-assured', name: 'xml-path', version: versions.restAssured
