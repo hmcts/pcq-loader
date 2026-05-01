@@ -58,8 +58,7 @@ public class PayloadMappingHelper extends PayloadMappingHelperBase {
                 return performMapping(pcqMetaData, pcqPayLoad);
 
             } else {
-                log.error("[{}] No scanned items with ocr_data found in the meta-data file.",
-                          PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER);
+                log.error("No scanned items with ocr_data found in the meta-data file.");
             }
 
         } catch (JsonProcessingException jpe) {
