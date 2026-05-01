@@ -67,7 +67,7 @@ public class BlobStorageManager {
         }
 
         Collections.shuffle(zipFilenames);
-        return zipFilenames;
+        return Collections.unmodifiableList(zipFilenames);
     }
 
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis","PMD.LawOfDemeter"})

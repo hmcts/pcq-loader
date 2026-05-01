@@ -1,9 +1,9 @@
 package uk.gov.hmcts.reform.pcqloader;
 
 import com.azure.storage.blob.BlobContainerClient;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
@@ -46,7 +46,6 @@ class PcqLoaderComponentTest {
     private static final String EXCEPTION_UNEXPECTED = "Exception not expected ";
     private static final String PAYLOAD_TEST_FILE = "testPayloadFiles/successMetaFile.json";
 
-    @InjectMocks
     private PcqLoaderComponent pcqLoaderComponent;
 
     @Mock
@@ -70,6 +69,18 @@ class PcqLoaderComponentTest {
     @Mock
     private File unzippedFile;
 
+    private static final int TEST_THREAD_DELAY = 1000;
+
+    @BeforeEach
+    void setUp() {
+        pcqLoaderComponent = new PcqLoaderComponent(
+            TEST_THREAD_DELAY,
+            blobStorageManager,
+            payloadMappingHelper,
+            pcqBackendService,
+            fileUtil
+        );
+    }
 
     @Test
     void executeSuccess() {
