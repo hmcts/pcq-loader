@@ -26,15 +26,17 @@ public class PcqBackendServiceImpl implements PcqBackendService {
 
     private final PcqBackendFeignClient pcqBackendFeignClient;
 
-    @Value("${coRelationId:Test}")
-    private String coRelationHeader;
+    private final String coRelationHeader;
 
-    @Value("${security.jwt.secret}")
-    private String jwtSecretKey;
+    private final String jwtSecretKey;
 
     @Autowired
-    public PcqBackendServiceImpl(PcqBackendFeignClient pcqBackendFeignClient) {
+    public PcqBackendServiceImpl(PcqBackendFeignClient pcqBackendFeignClient,
+                                @Value("${coRelationId:Test}") String coRelationHeader,
+                                @Value("${security.jwt.secret}") String jwtSecretKey) {
         this.pcqBackendFeignClient = pcqBackendFeignClient;
+        this.coRelationHeader = coRelationHeader;
+        this.jwtSecretKey = jwtSecretKey;
     }
 
 

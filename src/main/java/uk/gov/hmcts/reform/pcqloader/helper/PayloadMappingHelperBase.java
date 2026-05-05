@@ -12,9 +12,6 @@ import java.util.Set;
 @Slf4j
 public class PayloadMappingHelperBase {
 
-    private final Set<String> seenFields = new HashSet<>();
-    private final Set<String> duplicates = new HashSet<>();
-
     private static final Set<String> NUMERIC_FIELDS = new HashSet<>(Arrays.asList(
         "dob_provided",
         "language_main",
@@ -41,9 +38,9 @@ public class PayloadMappingHelperBase {
         "pregnancy"
     ));
 
-    protected void checkForDuplicates(PcqPayloadContents... payloadContents) {
-        seenFields.clear();
-        duplicates.clear();
+    protected Set<String> checkForDuplicates(PcqPayloadContents... payloadContents) {
+        final Set<String> seenFields = new HashSet<>();
+        final Set<String> duplicates = new HashSet<>();
 
         for (PcqPayloadContents payloadContent : payloadContents) {
             String fieldName = payloadContent.getFieldName();
@@ -53,15 +50,16 @@ public class PayloadMappingHelperBase {
             }
             seenFields.add(fieldName);
         }
+        return duplicates;
     }
 
-    protected void mapFields(PcqPayloadContents[] payloadContents, PcqAnswers answers) {
+    protected void mapFields(PcqPayloadContents[] payloadContents, PcqAnswers answers, Set<String> duplicates) {
         for (PcqPayloadContents payloadContent : payloadContents) {
-            mapField(payloadContent, answers);
+            mapField(payloadContent, answers, duplicates);
         }
     }
 
-    private void mapField(PcqPayloadContents payloadContent, PcqAnswers answers) {
+    private void mapField(PcqPayloadContents payloadContent, PcqAnswers answers, Set<String> duplicates) {
         String fieldValue = payloadContent.getFieldValue();
         String fieldName = payloadContent.getFieldName();
         if (!NUMERIC_FIELDS.contains(fieldName) || StringUtils.isEmpty(fieldValue)) {

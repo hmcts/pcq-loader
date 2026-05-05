@@ -75,8 +75,8 @@ class BlobStorageManagerTest {
     void setUp() {
         zipFileUtils = new ZipFileUtils();
         blobStorageProperties = new BlobStorageProperties();
-        blobStorageProperties.setBlobPcqContainer(TEST_PCQ_CONTAINER_NAME);
         blobStorageProperties.setBlobStorageDownloadPath(TEST_PCQ_FILE_PATH);
+        blobStorageProperties.setBlobPcqContainer(TEST_PCQ_CONTAINER_NAME);
         blobStorageProperties.setBlobPcqRejectedContainer(TEST_REJECTED_PCQ_CONTAINER_NAME);
         blobStorageProperties.setProcessedFolderName(PROCESSED_FOLDER);
         testBlobStorageManager = new BlobStorageManager(blobStorageProperties, blobServiceClient, zipFileUtils);

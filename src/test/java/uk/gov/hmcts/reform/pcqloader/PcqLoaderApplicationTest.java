@@ -2,9 +2,9 @@ package uk.gov.hmcts.reform.pcqloader;
 
 
 import com.microsoft.applicationinsights.TelemetryClient;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.system.CapturedOutput;
@@ -20,7 +20,6 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(OutputCaptureExtension.class)
 class PcqLoaderApplicationTest {
 
-    @InjectMocks
     private PcqLoaderApplication testPcqLoaderApplication;
 
     @Mock
@@ -28,6 +27,17 @@ class PcqLoaderApplicationTest {
 
     @Mock
     private PcqLoaderComponent pcqLoaderComponent;
+
+    private static final int TEST_WAIT_PERIOD = 10000;
+
+    @BeforeEach
+    void setUp() {
+        testPcqLoaderApplication = new PcqLoaderApplication(
+            client,
+            pcqLoaderComponent,
+            TEST_WAIT_PERIOD
+        );
+    }
 
     @Test
     void testApplicationExecuted() throws Exception {

@@ -1,8 +1,8 @@
 package uk.gov.hmcts.reform.pcqloader;
 
 import com.azure.storage.blob.BlobContainerClient;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Slf4j
-@RequiredArgsConstructor
 public class PcqLoaderComponent {
 
     private static final int MAX_RETRIES = 3;
@@ -37,8 +36,7 @@ public class PcqLoaderComponent {
 
     private final Map<String, Integer> serviceSummaryMap = new ConcurrentHashMap<>();
 
-    @Value("${apiExecutionThreadDelay:1000}")
-    private int threadDelay;
+    private final int threadDelay;
 
     private final BlobStorageManager blobStorageManager;
 
@@ -47,6 +45,21 @@ public class PcqLoaderComponent {
     private final PcqBackendService pcqBackendService;
 
     private final ZipFileUtils fileUtil;
+
+    @Autowired
+    public PcqLoaderComponent(
+        @Value("${apiExecutionThreadDelay:1000}") int threadDelay,
+        BlobStorageManager blobStorageManager,
+        PayloadMappingHelper payloadMappingHelper,
+        PcqBackendService pcqBackendService,
+        ZipFileUtils fileUtil
+    ) {
+        this.threadDelay = threadDelay;
+        this.blobStorageManager = blobStorageManager;
+        this.payloadMappingHelper = payloadMappingHelper;
+        this.pcqBackendService = pcqBackendService;
+        this.fileUtil = fileUtil;
+    }
 
     public void execute() {
 
@@ -160,12 +173,6 @@ public class PcqLoaderComponent {
     }
 
     private void incrementServiceCount(String service) {
-
-        if (serviceSummaryMap.get(service) == null) {
-            serviceSummaryMap.put(service, 1);
-        } else {
-            int count = serviceSummaryMap.get(service) + 1;
-            serviceSummaryMap.put(service, count);
-        }
+        serviceSummaryMap.compute(service, (key, value) -> (value == null) ? 1 : value + 1);
     }
 }
