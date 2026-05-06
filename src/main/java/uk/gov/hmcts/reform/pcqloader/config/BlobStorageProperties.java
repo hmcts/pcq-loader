@@ -15,6 +15,8 @@ public class BlobStorageProperties {
 
     private String processedFolderName;
 
+    private long blobCopyTimeoutInMillis;
+
     public String getBlobPcqContainer() {
         return blobPcqContainer;
     }
@@ -45,5 +47,13 @@ public class BlobStorageProperties {
 
     public void setProcessedFolderName(String processedFolderName) {
         this.processedFolderName = processedFolderName;
+    }
+
+    public long getBlobCopyTimeoutInMillis() {
+        return blobCopyTimeoutInMillis;
+    }
+
+    public void setBlobCopyTimeoutInMillis(long blobCopyTimeoutInMillis) {
+        this.blobCopyTimeoutInMillis = blobCopyTimeoutInMillis;
     }
 }
