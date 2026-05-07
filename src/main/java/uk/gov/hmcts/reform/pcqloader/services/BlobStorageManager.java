@@ -125,12 +125,10 @@ public class BlobStorageManager {
         try {
             copyBlobAndDeleteSource(fileName, sourceClient, destinationClient);
             log.info("Moved file {} to the Rejected Container", fileName);
-        } catch (BlobProcessingException ex) {
-            log.error("Error moving file {} to rejected container: {}", fileName, ex.getMessage(), ex);
-            throw ex;
         } catch (Exception ex) {
             log.error("Error moving file {} to rejected container: {}", fileName, ex.getMessage(), ex);
-            throw new BlobProcessingException("Failed to move blob to rejected container: " + fileName, ex);
+            throw new BlobProcessingException("Failed to move blob to rejected container: " + fileName
+                                                  + " - " + ex.getMessage(), ex);
         }
     }
 
@@ -142,9 +140,6 @@ public class BlobStorageManager {
         try {
             copyBlobAndDeleteSource(fileName, sourceClient, destinationClient);
             log.info("Moved file {} to the Processed Folder", fileName);
-        } catch (BlobProcessingException ex) {
-            log.error("Error moving file {} to processed folder: {}", fileName, ex.getMessage(), ex);
-            throw ex;
         } catch (Exception ex) {
             log.error("Error moving file {} to processed folder: {}", fileName, ex.getMessage(), ex);
             throw new BlobProcessingException("Failed to move blob to processed folder: " + fileName, ex);
