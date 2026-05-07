@@ -1,10 +1,14 @@
 package uk.gov.hmcts.reform.pcqloader.services;
 
 import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.util.polling.PollResponse;
+import com.azure.core.util.polling.SyncPoller;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.models.BlobCopyInfo;
 import com.azure.storage.blob.models.BlobItem;
+import com.azure.storage.blob.models.CopyStatusType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,16 +22,18 @@ import uk.gov.hmcts.reform.pcqloader.utils.ZipFileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({"PMD.TooManyMethods", "unchecked"})
 @ExtendWith(MockitoExtension.class)
 class BlobStorageManagerTest {
 
@@ -79,6 +85,7 @@ class BlobStorageManagerTest {
         blobStorageProperties.setBlobPcqContainer(TEST_PCQ_CONTAINER_NAME);
         blobStorageProperties.setBlobPcqRejectedContainer(TEST_REJECTED_PCQ_CONTAINER_NAME);
         blobStorageProperties.setProcessedFolderName(PROCESSED_FOLDER);
+        blobStorageProperties.setBlobCopyTimeoutInMillis(30000);
         testBlobStorageManager = new BlobStorageManager(blobStorageProperties, blobServiceClient, zipFileUtils);
     }
 
@@ -262,12 +269,16 @@ class BlobStorageManagerTest {
         when(pcqContainer.getBlobClient(testFileName)).thenReturn(blobClient);
         when(rejectedPcqContainer.getBlobClient(testFileName)).thenReturn(rejectedBlobClient);
         when(blobClient.getBlobUrl()).thenReturn(TEST_PCQ_BLOB_PATH + "/" + testFileName);
-        when(rejectedBlobClient.beginCopy(TEST_PCQ_BLOB_PATH + "/" + testFileName, null))
-            .thenReturn(null);
-        doNothing().when(blobClient).delete();
+        SyncPoller<BlobCopyInfo, Void> syncPoller = (SyncPoller<BlobCopyInfo, Void>) mock(SyncPoller.class);
+        PollResponse<BlobCopyInfo> pollResponse = (PollResponse<BlobCopyInfo>) mock(PollResponse.class);
+        BlobCopyInfo copyInfo = mock(BlobCopyInfo.class);
+        
+        when(rejectedBlobClient.beginCopy(TEST_PCQ_BLOB_PATH + "/" + testFileName, null)).thenReturn(syncPoller);
+        when(syncPoller.waitForCompletion(any(Duration.class))).thenReturn(pollResponse);
+        when(pollResponse.getValue()).thenReturn(copyInfo);
+        when(copyInfo.getCopyStatus()).thenReturn(CopyStatusType.SUCCESS);
 
         testBlobStorageManager.moveFileToRejectedContainer(testFileName, pcqContainer);
-
         verify(blobServiceClient, times(1)).getBlobContainerClient(TEST_REJECTED_PCQ_CONTAINER_NAME);
         verify(rejectedPcqContainer, times(1)).exists();
         verify(blobServiceClient, times(1)).createBlobContainer(TEST_REJECTED_PCQ_CONTAINER_NAME);
@@ -288,10 +299,14 @@ class BlobStorageManagerTest {
         when(pcqContainer.getBlobClient(testFileName)).thenReturn(blobClient);
         when(rejectedPcqContainer.getBlobClient(testFileName)).thenReturn(rejectedBlobClient);
         when(blobClient.getBlobUrl()).thenReturn(TEST_PCQ_BLOB_PATH + "/" + testFileName);
-        when(rejectedBlobClient.beginCopy(TEST_PCQ_BLOB_PATH + "/" + testFileName, null))
-            .thenReturn(null);
-        doNothing().when(blobClient).delete();
+        SyncPoller<BlobCopyInfo, Void> syncPoller = (SyncPoller<BlobCopyInfo, Void>) mock(SyncPoller.class);
+        PollResponse<BlobCopyInfo> pollResponse = (PollResponse<BlobCopyInfo>) mock(PollResponse.class);
+        BlobCopyInfo copyInfo = mock(BlobCopyInfo.class);
 
+        when(rejectedBlobClient.beginCopy(TEST_PCQ_BLOB_PATH + "/" + testFileName, null)).thenReturn(syncPoller);
+        when(syncPoller.waitForCompletion(any(Duration.class))).thenReturn(pollResponse);
+        when(pollResponse.getValue()).thenReturn(copyInfo);
+        when(copyInfo.getCopyStatus()).thenReturn(CopyStatusType.SUCCESS);
         testBlobStorageManager.moveFileToRejectedContainer(testFileName, pcqContainer);
 
         verify(blobServiceClient, times(2)).getBlobContainerClient(TEST_REJECTED_PCQ_CONTAINER_NAME);
@@ -310,9 +325,15 @@ class BlobStorageManagerTest {
         when(pcqContainer.getBlobClient(testFileName)).thenReturn(blobClient);
         when(pcqContainer.getBlobClient(PROCESSED_FOLDER + "/" + testFileName)).thenReturn(processedBlobClient);
         when(blobClient.getBlobUrl()).thenReturn(TEST_PCQ_BLOB_PATH + "/" + testFileName);
-        when(processedBlobClient.beginCopy(TEST_PCQ_BLOB_PATH + "/" + testFileName, null))
-            .thenReturn(null);
-        doNothing().when(blobClient).delete();
+        SyncPoller<BlobCopyInfo, Void> syncPoller = (SyncPoller<BlobCopyInfo, Void>) mock(SyncPoller.class);
+        PollResponse<BlobCopyInfo> pollResponse = (PollResponse<BlobCopyInfo>) mock(PollResponse.class);
+        BlobCopyInfo copyInfo = mock(BlobCopyInfo.class);
+
+        when(syncPoller.waitForCompletion(any(Duration.class))).thenReturn(pollResponse);
+        when(pollResponse.getValue()).thenReturn(copyInfo);
+        when(copyInfo.getCopyStatus()).thenReturn(CopyStatusType.SUCCESS);
+
+        when(processedBlobClient.beginCopy(TEST_PCQ_BLOB_PATH + "/" + testFileName, null)).thenReturn(syncPoller);
 
         testBlobStorageManager.moveFileToProcessedFolder(testFileName, pcqContainer);
 
@@ -321,7 +342,81 @@ class BlobStorageManagerTest {
         verify(blobClient, times(1)).getBlobUrl();
         verify(processedBlobClient, times(1)).beginCopy(TEST_PCQ_BLOB_PATH
                                                               + "/" + testFileName, null);
-
+        verify(syncPoller, times(1)).waitForCompletion(Duration.ofMillis(blobStorageProperties
+            .getBlobCopyTimeoutInMillis()));
         verify(blobClient, times(1)).delete();
+    }
+
+    @Test
+    void testMoveFileToRejectedContainerTimeoutException() {
+        String testFileName = "TestTimeout.zip";
+        when(blobServiceClient.getBlobContainerClient(TEST_REJECTED_PCQ_CONTAINER_NAME))
+            .thenReturn(rejectedPcqContainer);
+        when(rejectedPcqContainer.exists()).thenReturn(true);
+        when(pcqContainer.getBlobClient(testFileName)).thenReturn(blobClient);
+        when(rejectedPcqContainer.getBlobClient(testFileName)).thenReturn(rejectedBlobClient);
+        when(blobClient.getBlobUrl()).thenReturn(TEST_PCQ_BLOB_PATH + "/" + testFileName);
+
+        SyncPoller<BlobCopyInfo, Void> syncPoller = (SyncPoller<BlobCopyInfo, Void>) mock(SyncPoller.class);
+        when(syncPoller.waitForCompletion(any(Duration.class))).thenThrow(
+            new RuntimeException("Copy operation timed out"));
+
+        when(rejectedBlobClient.beginCopy(TEST_PCQ_BLOB_PATH + "/" + testFileName, null)).thenReturn(syncPoller);
+
+        Assertions.assertThrows(
+            BlobProcessingException.class,
+            () -> testBlobStorageManager.moveFileToRejectedContainer(testFileName, pcqContainer)
+        );
+
+        verify(blobClient, times(0)).delete();
+    }
+
+    @Test
+    void testMoveFileToProcessedFolderTimeoutException() {
+        String testFileName = "TestProcessedTimeout.zip";
+        when(pcqContainer.getBlobClient(testFileName)).thenReturn(blobClient);
+        when(pcqContainer.getBlobClient(PROCESSED_FOLDER + "/" + testFileName)).thenReturn(processedBlobClient);
+        when(blobClient.getBlobUrl()).thenReturn(TEST_PCQ_BLOB_PATH + "/" + testFileName);
+
+        SyncPoller<BlobCopyInfo, Void> syncPoller = (SyncPoller<BlobCopyInfo, Void>) mock(SyncPoller.class);
+        when(syncPoller.waitForCompletion(any(Duration.class))).thenThrow(
+            new RuntimeException("Copy operation timed out"));
+
+        when(processedBlobClient.beginCopy(TEST_PCQ_BLOB_PATH + "/" + testFileName, null)).thenReturn(syncPoller);
+
+        Assertions.assertThrows(
+            BlobProcessingException.class,
+            () -> testBlobStorageManager.moveFileToProcessedFolder(testFileName, pcqContainer)
+        );
+
+        verify(blobClient, times(0)).delete();
+    }
+
+    @Test
+    void testMoveFileToRejectedContainerFailedStatusDoesNotDeleteSource() {
+        String testFileName = "TestFailedStatus.zip";
+        when(blobServiceClient.getBlobContainerClient(TEST_REJECTED_PCQ_CONTAINER_NAME))
+            .thenReturn(rejectedPcqContainer);
+        when(rejectedPcqContainer.exists()).thenReturn(true);
+        when(pcqContainer.getBlobClient(testFileName)).thenReturn(blobClient);
+        when(rejectedPcqContainer.getBlobClient(testFileName)).thenReturn(rejectedBlobClient);
+        when(blobClient.getBlobUrl()).thenReturn(TEST_PCQ_BLOB_PATH + "/" + testFileName);
+
+        SyncPoller<BlobCopyInfo, Void> syncPoller = (SyncPoller<BlobCopyInfo, Void>) mock(SyncPoller.class);
+        PollResponse<BlobCopyInfo> pollResponse = (PollResponse<BlobCopyInfo>) mock(PollResponse.class);
+        BlobCopyInfo copyInfo = mock(BlobCopyInfo.class);
+
+        when(rejectedBlobClient.beginCopy(TEST_PCQ_BLOB_PATH + "/" + testFileName, null)).thenReturn(syncPoller);
+        when(syncPoller.waitForCompletion(any(Duration.class))).thenReturn(pollResponse);
+        when(pollResponse.getValue()).thenReturn(copyInfo);
+        when(copyInfo.getCopyStatus()).thenReturn(CopyStatusType.FAILED);
+
+        BlobProcessingException ex = Assertions.assertThrows(
+            BlobProcessingException.class,
+            () -> testBlobStorageManager.moveFileToRejectedContainer(testFileName, pcqContainer)
+        );
+
+        Assertions.assertTrue(ex.getMessage().contains("Copy failed for file"));
+        verify(blobClient, times(0)).delete();
     }
 }

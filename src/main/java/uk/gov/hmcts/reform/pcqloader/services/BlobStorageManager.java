@@ -3,7 +3,9 @@ package uk.gov.hmcts.reform.pcqloader.services;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.models.BlobCopyInfo;
 import com.azure.storage.blob.models.BlobItem;
+import com.azure.storage.blob.models.CopyStatusType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +16,7 @@ import uk.gov.hmcts.reform.pcqloader.utils.ZipFileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -119,17 +122,40 @@ public class BlobStorageManager {
         BlobClient sourceClient = sourceContainer.getBlobClient(fileName);
         BlobClient destinationClient = rejectedContainer.getBlobClient(fileName);
 
-        destinationClient.beginCopy(sourceClient.getBlobUrl(), null);
-        sourceClient.delete();
-        log.info("Moved file {} to the Rejected Container", fileName);
+        try {
+            copyBlobAndDeleteSource(fileName, sourceClient, destinationClient);
+            log.info("Moved file {} to the Rejected Container", fileName);
+        } catch (Exception ex) {
+            log.error("Error moving file {} to rejected container: {}", fileName, ex.getMessage(), ex);
+            throw new BlobProcessingException("Failed to move blob to rejected container: " + fileName
+                                                  + " - " + ex.getMessage(), ex);
+        }
     }
 
     public void moveFileToProcessedFolder(String fileName, BlobContainerClient sourceContainer) {
         BlobClient sourceClient = sourceContainer.getBlobClient(fileName);
-        BlobClient destinationClient = sourceContainer.getBlobClient(blobStorageProperties.getProcessedFolderName()
-                                                                           + File.separator + fileName);
-        destinationClient.beginCopy(sourceClient.getBlobUrl(), null);
+        String processedPath = blobStorageProperties.getProcessedFolderName() + File.separator + fileName;
+        BlobClient destinationClient = sourceContainer.getBlobClient(processedPath);
+
+        try {
+            copyBlobAndDeleteSource(fileName, sourceClient, destinationClient);
+            log.info("Moved file {} to the Processed Folder", fileName);
+        } catch (Exception ex) {
+            log.error("Error moving file {} to processed folder: {}", fileName, ex.getMessage(), ex);
+            throw new BlobProcessingException("Failed to move blob to processed folder: " + fileName, ex);
+        }
+    }
+
+    private void copyBlobAndDeleteSource(String fileName, BlobClient sourceClient, BlobClient destinationClient) {
+        var pollResponse = destinationClient.beginCopy(sourceClient.getBlobUrl(), null);
+        BlobCopyInfo copyInfo = pollResponse
+            .waitForCompletion(Duration.ofMillis(blobStorageProperties.getBlobCopyTimeoutInMillis()))
+            .getValue();
+        CopyStatusType status = copyInfo != null ? copyInfo.getCopyStatus() : null;
+        if (status != CopyStatusType.SUCCESS) {
+            throw new BlobProcessingException(String.format("Copy failed for file %s with status %s", fileName,
+                                                            status));
+        }
         sourceClient.delete();
-        log.info("Moved file {} to the Processed Folder", fileName);
     }
 }

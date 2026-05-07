@@ -22,6 +22,7 @@ public class BlobStorageManagerBase {
     protected static final String CONTAINER_NAME = "pcq";
     protected static final String CONTAINER_REJECTED_NAME = "pcq-rejected";
     private static final String BLOB_DOWNLOAD_FILE_PATH = "/var/tmp/pcq-loader/download/blobs";
+    private static final long BLOB_COPY_TIMEOUT_IN_MILLIS = 30_000;
     private static final String PROCESSED_FOLDER = "processed";
     protected static final String BLOB_FILENAME_1 = "1579002492_31-08-2020-11-35-10.zip";
     protected static final String BLOB_FILENAME_2 = "1579002493_31-08-2020-11-48-42.zip";
@@ -48,6 +49,7 @@ public class BlobStorageManagerBase {
         blobStorageProperties.setBlobStorageDownloadPath(BLOB_DOWNLOAD_FILE_PATH);
         blobStorageProperties.setBlobPcqRejectedContainer(CONTAINER_REJECTED_NAME);
         blobStorageProperties.setProcessedFolderName(PROCESSED_FOLDER);
+        blobStorageProperties.setBlobCopyTimeoutInMillis(BLOB_COPY_TIMEOUT_IN_MILLIS);
 
         File blobFile1 = ResourceUtils.getFile("classpath:blobTestFiles/" + BLOB_FILENAME_1);
         File blobFile2 = ResourceUtils.getFile("classpath:blobTestFiles/" + BLOB_FILENAME_2);
