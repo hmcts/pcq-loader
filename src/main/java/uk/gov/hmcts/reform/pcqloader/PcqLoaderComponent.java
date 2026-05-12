@@ -21,6 +21,7 @@ import uk.gov.hmcts.reform.pcqloader.utils.ZipFileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,6 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class PcqLoaderComponent {
 
+    private static final String ZIP_FILE_EXTENSION = ".zip";
     private static final int MAX_RETRIES = 3;
     private static final String ERROR_SUFFIX = "_Erred";
     private static final String CRATED_SUFFIX = "_Created";
@@ -75,6 +77,14 @@ public class PcqLoaderComponent {
             File unzippedFiles = null;
             String jurisdiction = "";
             try {
+                if (!tmpZipFileName.toLowerCase(Locale.ENGLISH).endsWith(ZIP_FILE_EXTENSION)) {
+                    log.error("[{}] Invalid file extension for {}, moving to rejected container",
+                              PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER, tmpZipFileName);
+                    blobStorageManager.moveFileToRejectedContainer(tmpZipFileName, blobContainerClient);
+                    incrementServiceCount(jurisdiction + ERROR_SUFFIX);
+                    continue;
+                }
+
                 // Step 4. Download the zip file to local storage.
                 blobZipDirectory = blobStorageManager.downloadFileFromBlobStorage(blobContainerClient, tmpZipFileName);
 
@@ -112,6 +122,7 @@ public class PcqLoaderComponent {
             } catch (Exception ioe) {
                 log.error("[{}] Error during processing {} ", PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER,
                           ioe.getMessage(),ioe);
+                blobStorageManager.moveFileToRejectedContainer(tmpZipFileName, blobContainerClient);
                 incrementServiceCount(jurisdiction + ERROR_SUFFIX);
             } finally {
                 fileUtil.deleteFilesFromLocalStorage(blobZipDirectory, unzippedFiles);

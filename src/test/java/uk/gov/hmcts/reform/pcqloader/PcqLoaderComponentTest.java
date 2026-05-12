@@ -40,6 +40,7 @@ class PcqLoaderComponentTest {
 
     private static final String TEST_BLOB_FILENAME1 = "1579002492_31-08-2020-11-35-10.zip";
     private static final String TEST_BLOB_FILENAME2 = "1579002493_31-08-2020-11-48-42.zip";
+    private static final String TEST_NON_ZIP_FILENAME = "1579002494_31-08-2020-11-50-00.txt";
     private static final String TEST_EXCEPTION_MSG = "Test Exception";
     private static final String SUCCESS_MSG = "Successfully created";
     private static final String HTTP_CREATED = "201";
@@ -172,6 +173,24 @@ class PcqLoaderComponentTest {
     }
 
     @Test
+    void testNonZipFileMovesToRejectedContainer() {
+        List<String> blobFileNames = Arrays.asList(TEST_NON_ZIP_FILENAME);
+
+        when(blobStorageManager.getPcqContainer()).thenReturn(blobContainerClient);
+        when(blobContainerClient.exists()).thenReturn(true);
+        when(blobStorageManager.collectBlobFileNamesFromContainer(blobContainerClient)).thenReturn(blobFileNames);
+        doNothing().when(blobStorageManager).moveFileToRejectedContainer(TEST_NON_ZIP_FILENAME, blobContainerClient);
+        doNothing().when(fileUtil).deleteFilesFromLocalStorage(null, null);
+
+        pcqLoaderComponent.execute();
+
+        verify(blobStorageManager, times(1)).moveFileToRejectedContainer(TEST_NON_ZIP_FILENAME, blobContainerClient);
+        verify(blobStorageManager, times(0)).downloadFileFromBlobStorage(blobContainerClient, TEST_NON_ZIP_FILENAME);
+        verify(fileUtil, times(0)).unzipBlobDownloadZipFile(zipDirectory);
+        verify(fileUtil, times(1)).deleteFilesFromLocalStorage(null, null);
+    }
+
+    @Test
     void testBlobDownloadErrorForOneFile() {
         List<String> blobFileNames = Arrays.asList(TEST_BLOB_FILENAME1, TEST_BLOB_FILENAME2);
         BlobProcessingException blobProcessingException = new BlobProcessingException("Test Message");
@@ -286,6 +305,25 @@ class PcqLoaderComponentTest {
         verify(fileUtil, times(1)).deleteFilesFromLocalStorage(zipDirectory, unzippedFile);
         verify(fileUtil, times(1)).deleteFilesFromLocalStorage(testZipDirectory, null);
 
+    }
+
+    @Test
+    void testProcessingErrorMovesFileToRejectedContainer() {
+        List<String> blobFileNames = Arrays.asList(TEST_BLOB_FILENAME1);
+        ZipProcessingException zipProcessingException = new ZipProcessingException("Test Message");
+
+        when(blobStorageManager.getPcqContainer()).thenReturn(blobContainerClient);
+        when(blobContainerClient.exists()).thenReturn(true);
+        when(blobStorageManager.collectBlobFileNamesFromContainer(blobContainerClient)).thenReturn(blobFileNames);
+        when(blobStorageManager.downloadFileFromBlobStorage(blobContainerClient, TEST_BLOB_FILENAME1))
+            .thenReturn(zipDirectory);
+        when(fileUtil.unzipBlobDownloadZipFile(zipDirectory)).thenThrow(zipProcessingException);
+        doNothing().when(fileUtil).deleteFilesFromLocalStorage(zipDirectory, null);
+
+        pcqLoaderComponent.execute();
+
+        verify(blobStorageManager, times(1)).moveFileToRejectedContainer(TEST_BLOB_FILENAME1, blobContainerClient);
+        verify(fileUtil, times(1)).deleteFilesFromLocalStorage(zipDirectory, null);
     }
 
     @Test
