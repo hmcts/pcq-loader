@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.util.ResourceUtils;
-import org.testcontainers.containers.DockerComposeContainer;
+import org.testcontainers.containers.ComposeContainer;
 import uk.gov.hmcts.reform.pcqloader.config.BlobStorageProperties;
 import uk.gov.hmcts.reform.pcqloader.utils.ZipFileUtils;
 
@@ -32,7 +32,7 @@ public class BlobStorageManagerBase {
 
     protected BlobServiceClient blobServiceClient;
 
-    private static DockerComposeContainer dockerComposeContainer;
+    private static ComposeContainer dockerComposeContainer;
 
     public BlobStorageManager blobStorageManager;
 
@@ -68,7 +68,7 @@ public class BlobStorageManagerBase {
     public static void initialize() {
         log.info("Starting Azure-Storage container");
         dockerComposeContainer =
-            new DockerComposeContainer(new File("src/integrationTest/resources/docker-compose.yml"))
+            new ComposeContainer(new File("src/integrationTest/resources/docker-compose.yml"))
                 .withExposedService("azurite", 10_000);
 
         dockerComposeContainer.start();

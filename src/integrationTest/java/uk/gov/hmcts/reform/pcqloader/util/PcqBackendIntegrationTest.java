@@ -3,10 +3,10 @@ package uk.gov.hmcts.reform.pcqloader.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
@@ -33,10 +33,11 @@ public class PcqBackendIntegrationTest extends SpringBootIntegrationTest {
     private static final String HEADER_CO_RELATION_KEY = "X-Correlation-Id";
     private static final String RESPONSE_ENTITY_NULL_MSG = "Response is Null";
 
-    @Rule
-    public WireMockRule pcqBackendService = new WireMockRule(WireMockConfiguration.options().port(4554));
-
-
+    @RegisterExtension
+    static WireMockExtension pcqBackendService =
+        WireMockExtension.newInstance()
+            .options(WireMockConfiguration.wireMockConfig().port(4554))
+            .build();
 
     @Test
     public void testSubmitAnswersSuccess() {
