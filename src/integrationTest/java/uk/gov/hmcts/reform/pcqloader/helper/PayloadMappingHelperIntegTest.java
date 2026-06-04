@@ -14,10 +14,7 @@ import uk.gov.hmcts.reform.pcq.commons.model.PcqScannableItems;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static uk.gov.hmcts.reform.pcq.commons.tests.utils.TestUtils.jsonStringFromFile;
 
 @ExtendWith(SpringExtension.class)
@@ -50,9 +47,9 @@ import static uk.gov.hmcts.reform.pcq.commons.tests.utils.TestUtils.jsonStringFr
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/decryptErrorMetaFile.json");
 
-        PcqAnswerRequest mappedAnswers = invokeMappingHelper(metaDataPayLoad);
-
-        assertNull(mappedAnswers, "No mapping should be done.");
+        Exception ex = assertThrows(Exception.class,
+                                    () -> payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad));
+        assertEquals("StreamReadException", ex.getClass().getSimpleName());
     }
 
     @Test
