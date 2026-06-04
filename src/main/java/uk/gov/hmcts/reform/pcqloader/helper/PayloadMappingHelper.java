@@ -1,12 +1,12 @@
 package uk.gov.hmcts.reform.pcqloader.helper;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.exc.StreamReadException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswers;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqMetaData;
@@ -40,9 +40,9 @@ public class PayloadMappingHelper extends PayloadMappingHelperBase {
 
         try {
             // Step 1. Convert the JSon String into an Java Object
-            PcqMetaData pcqMetaData = new ObjectMapper()
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .readValue(metaDataString, PcqMetaData.class);
+            PcqMetaData pcqMetaData = JsonMapper.builder()
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .build().readValue(metaDataString, PcqMetaData.class);
 
             // Step 2. Retrieve the Scannable items
             PcqScannableItems[] scannedItems = pcqMetaData.getScannableItems();
@@ -53,7 +53,7 @@ public class PayloadMappingHelper extends PayloadMappingHelperBase {
                 String ocrData = new String(Base64.getDecoder().decode(scannedItems[0].getOcrData()));
 
                 //Step 4. Get the payload object for the Json ocrData
-                PcqPayLoad pcqPayLoad = new ObjectMapper().readValue(ocrData, PcqPayLoad.class);
+                PcqPayLoad pcqPayLoad = new JsonMapper().readValue(ocrData, PcqPayLoad.class);
 
                 //Step 5. Perform the mapping and get the PcqAnswers object.
                 return performMapping(pcqMetaData, pcqPayLoad);
@@ -61,11 +61,6 @@ public class PayloadMappingHelper extends PayloadMappingHelperBase {
             } else {
                 log.error("No scanned items with ocr_data found in the meta-data file.");
             }
-
-        } catch (JsonProcessingException jpe) {
-            log.error("[{}] JsonProcessingException during payload parsing -  {}",
-                      PcqLoaderConstants.PCQ_LOADER_ERROR_MARKER,
-                      jpe.getMessage());
 
         } catch (NumberFormatException nfe) {
             log.error("[{}] NumberFormatException during payload parsing - {}",

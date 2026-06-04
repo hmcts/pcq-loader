@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.pcqloader.helper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.common.util.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.springframework.core.io.ClassPathResource;
+import tools.jackson.core.exc.StreamReadException;
+import tools.jackson.databind.ObjectMapper;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqMetaData;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqPayLoad;
@@ -21,6 +22,7 @@ import java.util.Base64;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @SuppressWarnings({"PMD.TooManyMethods", "PMD.DataflowAnomalyAnalysis"})
@@ -271,14 +273,8 @@ class PayloadMappingHelperTest {
 
         String metaDataPayLoad = "{Test:asdsad}";
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
-
-        assertNull(mappedAnswers, "Mapped Answers should be null");
+        assertThrows(StreamReadException.class,
+                     () -> payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad));
 
     }
 
