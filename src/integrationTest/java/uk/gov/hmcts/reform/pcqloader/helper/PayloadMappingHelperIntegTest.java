@@ -1,12 +1,12 @@
 package uk.gov.hmcts.reform.pcqloader.helper;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswers;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqMetaData;
@@ -17,6 +17,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 import static uk.gov.hmcts.reform.pcq.commons.tests.utils.TestUtils.jsonStringFromFile;
 
@@ -50,9 +51,9 @@ import static uk.gov.hmcts.reform.pcq.commons.tests.utils.TestUtils.jsonStringFr
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/decryptErrorMetaFile.json");
 
-        PcqAnswerRequest mappedAnswers = invokeMappingHelper(metaDataPayLoad);
-
-        assertNull(mappedAnswers, "No mapping should be done.");
+        Exception ex = assertThrows(Exception.class,
+                                    () -> payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad));
+        assertEquals("StreamReadException", ex.getClass().getSimpleName());
     }
 
     @Test
@@ -446,9 +447,9 @@ import static uk.gov.hmcts.reform.pcq.commons.tests.utils.TestUtils.jsonStringFr
 
 
     public static PcqMetaData jsonMetaDataObjectFromString(String jsonString) throws IOException {
-        return new ObjectMapper()
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .readValue(jsonString, PcqMetaData.class);
+        return JsonMapper.builder()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .build().readValue(jsonString, PcqMetaData.class);
     }
 
 }

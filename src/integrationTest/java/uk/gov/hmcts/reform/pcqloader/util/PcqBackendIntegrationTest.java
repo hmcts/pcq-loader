@@ -1,7 +1,5 @@
 package uk.gov.hmcts.reform.pcqloader.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +8,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
+import tools.jackson.databind.ObjectMapper;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswers;
 
@@ -116,12 +115,7 @@ public class PcqBackendIntegrationTest extends SpringBootIntegrationTest {
     private String jsonFromObject(PcqAnswerRequest pcqAnswerRequest) {
         String json = "{}";
         ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            json = objectMapper.writeValueAsString(pcqAnswerRequest);
-        } catch (JsonProcessingException e) {
-            log.error("Json processing exception " + e.getMessage());
-        }
-
+        json = objectMapper.writeValueAsString(pcqAnswerRequest);
         return json;
     }
 
