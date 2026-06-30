@@ -32,7 +32,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+@SuppressWarnings({"PMD.RelianceOnDefaultCharset", "PMD.LawOfDemeter"})
 class PcqBackendServiceImplTest {
 
     private static final String HEADER_VALUE = "Test_Loader";
@@ -61,7 +61,7 @@ class PcqBackendServiceImplTest {
         SecureRandom random = new SecureRandom();
         byte[] bytes = new byte[36];
         random.nextBytes(bytes);
-        var encoder = Base64.getUrlEncoder().withoutPadding();
+        Base64.Encoder encoder = Base64.getUrlEncoder().withoutPadding();
         String key = encoder.encodeToString(bytes);
 
         ReflectionTestUtils.setField(pcqBackendService, "jwtSecretKey", key);
@@ -221,7 +221,7 @@ class PcqBackendServiceImplTest {
 
     private String getResponseBody(String responseStatusCode, String responseStatus) {
         return "{\n"
-            + "    \"pcqId\": \"" + PcqBackendServiceImplTest.TEST_PCQ_ID + "\",\n"
+            + "    \"pcqId\": \"" + TEST_PCQ_ID + "\",\n"
             + "    \"responseStatusCode\": \"" + responseStatusCode + "\",\n"
             + "    \"responseStatus\": \"" + responseStatus + "\"\n"
             + "}";

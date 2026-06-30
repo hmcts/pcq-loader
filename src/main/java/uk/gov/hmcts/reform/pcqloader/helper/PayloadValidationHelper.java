@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Component
 @Slf4j
-@SuppressWarnings({"PMD.GodClass", "PMD.TooManyMethods"})
+@SuppressWarnings({"PMD.TooManyMethods"})
 public class PayloadValidationHelper {
 
     private final String[] submitAnswerOtherFields = {"languageOther", "genderOther", "sexualityOther",

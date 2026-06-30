@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
@@ -112,7 +113,6 @@ class ZipFileUtilsTest {
     }
 
     @Test
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testUnzipBlobDownloadZipFileSuccess() {
         File result = zipFileUtils.unzipBlobDownloadZipFile(actualZip);
         List<String> knownFiles = Arrays.asList("metadata.json", "1111001.pdf");
@@ -145,7 +145,6 @@ class ZipFileUtilsTest {
     }
 
     @Test
-    @SuppressWarnings({"PMD.AvoidInstanceofChecksInCatchClause","PMD.DataflowAnomalyAnalysis"})
     void testDeleteFilesFromLocal() {
         // Both files null
         zipFileUtils.deleteFilesFromLocalStorage(null, null);
@@ -153,18 +152,13 @@ class ZipFileUtilsTest {
         //Zip File delete returns false and Folder files array is null
         when(mockedFile.delete()).thenReturn(false);
         when(mockedFolder.listFiles()).thenReturn(null);
-        boolean testSuccess = false;
-        try {
-            zipFileUtils.deleteFilesFromLocalStorage(mockedFile, mockedFolder);
-        } catch (Exception e) {
-            assertTrue(e instanceof NullPointerException, "NullPointer Exception not thrown");
-            verify(mockedFile, times(1)).delete();
-            verify(mockedFolder, times(1)).listFiles();
-            testSuccess = true;
-        }
-        if (!testSuccess) {
-            fail("Should have thrown an exception");
-        }
+        assertThrows(
+            NullPointerException.class,
+            () -> zipFileUtils.deleteFilesFromLocalStorage(mockedFile, mockedFolder)
+        );
+
+        verify(mockedFile, times(1)).delete();
+        verify(mockedFolder, times(1)).listFiles();
     }
 
     @Test
@@ -196,6 +190,7 @@ class ZipFileUtilsTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.UselessPureMethodCall")
     void testMetaDataFileFail() {
         File[] files = {mockedFile};
         when(mockedFile.getName()).thenReturn("TestFile");
@@ -206,6 +201,7 @@ class ZipFileUtilsTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.UselessPureMethodCall")
     void testMetaDataFileSuccess() {
         File[] files = {mockedFile};
         when(mockedFile.getName()).thenReturn("metadata.json");

@@ -1,6 +1,6 @@
 package uk.gov.hmcts.reform.pcqloader.config;
 
-@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TestClassWithoutTestCases"})
+@SuppressWarnings({"PMD.TestClassWithoutTestCases"})
 public final class TestSupportUtils {
 
     public static final String SUCCESS_PAYLOAD = """

@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.hmcts.reform.pcqloader.config.BlobStorageProperties;
@@ -33,7 +32,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings({"PMD.TooManyMethods", "unchecked"})
+@SuppressWarnings({"PMD.TooManyMethods", "unchecked", "PMD.UselessPureMethodCall"})
 @ExtendWith(MockitoExtension.class)
 class BlobStorageManagerTest {
 
@@ -85,7 +84,7 @@ class BlobStorageManagerTest {
         blobStorageProperties.setBlobPcqContainer(TEST_PCQ_CONTAINER_NAME);
         blobStorageProperties.setBlobPcqRejectedContainer(TEST_REJECTED_PCQ_CONTAINER_NAME);
         blobStorageProperties.setProcessedFolderName(PROCESSED_FOLDER);
-        blobStorageProperties.setBlobCopyTimeoutInMillis(30000);
+        blobStorageProperties.setBlobCopyTimeoutInMillis(30_000);
         testBlobStorageManager = new BlobStorageManager(blobStorageProperties, blobServiceClient, zipFileUtils);
     }
 
@@ -179,7 +178,7 @@ class BlobStorageManagerTest {
     @Test
     void testCollectBlobFileNamesWithNameNull() {
         BlobItem blobItem1 = new BlobItem().setDeleted(false).setIsPrefix(false).setName(null);
-        var blobs = Arrays.asList(blobItem1);
+        List<BlobItem> blobs = Arrays.asList(blobItem1);
 
         when(pcqContainer.listBlobsByHierarchy(ROOT_FOLDER)).thenReturn(pageIterableBlobs);
         when(pageIterableBlobs.iterator()).thenReturn(blobs.iterator());
@@ -195,7 +194,7 @@ class BlobStorageManagerTest {
     @Test
     void testCollectBlobFileNamesWithPrefixTrue() {
         BlobItem blobItem1 = new BlobItem().setIsPrefix(true);
-        var blobs = Arrays.asList(blobItem1);
+        List<BlobItem> blobs = Arrays.asList(blobItem1);
 
         when(pcqContainer.listBlobsByHierarchy(ROOT_FOLDER)).thenReturn(pageIterableBlobs);
         when(pageIterableBlobs.iterator()).thenReturn(blobs.iterator());
@@ -246,7 +245,7 @@ class BlobStorageManagerTest {
 
     @Test
     void testDownloadFileFromBlobStorageWriteFileError() {
-        when(zipFileUtilsMock.confirmFileCanBeCreated(ArgumentMatchers.any())).thenReturn(Boolean.FALSE);
+        when(zipFileUtilsMock.confirmFileCanBeCreated(any())).thenReturn(Boolean.FALSE);
 
         testBlobStorageManager = new BlobStorageManager(blobStorageProperties, blobServiceClient, zipFileUtilsMock);
 
@@ -272,7 +271,7 @@ class BlobStorageManagerTest {
         SyncPoller<BlobCopyInfo, Void> syncPoller = (SyncPoller<BlobCopyInfo, Void>) mock(SyncPoller.class);
         PollResponse<BlobCopyInfo> pollResponse = (PollResponse<BlobCopyInfo>) mock(PollResponse.class);
         BlobCopyInfo copyInfo = mock(BlobCopyInfo.class);
-        
+
         when(rejectedBlobClient.beginCopy(TEST_PCQ_BLOB_PATH + "/" + testFileName, null)).thenReturn(syncPoller);
         when(syncPoller.waitForCompletion(any(Duration.class))).thenReturn(pollResponse);
         when(pollResponse.getValue()).thenReturn(copyInfo);
@@ -416,7 +415,9 @@ class BlobStorageManagerTest {
             () -> testBlobStorageManager.moveFileToRejectedContainer(testFileName, pcqContainer)
         );
 
-        Assertions.assertTrue(ex.getMessage().contains("Copy failed for file"));
+        Assertions.assertTrue(
+            ex.getMessage().contains("Copy failed for file"),
+            "Exception message should indicate copy failure");
         verify(blobClient, times(0)).delete();
     }
 }

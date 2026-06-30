@@ -44,7 +44,7 @@ public class BlobStorageInitialisation {
         // Clear out available containers
         blobServiceClient.listBlobContainers()
             .forEach(container -> availableContaimers.add(container.getName()));
-        availableContaimers.forEach(containerName -> blobServiceClient.deleteBlobContainer(containerName));
+        availableContaimers.forEach(blobServiceClient::deleteBlobContainer);
         log.info("Creating {} container", DEV_PCQ_CONTAINER_NAME);
         blobServiceClient.createBlobContainer(DEV_PCQ_CONTAINER_NAME);
         log.info("Creating {} container", DEV_PCQ_CONTAINER_REJECTED_NAME);

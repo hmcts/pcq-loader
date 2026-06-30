@@ -34,11 +34,7 @@ public class ZipFileUtils {
         File blobFolder = blobFile.getParentFile();
         if ((blobFolder.exists() || blobFolder.mkdirs()) && blobFolder.isDirectory()) {
             try {
-                if (!blobFile.exists()) {
-                    return blobFile.createNewFile() && cleanUp(blobFile);
-                }
-                return true;
-
+                return blobFile.exists() || (blobFile.createNewFile() && cleanUp(blobFile));
             } catch (IOException e) {
                 log.error(
                     "Unable to confirm if {} can be created.",
@@ -105,6 +101,7 @@ public class ZipFileUtils {
         return metaDataFile;
     }
 
+    @SuppressWarnings("PMD.RelianceOnDefaultCharset")
     public String readAllBytesFromFile(File file) throws IOException {
         return new String(Files.readAllBytes(file.toPath()));
     }
@@ -116,7 +113,7 @@ public class ZipFileUtils {
     }
 
     public void checkUnzipFileSize(ZipFile zipFile, ZipEntry ze, File outputDir, String simpleName) throws IOException {
-        var fileToCreate = outputDir.toPath().resolve(simpleName);
+        Path fileToCreate = outputDir.toPath().resolve(simpleName);
         byte[] buffer = new byte[1248];
         Path outPath = Paths.get(fileToCreate.toString());
         try (InputStream in = zipFile.getInputStream(ze); OutputStream out = Files.newOutputStream(outPath)) {

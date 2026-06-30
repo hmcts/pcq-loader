@@ -34,6 +34,7 @@ public class PayloadMappingHelper extends PayloadMappingHelperBase {
         this.payloadValidationHelper = payloadValidationHelper;
     }
 
+    @SuppressWarnings("PMD.RelianceOnDefaultCharset")
     public PcqAnswerRequest mapPayLoadToPcqAnswers(String metaDataString) throws
         NoSuchFieldException, IllegalAccessException {
 
@@ -117,7 +118,6 @@ public class PayloadMappingHelper extends PayloadMappingHelperBase {
         return pcqAnswerRequest;
     }
 
-    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.CyclomaticComplexity"})
     private void mapOtherFields(PcqPayloadContents[] payloadContents, PcqAnswers answers) {
         for (PcqPayloadContents payloadContent : payloadContents) {
             switch (payloadContent.getFieldName()) {
@@ -149,7 +149,6 @@ public class PayloadMappingHelper extends PayloadMappingHelperBase {
         }
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     private void mapDateOfBirth(PcqPayloadContents[] payloadContents, PcqAnswers answers) {
         String dobDay = "";
         String dobMonth = "";

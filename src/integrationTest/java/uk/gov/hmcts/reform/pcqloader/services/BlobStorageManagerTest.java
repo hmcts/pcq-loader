@@ -19,7 +19,7 @@ class BlobStorageManagerTest extends BlobStorageManagerBase {
     @Test
     void testFetchPcqStorageContainerSuccess() {
         BlobContainerClient container = blobStorageManager.getPcqContainer();
-        Assertions.assertNotNull(container);
+        Assertions.assertNotNull(container, "PCQ Storage Container should not be null");
     }
 
     @Test

@@ -2,8 +2,8 @@ package uk.gov.hmcts.reform.pcqloader.utils;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -22,6 +22,9 @@ public final class LogSummaryUtils {
     private static final String CRATED_SUFFIX = "_Created";
     private static final String FORMAT_STR_LENGTH_8 = "%1$-8s";
     private static final String TOTAL_STRING = "Total";
+
+    private static final DateTimeFormatter DATE_FORMATTER =
+        DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy HH mm", Locale.UK);
 
     private LogSummaryUtils() {
         //No Args private constructor.
@@ -43,9 +46,10 @@ public final class LogSummaryUtils {
     }
 
     private static String getSummaryString() {
-        StringBuilder stringBuilder = new StringBuilder(SUMMARY_HEADING_STRING);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMMMM yyyy HH mm", Locale.UK);
-        stringBuilder.append(dateFormat.format(new Date()))
+        StringBuilder stringBuilder = new StringBuilder(128);
+        stringBuilder
+            .append(SUMMARY_HEADING_STRING)
+            .append(LocalDateTime.now().format(DATE_FORMATTER))
             .append(CR_STRING)
             .append(SERVICE_SUMMARY_STRING)
             .append("-----------------------------------------------------------")
@@ -59,7 +63,7 @@ public final class LogSummaryUtils {
         StringBuilder stringBuilder = new StringBuilder();
 
         serviceKeySet.forEach(service -> {
-            String jurisdiction = service.substring(0, service.indexOf("_"));
+            String jurisdiction = service.substring(0, service.indexOf('_'));
             if (jurisdiction.isBlank()) {
                 stringBuilder.append(String.format(FORMAT_STR_LENGTH_30,"UNKNOWN"));
             } else {

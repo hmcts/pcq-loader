@@ -38,6 +38,7 @@ public class PcqLoaderApplication implements ApplicationRunner {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void run(ApplicationArguments args) throws Exception {
 
         try {
