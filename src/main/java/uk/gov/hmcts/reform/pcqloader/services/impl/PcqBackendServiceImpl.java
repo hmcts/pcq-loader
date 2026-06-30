@@ -21,7 +21,6 @@ import java.util.Map;
 
 @Slf4j
 @Service
-@SuppressWarnings("PMD.DataflowAnomalyAnalysis")
 public class PcqBackendServiceImpl implements PcqBackendService {
 
     private final PcqBackendFeignClient pcqBackendFeignClient;

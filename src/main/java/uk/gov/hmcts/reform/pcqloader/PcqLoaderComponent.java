@@ -63,6 +63,7 @@ public class PcqLoaderComponent {
         this.fileUtil = fileUtil;
     }
 
+    @SuppressWarnings({"PMD.AvoidCatchingGenericException", "PMD.LawOfDemeter"})
     public void execute() {
 
         // Step 1. Connect and Authenticate with the PCQ Azure Blob Storage Account.
@@ -132,7 +133,7 @@ public class PcqLoaderComponent {
     }
 
 
-    @SuppressWarnings({"PMD.CognitiveComplexity"})
+    @SuppressWarnings({"PMD.CognitiveComplexity", "PMD.LawOfDemeter"})
     private void invokeSubmitAnswers(PcqAnswerRequest mappedAnswers, String tmpZipFileName,
                                      BlobContainerClient sourceContainer) {
         int retryCount = 0;

@@ -104,6 +104,7 @@ public class PcqLoaderFunctionalTest extends PcqLoaderTestBase {
     }
 
     @Test
+    @SuppressWarnings("PMD.LawOfDemeter")
     public void testExecuteMethod() {
         //Invoke the executor
         pcqLoaderComponent.execute();

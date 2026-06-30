@@ -21,7 +21,7 @@ import static org.junit.Assert.assertNotNull;
 
 @TestPropertySource(properties = {"PCQ_BACKEND_URL:http://127.0.0.1:4554"})
 @Slf4j
-public class PcqBackendIntegrationTest extends SpringBootIntegrationTest {
+class PcqBackendIntegrationTest extends SpringBootIntegrationTest {
 
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String MEDIA_TYPE = "application/json";
@@ -33,13 +33,13 @@ public class PcqBackendIntegrationTest extends SpringBootIntegrationTest {
     private static final String RESPONSE_ENTITY_NULL_MSG = "Response is Null";
 
     @RegisterExtension
-    static WireMockExtension pcqBackendService =
+    static final WireMockExtension PCQ_BACKEND_SERVICE =
         WireMockExtension.newInstance()
             .options(WireMockConfiguration.wireMockConfig().port(4554))
             .build();
 
     @Test
-    public void testSubmitAnswersSuccess() {
+    void testSubmitAnswersSuccess() {
         pcqSubmitAnswersWireMockSuccess();
 
         ResponseEntity responseEntity = pcqBackendServiceImpl.submitAnswers(generateTestRequest());
@@ -48,7 +48,7 @@ public class PcqBackendIntegrationTest extends SpringBootIntegrationTest {
     }
 
     @Test
-    public void testSubmitAnswersInvalidRequest() {
+    void testSubmitAnswersInvalidRequest() {
         pcqSubmitAnswersWireMockInvalid();
 
         ResponseEntity responseEntity = pcqBackendServiceImpl.submitAnswers(generateTestRequest());
@@ -57,7 +57,7 @@ public class PcqBackendIntegrationTest extends SpringBootIntegrationTest {
     }
 
     @Test
-    public void testSubmitAnswersUnknownError() {
+    void testSubmitAnswersUnknownError() {
         pcqSubmitAnswersWireMockUnknownError();
 
         ResponseEntity responseEntity = pcqBackendServiceImpl.submitAnswers(generateTestRequest());
@@ -79,7 +79,7 @@ public class PcqBackendIntegrationTest extends SpringBootIntegrationTest {
     }
 
     private void pcqSubmitAnswersWireMockSuccess() {
-        pcqBackendService.stubFor(post(urlPathMatching("/pcq/backend/submitAnswers"))
+        PCQ_BACKEND_SERVICE.stubFor(post(urlPathMatching("/pcq/backend/submitAnswers"))
                                       .withRequestBody(equalToJson(jsonFromObject(generateTestRequest())))
                                       .withHeader(HEADER_CO_RELATION_KEY, containing(HEADER_VALUE))
                                       .willReturn(aResponse()
@@ -90,7 +90,7 @@ public class PcqBackendIntegrationTest extends SpringBootIntegrationTest {
     }
 
     private void pcqSubmitAnswersWireMockInvalid() {
-        pcqBackendService.stubFor(post(urlPathMatching("/pcq/backend/submitAnswers"))
+        PCQ_BACKEND_SERVICE.stubFor(post(urlPathMatching("/pcq/backend/submitAnswers"))
                                       .withRequestBody(equalToJson(jsonFromObject(generateTestRequest())))
                                       .withHeader(HEADER_CO_RELATION_KEY, containing(HEADER_VALUE))
                                       .willReturn(aResponse()
@@ -101,7 +101,7 @@ public class PcqBackendIntegrationTest extends SpringBootIntegrationTest {
     }
 
     private void pcqSubmitAnswersWireMockUnknownError() {
-        pcqBackendService.stubFor(post(urlPathMatching("/pcq/backend/submitAnswers"))
+        PCQ_BACKEND_SERVICE.stubFor(post(urlPathMatching("/pcq/backend/submitAnswers"))
                                       .withRequestBody(equalToJson(jsonFromObject(generateTestRequest())))
                                       .withHeader(HEADER_CO_RELATION_KEY, containing(HEADER_VALUE))
                                       .willReturn(aResponse()
@@ -111,12 +111,9 @@ public class PcqBackendIntegrationTest extends SpringBootIntegrationTest {
                                                       .withBody(getResponseBody("500", "Unknown error occurred"))));
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     private String jsonFromObject(PcqAnswerRequest pcqAnswerRequest) {
-        String json = "{}";
         ObjectMapper objectMapper = new ObjectMapper();
-        json = objectMapper.writeValueAsString(pcqAnswerRequest);
-        return json;
+        return objectMapper.writeValueAsString(pcqAnswerRequest);
     }
 
     private String getResponseBody(String responseStatusCode, String responseStatus) {

@@ -64,7 +64,6 @@ public class PcqLoaderTestBase {
         log.info("Returned response " + response3.toString());
     }
 
-    @SuppressWarnings({"PMD.ConfusingTernary"})
     protected void checkAssertionsOnResponse(PcqAnswerRequest responseRecord,
                                              PcqAnswerRequest answerRequest) {
         assertEquals("PCQId not matching", responseRecord.getPcqId(), answerRequest.getPcqId());

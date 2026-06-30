@@ -41,7 +41,7 @@ public class PcqLoaderMappingFunctionalTest extends PcqLoaderTestBase {
 
     @Test
     @DirtiesContext
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    @SuppressWarnings("PMD.LawOfDemeter")
     public void testAllSuccessfulPcqInvocation() throws IOException {
         String metaDataPayLoad = jsonStringFromFile("JsonTestFiles/successMetaFile.json");
         PcqAnswerRequest mappedAnswers = null;
@@ -69,7 +69,7 @@ public class PcqLoaderMappingFunctionalTest extends PcqLoaderTestBase {
 
     @Test
     @DirtiesContext
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    @SuppressWarnings("PMD.LawOfDemeter")
     public void testAllMultiplePcqInvocation() throws IOException {
         String metaDataPayLoad = jsonStringFromFile("JsonTestFiles/multipleReligionMetaFile.json");
         PcqAnswerRequest mappedAnswers = null;

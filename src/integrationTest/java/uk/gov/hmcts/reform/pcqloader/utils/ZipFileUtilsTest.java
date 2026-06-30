@@ -27,19 +27,18 @@ class ZipFileUtilsTest {
     private ZipFileUtils zipFileUtils;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws IOException {
         zipFileUtils = new ZipFileUtils();
         blobFile1 = ResourceUtils.getFile("classpath:blobTestFiles/" + BLOB_FILENAME_1);
         blobFile2 = ResourceUtils.getFile("classpath:blobTestFiles/" + BLOB_FILENAME_2);
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws IOException {
         FileUtils.cleanDirectory(UNPACK_FOLDER_FILE);
     }
 
     @Test
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testUnzipBlobDownloadZipFile() throws IOException {
         File fileToUnzip = new File(TEST_UNPACK_ZIP_FOLDER + File.separator + BLOB_FILENAME_1);
         if (zipFileUtils.confirmFileCanBeCreated(fileToUnzip)) {

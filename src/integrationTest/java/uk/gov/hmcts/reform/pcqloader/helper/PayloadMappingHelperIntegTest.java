@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import tools.jackson.core.exc.StreamReadException;
 import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.json.JsonMapper;
 import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
@@ -23,7 +24,7 @@ import static uk.gov.hmcts.reform.pcq.commons.tests.utils.TestUtils.jsonStringFr
 
 @ExtendWith(SpringExtension.class)
 @SuppressWarnings("PMD.TooManyMethods")
-  class PayloadMappingHelperIntegTest {
+class PayloadMappingHelperIntegTest {
 
     private static final String FAIL_ASSERT_MSG = "Method call failed.";
     private static final String FORM_ID_VALIDATION_MSG = "Form Id is not correct.";
@@ -41,7 +42,7 @@ import static uk.gov.hmcts.reform.pcq.commons.tests.utils.TestUtils.jsonStringFr
     private final PayloadValidationHelper payloadValidationHelper = new PayloadValidationHelper();
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         payloadMappingHelper = new PayloadMappingHelper(payloadValidationHelper);
     }
 
@@ -51,9 +52,9 @@ import static uk.gov.hmcts.reform.pcq.commons.tests.utils.TestUtils.jsonStringFr
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/decryptErrorMetaFile.json");
 
-        Exception ex = assertThrows(Exception.class,
-                                    () -> payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad));
-        assertEquals("StreamReadException", ex.getClass().getSimpleName());
+        assertThrows(
+            StreamReadException.class,
+            () -> payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad));
     }
 
     @Test
@@ -290,7 +291,6 @@ import static uk.gov.hmcts.reform.pcq.commons.tests.utils.TestUtils.jsonStringFr
         assertUnknownFieldMapping(mappedAnswers, metaData);
     }
 
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     private PcqAnswerRequest invokeMappingHelper(String metaDataPayLoad) {
         PcqAnswerRequest mappedAnswers = null;
         try {
@@ -338,7 +338,7 @@ import static uk.gov.hmcts.reform.pcq.commons.tests.utils.TestUtils.jsonStringFr
         assertNull(answers.getPregnancy(), "Pregnancy is not correct.");
     }
 
-    public void assertSuccessMapping(PcqAnswerRequest mappedAnswers, PcqMetaData pcqMetaData) {
+    private void assertSuccessMapping(PcqAnswerRequest mappedAnswers, PcqMetaData pcqMetaData) {
         assertDefaultAndGeneratedFields(mappedAnswers);
 
         //Check the information that matches the meta-data information.
@@ -383,7 +383,7 @@ import static uk.gov.hmcts.reform.pcq.commons.tests.utils.TestUtils.jsonStringFr
         assertEquals(2, answers.getMarriage(), "Marriage is not correct.");
     }
 
-    public void assertUnknownFieldMapping(PcqAnswerRequest mappedAnswers, PcqMetaData pcqMetaData) {
+    private void assertUnknownFieldMapping(PcqAnswerRequest mappedAnswers, PcqMetaData pcqMetaData) {
         assertDefaultAndGeneratedFields(mappedAnswers);
 
         //Check the information that matches the meta-data information.
@@ -427,7 +427,7 @@ import static uk.gov.hmcts.reform.pcq.commons.tests.utils.TestUtils.jsonStringFr
         assertEquals(1, answers.getMarriage(), "Marriage is not correct.");
     }
 
-    public void assertDefaultAndGeneratedFields(PcqAnswerRequest mappedAnswers) {
+    private void assertDefaultAndGeneratedFields(PcqAnswerRequest mappedAnswers) {
         //Check the primary key generated field is not missing.
         assertNotNull(mappedAnswers.getPcqId(), "PCQ Id is Null");
 
@@ -446,7 +446,7 @@ import static uk.gov.hmcts.reform.pcq.commons.tests.utils.TestUtils.jsonStringFr
     }
 
 
-    public static PcqMetaData jsonMetaDataObjectFromString(String jsonString) throws IOException {
+    private static PcqMetaData jsonMetaDataObjectFromString(String jsonString) throws IOException {
         return JsonMapper.builder()
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             .build().readValue(jsonString, PcqMetaData.class);

@@ -21,7 +21,7 @@ class BlobStorageConfigurationTest {
     void blobStorageConfigurationGetStorageClientTest() {
         BlobServiceClient blobServiceClient = blobStorageConfiguration.getStorageClient(
             ACCOUNT_NAME, ACCOUNT_KEY, ACCOUNT_URL);
-        Assertions.assertEquals(ACCOUNT_NAME, blobServiceClient.getAccountName());
-        Assertions.assertEquals(ACCOUNT_URL, blobServiceClient.getAccountUrl());
+        Assertions.assertEquals(ACCOUNT_NAME, blobServiceClient.getAccountName(), "Account name should match");
+        Assertions.assertEquals(ACCOUNT_URL, blobServiceClient.getAccountUrl(), "Account URL should match");
     }
 }

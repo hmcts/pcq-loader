@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.pcqloader.services;
 
+import com.azure.core.util.polling.SyncPoller;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
@@ -23,6 +24,7 @@ import java.util.List;
 
 @Slf4j
 @Service
+@SuppressWarnings("PMD.AvoidCatchingGenericException")
 public class BlobStorageManager {
 
     private static final String BLOB_CONTAINER_FOLDER = "";
@@ -55,7 +57,6 @@ public class BlobStorageManager {
         return getContainer(blobStorageProperties.getBlobPcqRejectedContainer());
     }
 
-    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis","PMD.LawOfDemeter"})
     public List<String> collectBlobFileNamesFromContainer(BlobContainerClient blobContainerClient) {
         List<String> zipFilenames = new ArrayList<>();
         for (BlobItem blob : blobContainerClient.listBlobsByHierarchy(BLOB_CONTAINER_FOLDER)) {
@@ -73,7 +74,7 @@ public class BlobStorageManager {
         return Collections.unmodifiableList(zipFilenames);
     }
 
-    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis","PMD.LawOfDemeter"})
+    @SuppressWarnings({"PMD.ExceptionAsFlowControl", "PMD.AvoidCatchingGenericException"})
     public File downloadFileFromBlobStorage(BlobContainerClient blobContainerClient, String blobName) {
         String filePath = blobStorageProperties.getBlobStorageDownloadPath() + File.separator + blobName;
         File localFile = new File(filePath);
@@ -146,8 +147,9 @@ public class BlobStorageManager {
         }
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     private void copyBlobAndDeleteSource(String fileName, BlobClient sourceClient, BlobClient destinationClient) {
-        var pollResponse = destinationClient.beginCopy(sourceClient.getBlobUrl(), null);
+        SyncPoller<BlobCopyInfo, Void> pollResponse = destinationClient.beginCopy(sourceClient.getBlobUrl(), null);
         BlobCopyInfo copyInfo = pollResponse
             .waitForCompletion(Duration.ofMillis(blobStorageProperties.getBlobCopyTimeoutInMillis()))
             .getValue();

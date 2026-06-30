@@ -15,6 +15,7 @@ import uk.gov.hmcts.reform.pcqloader.config.BlobStorageProperties;
 import uk.gov.hmcts.reform.pcqloader.utils.ZipFileUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 @Slf4j
 @TestPropertySource(locations = "/application.properties")
@@ -37,7 +38,7 @@ public class BlobStorageManagerBase {
     public BlobStorageManager blobStorageManager;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() throws FileNotFoundException {
         zipFileUtils = new ZipFileUtils();
         blobServiceClient = new BlobServiceClientBuilder()
             .connectionString("UseDevelopmentStorage=true")
@@ -60,7 +61,7 @@ public class BlobStorageManagerBase {
     }
 
     @AfterEach
-    public void cleanUp() throws Exception {
+    public void cleanUp() {
         testContainer.delete();
     }
 

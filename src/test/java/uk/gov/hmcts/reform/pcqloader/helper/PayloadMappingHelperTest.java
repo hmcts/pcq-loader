@@ -25,14 +25,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.DataflowAnomalyAnalysis"})
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.RelianceOnDefaultCharset"})
 class PayloadMappingHelperTest {
 
     private static final String FAIL_ASSERT_MSG = "Method call failed.";
     private static final String ENGLISH_LANGUAGE_LEVEL_MSG = "English Language Level is not correct";
 
     @Spy
-    @SuppressWarnings("PMD.UnusedPrivateField")
     private final PayloadValidationHelper payloadValidationHelper = new PayloadValidationHelper();
 
     @InjectMocks
@@ -533,6 +532,7 @@ class PayloadMappingHelperTest {
      * @return - JSON String from the file.
      * @throws IOException - If there is any issue when reading from the file.
      */
+    @SuppressWarnings("PMD.LawOfDemeter")
     private static String jsonStringFromFile(String fileName) throws IOException {
         File resource = new ClassPathResource(fileName).getFile();
         return new String(Files.readAllBytes(resource.toPath()));

@@ -15,8 +15,7 @@ import uk.gov.hmcts.reform.pcqloader.services.impl.PcqBackendServiceImpl;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestApplicationConfiguration.class)
-@SuppressWarnings({"PMD.AbstractClassWithoutAnyMethod", "PMD.AbstractClassWithoutAbstractMethod",
-    "PMD.UnusedPrivateField"})
+@SuppressWarnings({"PMD.AbstractClassWithoutAnyMethod", "PMD.AbstractClassWithoutAbstractMethod"})
 public abstract class SpringBootIntegrationTest {
 
     @Autowired

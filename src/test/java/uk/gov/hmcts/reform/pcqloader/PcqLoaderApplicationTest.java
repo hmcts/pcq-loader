@@ -28,7 +28,7 @@ class PcqLoaderApplicationTest {
     @Mock
     private PcqLoaderComponent pcqLoaderComponent;
 
-    private static final int TEST_WAIT_PERIOD = 10000;
+    private static final int TEST_WAIT_PERIOD = 10_000;
 
     @BeforeEach
     void setUp() {
