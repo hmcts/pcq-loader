@@ -8,7 +8,8 @@ import uk.gov.hmcts.reform.pcq.commons.model.PcqAnswerRequest;
 import uk.gov.hmcts.reform.pcqloader.helper.PayloadMappingHelper;
 import uk.gov.hmcts.reform.pcqloader.helper.PayloadValidationHelper;
 
-import java.nio.file.Files;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -76,9 +77,13 @@ class PcqAnswerRequestJackson3RoundTripTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.LawOfDemeter")
     void preservesMappedPayloadFieldsWhenSerializedForBackend() throws Exception {
-        String metadata = Files.readString(new ClassPathResource(
-            "testPayloadFiles/successMetaFile.json").getFile().toPath());
+        ClassPathResource metadataResource = new ClassPathResource("testPayloadFiles/successMetaFile.json");
+        String metadata;
+        try (InputStream inputStream = metadataResource.getInputStream()) {
+            metadata = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        }
         PayloadMappingHelper mappingHelper = new PayloadMappingHelper(new PayloadValidationHelper());
 
         PcqAnswerRequest request = mappingHelper.mapPayLoadToPcqAnswers(metadata);
