@@ -15,6 +15,9 @@ plugins {
 }
 ext {
   nettyVersion = '4.2.19.Final'
+  // CVE-2026-65637, CVE-2026-65905, CVE-2026-65182, CVE-2026-68525, CVE-2026-65183, CVE-2026-66422,
+  // CVE-2026-68569, CVE-2026-65927, CVE-2026-68763, CVE-2026-73180, CVE-2026-66299
+  set('tomcat.version', '11.0.26')
 }
 
 group = 'uk.gov.hmcts.reform'
@@ -220,10 +223,6 @@ def versions = [
         lombok              : '1.18.48',
         testcontainers      : '1.21.4'
 ]
-
-        // CVE-2026-65637, CVE-2026-65905, CVE-2026-65182, CVE-2026-68525, CVE-2026-65183, CVE-2026-66422,
-        // CVE-2026-68569, CVE-2026-65927, CVE-2026-68763, CVE-2026-73180, CVE-2026-66299
-        ext['tomcat.version'] = '11.0.26'
 
 
 dependencies {
