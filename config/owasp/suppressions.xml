@@ -8,7 +8,9 @@
   </suppress>
   <suppress until="2027-01-04">
     <notes>
+      azure-core-1.59.0.jar
       azure-json-1.5.1.jar
+      azure-core-http-netty-1.16.6.jar
     </notes>
     <cve>CVE-2026-33117</cve>
   </suppress>
