@@ -11,7 +11,7 @@ plugins {
     id "info.solidsoft.pitest" version '1.19.0'
     id 'org.sonarqube' version '7.5.0.8588'
     id 'com.gorylenko.gradle-git-properties' version '4.0.1'
-    id "io.freefair.lombok" version "9.5.0"
+    id "io.freefair.lombok" version "9.8.2"
 }
 
 // CVE-2026-65637, CVE-2026-65905, CVE-2026-65182, CVE-2026-68525, CVE-2026-65183, CVE-2026-66422,
