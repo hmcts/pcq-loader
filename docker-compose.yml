@@ -28,7 +28,7 @@ services:
       - $SERVER_PORT:$SERVER_PORT
 
   azurite:
-    image: mcr.microsoft.com/azure-storage/azurite
+    image: mcr.microsoft.com/azure-storage/azurite:latest
     command: "azurite-blob --loose --blobHost 0.0.0.0"
     ports:
       - "10000:10000"
