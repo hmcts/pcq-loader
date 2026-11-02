@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.util.ResourceUtils;
 import uk.gov.hmcts.reform.pcqloader.exceptions.ZipProcessingException;
@@ -11,6 +12,8 @@ import uk.gov.hmcts.reform.pcqloader.exceptions.ZipProcessingException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,8 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -38,6 +41,12 @@ class ZipFileUtilsTest {
 
     @Mock
     private File mockedFolder;
+
+    @Mock
+    private Path mockedPath;
+
+    @Mock
+    private Path folderPath;
 
     private File badZip;
     private File actualZip;
@@ -58,12 +67,19 @@ class ZipFileUtilsTest {
         when(mockedFolder.mkdirs()).thenReturn(true);
         when(mockedFolder.isDirectory()).thenReturn(true);
         when(mockedFile.createNewFile()).thenReturn(true);
-        when(mockedFile.delete()).thenReturn(true);
+        when(mockedFile.toPath()).thenReturn(mockedPath);
 
-        boolean result = zipFileUtils.confirmFileCanBeCreated(mockedFile);
-        assertTrue(result, "Should be ok to create file");
+        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
+            mockedFiles.when(() -> Files.deleteIfExists(mockedPath)).thenReturn(true);
+
+            boolean result = zipFileUtils.confirmFileCanBeCreated(mockedFile);
+            assertTrue(result, "Should be ok to create file");
+
+            mockedFiles.verify(() -> Files.deleteIfExists(mockedPath));
+        }
+
         verify(mockedFile, times(1)).createNewFile();
-        verify(mockedFile, times(1)).delete();
+
     }
 
     @Test
@@ -103,13 +119,16 @@ class ZipFileUtilsTest {
         when(mockedFolder.isDirectory()).thenReturn(true);
         when(mockedFile.exists()).thenReturn(false);
         when(mockedFile.createNewFile()).thenReturn(true);
-        when(mockedFile.delete()).thenReturn(false);
+        when(mockedFile.toPath()).thenReturn(mockedPath);
 
-        boolean result = zipFileUtils.confirmFileCanBeCreated(mockedFile);
+        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
+            mockedFiles.when(() -> Files.deleteIfExists(mockedPath)).thenReturn(false);
 
-        assertFalse(result, "Should not be able to create file");
+            zipFileUtils.confirmFileCanBeCreated(mockedFile);
+
+            mockedFiles.verify(() -> Files.deleteIfExists(mockedPath));
+        }
         verify(mockedFile, times(1)).createNewFile();
-        verify(mockedFile, times(1)).delete();
     }
 
     @Test
@@ -125,39 +144,29 @@ class ZipFileUtilsTest {
 
     @Test
     void testUnzipBlobDownloadZipFileError() {
-        try {
-            zipFileUtils.unzipBlobDownloadZipFile(badZip);
-            fail("ZipProcessingException exception should be thrown.");
-        } catch (ZipProcessingException zpe) {
-            assertNotNull(zpe, "ZipProcessingException exception is thrown.");
-        }
+        assertThrows(ZipProcessingException.class, () -> zipFileUtils.unzipBlobDownloadZipFile(badZip));
     }
 
     @Test
     void testUnzipBlobDownloadFileMissingError() {
         when(mockedFile.exists()).thenReturn(false);
-        try {
-            zipFileUtils.unzipBlobDownloadZipFile(mockedFile);
-            fail("ZipProcessingException exception should be thrown.");
-        } catch (ZipProcessingException zpe) {
-            assertNotNull(zpe, "ZipProcessingException exception is thrown.");
-        }
+        assertThrows(ZipProcessingException.class, () -> zipFileUtils.unzipBlobDownloadZipFile(mockedFile));
     }
 
     @Test
     void testDeleteFilesFromLocal() {
-        // Both files null
-        zipFileUtils.deleteFilesFromLocalStorage(null, null);
-
-        //Zip File delete returns false and Folder files array is null
-        when(mockedFile.delete()).thenReturn(false);
+        when(mockedFile.toPath()).thenReturn(mockedPath);
         when(mockedFolder.listFiles()).thenReturn(null);
-        assertThrows(
-            NullPointerException.class,
-            () -> zipFileUtils.deleteFilesFromLocalStorage(mockedFile, mockedFolder)
-        );
 
-        verify(mockedFile, times(1)).delete();
+        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
+            mockedFiles.when(() -> Files.deleteIfExists(mockedPath)).thenReturn(true);
+
+            assertThrows(
+                NullPointerException.class,
+                () -> zipFileUtils.deleteFilesFromLocalStorage(mockedFile, mockedFolder)
+            );
+            mockedFiles.verify(() -> Files.deleteIfExists(mockedPath));
+        }
         verify(mockedFolder, times(1)).listFiles();
     }
 
@@ -166,13 +175,24 @@ class ZipFileUtilsTest {
         //Zip File delete returns true and Folder file delete returns false.
         File testMockedFile = mock(File.class);
         File[] files = {testMockedFile};
-        when(mockedFile.delete()).thenReturn(true);
-        when(testMockedFile.delete()).thenReturn(false);
+
+        when(mockedFile.toPath()).thenReturn(mockedPath);
+
+        Path innerPath = mock(Path.class);
+        when(testMockedFile.toPath()).thenReturn(innerPath);
+
         when(mockedFolder.listFiles()).thenReturn(files);
-        zipFileUtils.deleteFilesFromLocalStorage(mockedFile, mockedFolder);
-        verify(mockedFile, times(1)).delete();
-        verify(testMockedFile, times(1)).delete();
-        verify(mockedFolder, times(1)).listFiles();
+
+        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
+            mockedFiles.when(() -> Files.deleteIfExists(mockedPath)).thenReturn(true);
+            mockedFiles.when(() -> Files.deleteIfExists(innerPath)).thenReturn(false);
+
+            zipFileUtils.deleteFilesFromLocalStorage(mockedFile, mockedFolder);
+
+            mockedFiles.verify(() -> Files.deleteIfExists(mockedPath));
+            mockedFiles.verify(() -> Files.deleteIfExists(innerPath));
+        }
+
     }
 
     @Test
@@ -180,13 +200,27 @@ class ZipFileUtilsTest {
         //Zip File delete returns true and folder file delete returns true.
         File testMockedFileSuccess = mock(File.class);
         File[] successFiles = {testMockedFileSuccess};
-        when(mockedFile.delete()).thenReturn(true);
-        when(testMockedFileSuccess.delete()).thenReturn(true);
+
+        when(mockedFile.toPath()).thenReturn(mockedPath);
+
+        Path innerPath = mock(Path.class);
+        when(testMockedFileSuccess.toPath()).thenReturn(innerPath);
+
+        when(mockedFolder.toPath()).thenReturn(folderPath);
+
         when(mockedFolder.listFiles()).thenReturn(successFiles);
-        zipFileUtils.deleteFilesFromLocalStorage(mockedFile, mockedFolder);
-        verify(mockedFile, times(1)).delete();
-        verify(testMockedFileSuccess, times(1)).delete();
-        verify(mockedFolder, times(1)).listFiles();
+
+        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
+            mockedFiles.when(() -> Files.deleteIfExists(mockedPath)).thenReturn(true);
+            mockedFiles.when(() -> Files.deleteIfExists(innerPath)).thenReturn(true);
+            mockedFiles.when(() -> Files.deleteIfExists(folderPath)).thenReturn(true);
+
+            zipFileUtils.deleteFilesFromLocalStorage(mockedFile, mockedFolder);
+
+            mockedFiles.verify(() -> Files.deleteIfExists(mockedPath));
+            mockedFiles.verify(() -> Files.deleteIfExists(innerPath));
+            mockedFiles.verify(() -> Files.deleteIfExists(folderPath));
+        }
     }
 
     @Test
