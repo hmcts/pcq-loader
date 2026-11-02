@@ -35,7 +35,7 @@ import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidCatchingGenericException"})
+@SuppressWarnings({"PMD.TooManyMethods"})
 class PcqLoaderComponentTest {
 
     private static final String TEST_BLOB_FILENAME1 = "1579002492_31-08-2020-11-35-10.zip";
@@ -44,7 +44,6 @@ class PcqLoaderComponentTest {
     private static final String TEST_EXCEPTION_MSG = "Test Exception";
     private static final String SUCCESS_MSG = "Successfully created";
     private static final String HTTP_CREATED = "201";
-    private static final String EXCEPTION_UNEXPECTED = "Exception not expected ";
     private static final String PAYLOAD_TEST_FILE = "testPayloadFiles/successMetaFile.json";
 
     private PcqLoaderComponent pcqLoaderComponent;
