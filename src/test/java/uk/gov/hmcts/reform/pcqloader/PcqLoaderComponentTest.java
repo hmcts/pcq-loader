@@ -19,6 +19,7 @@ import uk.gov.hmcts.reform.pcqloader.services.PcqBackendService;
 import uk.gov.hmcts.reform.pcqloader.utils.ZipFileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -84,7 +85,7 @@ class PcqLoaderComponentTest {
     }
 
     @Test
-    void executeSuccess() {
+    void executeSuccess() throws IOException, NoSuchFieldException, IllegalAccessException {
         List<String> blobFileNames = Arrays.asList(TEST_BLOB_FILENAME1, TEST_BLOB_FILENAME2);
         File metaDataFile = new File(PAYLOAD_TEST_FILE);
         File[] listedFiles = {metaDataFile};
@@ -102,14 +103,9 @@ class PcqLoaderComponentTest {
         when(unzippedFile.listFiles()).thenReturn(listedFiles);
         when(fileUtil.getMetaDataFile(listedFiles)).thenReturn(metaDataFile);
 
-        try {
-            when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
-            when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
-                .thenReturn(answerRequest)
-                .thenReturn(answerRequest);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+        when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
+        when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData)).thenReturn(answerRequest);
+
         ResponseEntity<Map<String, String>> successResponse = getResponse(answerRequest.getPcqId(),
                                                                           HTTP_CREATED, SUCCESS_MSG);
         when(pcqBackendService.submitAnswers(answerRequest)).thenReturn(successResponse);
@@ -127,13 +123,11 @@ class PcqLoaderComponentTest {
         verify(fileUtil, times(2)).unzipBlobDownloadZipFile(zipDirectory);
         verify(unzippedFile, times(2)).listFiles();
         verify(fileUtil, times(2)).getMetaDataFile(listedFiles);
-        try {
-            verify(fileUtil, times(2)).readAllBytesFromFile(metaDataFile);
-            verify(payloadMappingHelper, times(2)).mapPayLoadToPcqAnswers(
-                jsonTestMetaData);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+
+        verify(fileUtil, times(2)).readAllBytesFromFile(metaDataFile);
+        verify(payloadMappingHelper, times(2)).mapPayLoadToPcqAnswers(
+            jsonTestMetaData);
+
         verify(pcqBackendService, times(2)).submitAnswers(answerRequest);
         verify(blobStorageManager, times(1)).moveFileToProcessedFolder(TEST_BLOB_FILENAME1, blobContainerClient);
         verify(blobStorageManager, times(1)).moveFileToProcessedFolder(TEST_BLOB_FILENAME2, blobContainerClient);
@@ -191,7 +185,7 @@ class PcqLoaderComponentTest {
     }
 
     @Test
-    void testBlobDownloadErrorForOneFile() {
+    void testBlobDownloadErrorForOneFile() throws IOException, NoSuchFieldException, IllegalAccessException {
         List<String> blobFileNames = Arrays.asList(TEST_BLOB_FILENAME1, TEST_BLOB_FILENAME2);
         BlobProcessingException blobProcessingException = new BlobProcessingException("Test Message");
         File metaDataFile = new File(PAYLOAD_TEST_FILE);
@@ -210,13 +204,9 @@ class PcqLoaderComponentTest {
         when(unzippedFile.listFiles()).thenReturn(listedFiles);
         when(fileUtil.getMetaDataFile(listedFiles)).thenReturn(metaDataFile);
 
-        try {
-            when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
-            when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
-                .thenReturn(answerRequest);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+        when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
+        when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData)).thenReturn(answerRequest);
+
         ResponseEntity<Map<String, String>> successResponse = getResponse(answerRequest.getPcqId(),
                                                                           HTTP_CREATED, SUCCESS_MSG);
         when(pcqBackendService.submitAnswers(answerRequest)).thenReturn(successResponse);
@@ -233,13 +223,11 @@ class PcqLoaderComponentTest {
         verify(fileUtil, times(1)).unzipBlobDownloadZipFile(zipDirectory);
         verify(unzippedFile, times(1)).listFiles();
         verify(fileUtil, times(1)).getMetaDataFile(listedFiles);
-        try {
-            verify(fileUtil, times(1)).readAllBytesFromFile(metaDataFile);
-            verify(payloadMappingHelper, times(1)).mapPayLoadToPcqAnswers(
-                jsonTestMetaData);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+
+        verify(fileUtil, times(1)).readAllBytesFromFile(metaDataFile);
+        verify(payloadMappingHelper, times(1)).mapPayLoadToPcqAnswers(
+            jsonTestMetaData);
+
         verify(pcqBackendService, times(1)).submitAnswers(answerRequest);
         verify(blobStorageManager, times(1)).moveFileToProcessedFolder(TEST_BLOB_FILENAME2, blobContainerClient);
         verify(fileUtil, times(1)).deleteFilesFromLocalStorage(zipDirectory, unzippedFile);
@@ -248,7 +236,7 @@ class PcqLoaderComponentTest {
     }
 
     @Test
-    void testZipProcessingExceptionForOneFile() {
+    void testZipProcessingExceptionForOneFile() throws IOException, NoSuchFieldException, IllegalAccessException {
         List<String> blobFileNames = Arrays.asList(TEST_BLOB_FILENAME1, TEST_BLOB_FILENAME2);
         ZipProcessingException zipProcessingException = new ZipProcessingException("Test Message");
         File metaDataFile = new File(PAYLOAD_TEST_FILE);
@@ -269,13 +257,9 @@ class PcqLoaderComponentTest {
         when(unzippedFile.listFiles()).thenReturn(listedFiles);
         when(fileUtil.getMetaDataFile(listedFiles)).thenReturn(metaDataFile);
 
-        try {
-            when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
-            when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
-                .thenReturn(answerRequest);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+        when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
+        when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData)).thenReturn(answerRequest);
+
         ResponseEntity<Map<String, String>> successResponse = getResponse(answerRequest.getPcqId(),
                                                                           HTTP_CREATED, SUCCESS_MSG);
         when(pcqBackendService.submitAnswers(answerRequest)).thenReturn(successResponse);
@@ -327,7 +311,7 @@ class PcqLoaderComponentTest {
     }
 
     @Test
-    void testEmptyZipFile() {
+    void testEmptyZipFile() throws IOException, NoSuchFieldException, IllegalAccessException {
         List<String> blobFileNames = Arrays.asList(TEST_BLOB_FILENAME1, TEST_BLOB_FILENAME2);
         File metaDataFile = new File(PAYLOAD_TEST_FILE);
         File[] listedFiles = {metaDataFile};
@@ -350,13 +334,10 @@ class PcqLoaderComponentTest {
         when(testUnzippedFile.listFiles()).thenReturn(emptyListedFiles);
         when(fileUtil.getMetaDataFile(listedFiles)).thenReturn(metaDataFile);
 
-        try {
-            when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
-            when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
+        when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
+        when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
                 .thenReturn(answerRequest);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+
         ResponseEntity<Map<String, String>> successResponse = getResponse(answerRequest.getPcqId(),
                                                                           HTTP_CREATED, SUCCESS_MSG);
         when(pcqBackendService.submitAnswers(answerRequest)).thenReturn(successResponse);
@@ -377,13 +358,10 @@ class PcqLoaderComponentTest {
         verify(unzippedFile, times(1)).listFiles();
         verify(testUnzippedFile, times(1)).listFiles();
         verify(fileUtil, times(1)).getMetaDataFile(listedFiles);
-        try {
-            verify(fileUtil, times(1)).readAllBytesFromFile(metaDataFile);
-            verify(payloadMappingHelper, times(1)).mapPayLoadToPcqAnswers(
-                jsonTestMetaData);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+
+        verify(fileUtil, times(1)).readAllBytesFromFile(metaDataFile);
+        verify(payloadMappingHelper, times(1)).mapPayLoadToPcqAnswers(jsonTestMetaData);
+
         verify(pcqBackendService, times(1)).submitAnswers(answerRequest);
         verify(blobStorageManager, times(1)).moveFileToProcessedFolder(TEST_BLOB_FILENAME1, blobContainerClient);
         verify(blobStorageManager, times(1)).moveFileToRejectedContainer(TEST_BLOB_FILENAME2, blobContainerClient);
@@ -393,7 +371,7 @@ class PcqLoaderComponentTest {
     }
 
     @Test
-    void testInvalidMetaDataFileName() {
+    void testInvalidMetaDataFileName() throws IOException, NoSuchFieldException, IllegalAccessException {
         List<String> blobFileNames = Arrays.asList(TEST_BLOB_FILENAME1, TEST_BLOB_FILENAME2);
         File metaDataFile = new File(PAYLOAD_TEST_FILE);
         File invalidMetaDataFile = new File("metadataProbate.json");
@@ -418,13 +396,9 @@ class PcqLoaderComponentTest {
         when(fileUtil.getMetaDataFile(listedFiles)).thenReturn(metaDataFile);
         when(fileUtil.getMetaDataFile(invalidListedFiles)).thenReturn(null);
 
-        try {
-            when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
-            when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
-                .thenReturn(answerRequest);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+        when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
+        when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData)).thenReturn(answerRequest);
+
         ResponseEntity<Map<String, String>> successResponse = getResponse(answerRequest.getPcqId(),
                                                                           HTTP_CREATED, SUCCESS_MSG);
         when(pcqBackendService.submitAnswers(answerRequest)).thenReturn(successResponse);
@@ -446,13 +420,9 @@ class PcqLoaderComponentTest {
         verify(testUnzippedFile, times(1)).listFiles();
         verify(fileUtil, times(1)).getMetaDataFile(listedFiles);
         verify(fileUtil, times(1)).getMetaDataFile(invalidListedFiles);
-        try {
-            verify(fileUtil, times(1)).readAllBytesFromFile(metaDataFile);
-            verify(payloadMappingHelper, times(1)).mapPayLoadToPcqAnswers(
-                jsonTestMetaData);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+        verify(fileUtil, times(1)).readAllBytesFromFile(metaDataFile);
+        verify(payloadMappingHelper, times(1)).mapPayLoadToPcqAnswers(jsonTestMetaData);
+
         verify(pcqBackendService, times(1)).submitAnswers(answerRequest);
         verify(blobStorageManager, times(1)).moveFileToProcessedFolder(TEST_BLOB_FILENAME1, blobContainerClient);
         verify(blobStorageManager, times(1)).moveFileToRejectedContainer(TEST_BLOB_FILENAME2, blobContainerClient);
@@ -492,7 +462,7 @@ class PcqLoaderComponentTest {
     }
 
     @Test
-    void executeSuccessAndMappingError() {
+    void executeSuccessAndMappingError() throws IOException, NoSuchFieldException, IllegalAccessException {
         List<String> blobFileNames = Arrays.asList(TEST_BLOB_FILENAME1, TEST_BLOB_FILENAME2);
         File metaDataFile = new File(PAYLOAD_TEST_FILE);
         File[] listedFiles = {metaDataFile};
@@ -510,14 +480,11 @@ class PcqLoaderComponentTest {
         when(unzippedFile.listFiles()).thenReturn(listedFiles);
         when(fileUtil.getMetaDataFile(listedFiles)).thenReturn(metaDataFile);
 
-        try {
-            when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
-            when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
-                .thenReturn(null)
-                .thenReturn(answerRequest);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+        when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
+        when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
+            .thenReturn(null)
+            .thenReturn(answerRequest);
+
         ResponseEntity<Map<String, String>> successResponse = getResponse(answerRequest.getPcqId(),
                                                                           HTTP_CREATED, SUCCESS_MSG);
         when(pcqBackendService.submitAnswers(answerRequest)).thenReturn(successResponse);
@@ -535,13 +502,9 @@ class PcqLoaderComponentTest {
         verify(fileUtil, times(2)).unzipBlobDownloadZipFile(zipDirectory);
         verify(unzippedFile, times(2)).listFiles();
         verify(fileUtil, times(2)).getMetaDataFile(listedFiles);
-        try {
-            verify(fileUtil, times(2)).readAllBytesFromFile(metaDataFile);
-            verify(payloadMappingHelper, times(2)).mapPayLoadToPcqAnswers(
-                jsonTestMetaData);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+        verify(fileUtil, times(2)).readAllBytesFromFile(metaDataFile);
+        verify(payloadMappingHelper, times(2)).mapPayLoadToPcqAnswers(jsonTestMetaData);
+
         verify(pcqBackendService, times(1)).submitAnswers(answerRequest);
         verify(blobStorageManager, times(1)).moveFileToRejectedContainer(TEST_BLOB_FILENAME1, blobContainerClient);
         verify(blobStorageManager, times(1)).moveFileToProcessedFolder(TEST_BLOB_FILENAME2, blobContainerClient);
@@ -550,7 +513,7 @@ class PcqLoaderComponentTest {
     }
 
     @Test
-    void executeMappingErrorNoSuchField() {
+    void executeMappingErrorNoSuchField() throws IOException, NoSuchFieldException, IllegalAccessException {
         List<String> blobFileNames = Arrays.asList(TEST_BLOB_FILENAME1, TEST_BLOB_FILENAME2);
         File metaDataFile = new File(PAYLOAD_TEST_FILE);
         File[] listedFiles = {metaDataFile};
@@ -567,14 +530,12 @@ class PcqLoaderComponentTest {
         when(unzippedFile.listFiles()).thenReturn(listedFiles);
         when(fileUtil.getMetaDataFile(listedFiles)).thenReturn(metaDataFile);
 
-        try {
-            when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
-            when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
-                .thenThrow(new NoSuchFieldException(TEST_EXCEPTION_MSG))
-                .thenThrow(new NoSuchFieldException(TEST_EXCEPTION_MSG));
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+
+        when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
+        when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
+            .thenThrow(new NoSuchFieldException(TEST_EXCEPTION_MSG))
+            .thenThrow(new NoSuchFieldException(TEST_EXCEPTION_MSG));
+
         doNothing().when(fileUtil).deleteFilesFromLocalStorage(zipDirectory, unzippedFile);
 
         pcqLoaderComponent.execute();
@@ -586,19 +547,16 @@ class PcqLoaderComponentTest {
         verify(blobStorageManager, times(1)).downloadFileFromBlobStorage(blobContainerClient, TEST_BLOB_FILENAME2);
         verify(fileUtil, times(2)).unzipBlobDownloadZipFile(zipDirectory);
         verify(unzippedFile, times(2)).listFiles();
+
         verify(fileUtil, times(2)).getMetaDataFile(listedFiles);
-        try {
-            verify(fileUtil, times(2)).readAllBytesFromFile(metaDataFile);
-            verify(payloadMappingHelper, times(2)).mapPayLoadToPcqAnswers(jsonTestMetaData);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+        verify(fileUtil, times(2)).readAllBytesFromFile(metaDataFile);
+        verify(payloadMappingHelper, times(2)).mapPayLoadToPcqAnswers(jsonTestMetaData);
         verify(fileUtil, times(2)).deleteFilesFromLocalStorage(zipDirectory, unzippedFile);
 
     }
 
     @Test
-    void executeMappingErrorIllegalAccessException() {
+    void executeMappingErrorIllegalAccessException() throws IOException, NoSuchFieldException, IllegalAccessException {
         List<String> blobFileNames = Arrays.asList(TEST_BLOB_FILENAME1, TEST_BLOB_FILENAME2);
         File metaDataFile = new File(PAYLOAD_TEST_FILE);
         File[] listedFiles = {metaDataFile};
@@ -615,14 +573,11 @@ class PcqLoaderComponentTest {
         when(unzippedFile.listFiles()).thenReturn(listedFiles);
         when(fileUtil.getMetaDataFile(listedFiles)).thenReturn(metaDataFile);
 
-        try {
-            when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
-            when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
-                .thenThrow(new IllegalAccessException(TEST_EXCEPTION_MSG))
-                .thenThrow(new IllegalAccessException(TEST_EXCEPTION_MSG));
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+        when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
+        when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
+            .thenThrow(new IllegalAccessException(TEST_EXCEPTION_MSG))
+            .thenThrow(new IllegalAccessException(TEST_EXCEPTION_MSG));
+
         doNothing().when(fileUtil).deleteFilesFromLocalStorage(zipDirectory, unzippedFile);
 
         pcqLoaderComponent.execute();
@@ -635,18 +590,16 @@ class PcqLoaderComponentTest {
         verify(fileUtil, times(2)).unzipBlobDownloadZipFile(zipDirectory);
         verify(unzippedFile, times(2)).listFiles();
         verify(fileUtil, times(2)).getMetaDataFile(listedFiles);
-        try {
-            verify(fileUtil, times(2)).readAllBytesFromFile(metaDataFile);
-            verify(payloadMappingHelper, times(2)).mapPayLoadToPcqAnswers(jsonTestMetaData);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+
+        verify(fileUtil, times(2)).readAllBytesFromFile(metaDataFile);
+        verify(payloadMappingHelper, times(2)).mapPayLoadToPcqAnswers(jsonTestMetaData);
+
         verify(fileUtil, times(2)).deleteFilesFromLocalStorage(zipDirectory, unzippedFile);
 
     }
 
     @Test
-    void executeSuccessDuplicateDcn() {
+    void executeSuccessDuplicateDcn() throws IOException, NoSuchFieldException, IllegalAccessException {
         List<String> blobFileNames = Arrays.asList(TEST_BLOB_FILENAME1, TEST_BLOB_FILENAME2);
         File metaDataFile = new File(PAYLOAD_TEST_FILE);
         File[] listedFiles = {metaDataFile};
@@ -664,14 +617,11 @@ class PcqLoaderComponentTest {
         when(unzippedFile.listFiles()).thenReturn(listedFiles);
         when(fileUtil.getMetaDataFile(listedFiles)).thenReturn(metaDataFile);
 
-        try {
-            when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
-            when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
+        when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
+        when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
                 .thenReturn(answerRequest)
                 .thenReturn(answerRequest);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+
         ResponseEntity<Map<String, String>> successResponse = getResponse(answerRequest.getPcqId(),
                                                                           "409",
                                                                           "Invalid Request");
@@ -705,7 +655,7 @@ class PcqLoaderComponentTest {
     }
 
     @Test
-    void executeInvalidRequest() {
+    void executeInvalidRequest() throws IOException, NoSuchFieldException, IllegalAccessException {
         List<String> blobFileNames = Arrays.asList(TEST_BLOB_FILENAME1, TEST_BLOB_FILENAME2);
         File metaDataFile = new File(PAYLOAD_TEST_FILE);
         File[] listedFiles = {metaDataFile};
@@ -723,14 +673,11 @@ class PcqLoaderComponentTest {
         when(unzippedFile.listFiles()).thenReturn(listedFiles);
         when(fileUtil.getMetaDataFile(listedFiles)).thenReturn(metaDataFile);
 
-        try {
-            when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
-            when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
+        when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
+        when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
                 .thenReturn(answerRequest)
                 .thenReturn(answerRequest);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+
         ResponseEntity<Map<String, String>> successResponse = getResponse(answerRequest.getPcqId(),
                                                                           "400",
                                                                           "Invalid Request");
@@ -749,13 +696,10 @@ class PcqLoaderComponentTest {
         verify(fileUtil, times(2)).unzipBlobDownloadZipFile(zipDirectory);
         verify(unzippedFile, times(2)).listFiles();
         verify(fileUtil, times(2)).getMetaDataFile(listedFiles);
-        try {
-            verify(fileUtil, times(2)).readAllBytesFromFile(metaDataFile);
-            verify(payloadMappingHelper, times(2)).mapPayLoadToPcqAnswers(
-                jsonTestMetaData);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+
+        verify(fileUtil, times(2)).readAllBytesFromFile(metaDataFile);
+        verify(payloadMappingHelper, times(2)).mapPayLoadToPcqAnswers(jsonTestMetaData);
+
         verify(pcqBackendService, times(2)).submitAnswers(answerRequest);
         verify(blobStorageManager, times(1)).moveFileToRejectedContainer(TEST_BLOB_FILENAME1, blobContainerClient);
         verify(blobStorageManager, times(1)).moveFileToRejectedContainer(TEST_BLOB_FILENAME2, blobContainerClient);
@@ -764,7 +708,7 @@ class PcqLoaderComponentTest {
     }
 
     @Test
-    void executeInvalidApiException() {
+    void executeInvalidApiException() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         List<String> blobFileNames = Arrays.asList(TEST_BLOB_FILENAME1);
         File metaDataFile = new File(PAYLOAD_TEST_FILE);
@@ -781,13 +725,10 @@ class PcqLoaderComponentTest {
         when(unzippedFile.listFiles()).thenReturn(listedFiles);
         when(fileUtil.getMetaDataFile(listedFiles)).thenReturn(metaDataFile);
 
-        try {
-            when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
-            when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
+        when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
+        when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
                 .thenReturn(answerRequest);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+
         when(pcqBackendService.submitAnswers(answerRequest)).thenThrow(
             new ExternalApiException(HttpStatus.SERVICE_UNAVAILABLE, "Test Error"));
         doNothing().when(fileUtil).deleteFilesFromLocalStorage(zipDirectory, unzippedFile);
@@ -801,20 +742,18 @@ class PcqLoaderComponentTest {
         verify(fileUtil, times(1)).unzipBlobDownloadZipFile(zipDirectory);
         verify(unzippedFile, times(1)).listFiles();
         verify(fileUtil, times(1)).getMetaDataFile(listedFiles);
-        try {
-            verify(fileUtil, times(1)).readAllBytesFromFile(metaDataFile);
-            verify(payloadMappingHelper, times(1)).mapPayLoadToPcqAnswers(
-                jsonTestMetaData);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+
+        verify(fileUtil, times(1)).readAllBytesFromFile(metaDataFile);
+        verify(payloadMappingHelper, times(1)).mapPayLoadToPcqAnswers(jsonTestMetaData);
+
         verify(pcqBackendService, times(3)).submitAnswers(answerRequest);
         verify(fileUtil, times(1)).deleteFilesFromLocalStorage(zipDirectory, unzippedFile);
 
     }
 
     @Test
-    void executeInvalidApiExceptionSuccessfulThirdAttempt() {
+    void executeInvalidApiExceptionSuccessfulThirdAttempt() throws
+            IOException, NoSuchFieldException, IllegalAccessException {
 
         List<String> blobFileNames = Arrays.asList(TEST_BLOB_FILENAME1);
         File metaDataFile = new File(PAYLOAD_TEST_FILE);
@@ -831,13 +770,10 @@ class PcqLoaderComponentTest {
         when(unzippedFile.listFiles()).thenReturn(listedFiles);
         when(fileUtil.getMetaDataFile(listedFiles)).thenReturn(metaDataFile);
 
-        try {
-            when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
-            when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
-                .thenReturn(answerRequest);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+
+        when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
+        when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData)).thenReturn(answerRequest);
+
 
         ResponseEntity<Map<String, String>> successResponse = getResponse(answerRequest.getPcqId(),
                                                                           HTTP_CREATED,
@@ -858,13 +794,10 @@ class PcqLoaderComponentTest {
         verify(fileUtil, times(1)).unzipBlobDownloadZipFile(zipDirectory);
         verify(unzippedFile, times(1)).listFiles();
         verify(fileUtil, times(1)).getMetaDataFile(listedFiles);
-        try {
-            verify(fileUtil, times(1)).readAllBytesFromFile(metaDataFile);
-            verify(payloadMappingHelper, times(1)).mapPayLoadToPcqAnswers(
-                jsonTestMetaData);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+
+        verify(fileUtil, times(1)).readAllBytesFromFile(metaDataFile);
+        verify(payloadMappingHelper, times(1)).mapPayLoadToPcqAnswers(jsonTestMetaData);
+
         verify(pcqBackendService, times(3)).submitAnswers(answerRequest);
         verify(blobStorageManager, times(1)).moveFileToProcessedFolder(TEST_BLOB_FILENAME1, blobContainerClient);
         verify(fileUtil, times(1)).deleteFilesFromLocalStorage(zipDirectory, unzippedFile);
@@ -872,7 +805,8 @@ class PcqLoaderComponentTest {
     }
 
     @Test
-    void testInterruptedException() throws InterruptedException {
+    void testInterruptedException() throws
+            InterruptedException, IOException, NoSuchFieldException, IllegalAccessException {
         List<String> blobFileNames = Arrays.asList(TEST_BLOB_FILENAME1);
         File metaDataFile = new File(PAYLOAD_TEST_FILE);
         File[] listedFiles = {metaDataFile};
@@ -887,13 +821,10 @@ class PcqLoaderComponentTest {
         when(fileUtil.unzipBlobDownloadZipFile(zipDirectory)).thenReturn(unzippedFile);
         when(unzippedFile.listFiles()).thenReturn(listedFiles);
         when(fileUtil.getMetaDataFile(listedFiles)).thenReturn(metaDataFile);
-        try {
-            when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
-            when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData))
-                .thenReturn(answerRequest);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+
+        when(fileUtil.readAllBytesFromFile(metaDataFile)).thenReturn(jsonTestMetaData);
+        when(payloadMappingHelper.mapPayLoadToPcqAnswers(jsonTestMetaData)).thenReturn(answerRequest);
+
         when(pcqBackendService.submitAnswers(answerRequest)).thenThrow(
                 new ExternalApiException(HttpStatus.SERVICE_UNAVAILABLE, "Test Error"));
 

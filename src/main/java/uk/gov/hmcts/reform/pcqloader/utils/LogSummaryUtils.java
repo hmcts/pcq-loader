@@ -2,7 +2,8 @@ package uk.gov.hmcts.reform.pcqloader.utils;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Map;
@@ -24,7 +25,7 @@ public final class LogSummaryUtils {
     private static final String TOTAL_STRING = "Total";
 
     private static final DateTimeFormatter DATE_FORMATTER =
-        DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy HH mm", Locale.UK);
+        DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy HH mm z", Locale.UK);
 
     private LogSummaryUtils() {
         //No Args private constructor.
@@ -49,7 +50,8 @@ public final class LogSummaryUtils {
         StringBuilder stringBuilder = new StringBuilder(128);
         stringBuilder
             .append(SUMMARY_HEADING_STRING)
-            .append(LocalDateTime.now().format(DATE_FORMATTER))
+            .append(ZonedDateTime
+                        .now(ZoneId.of("Europe/London")).format(DATE_FORMATTER))
             .append(CR_STRING)
             .append(SERVICE_SUMMARY_STRING)
             .append("-----------------------------------------------------------")

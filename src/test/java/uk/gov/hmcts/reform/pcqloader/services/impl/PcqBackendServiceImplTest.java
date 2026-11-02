@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.reform.pcq.commons.controller.feign.PcqBackendFeignClient;
@@ -22,8 +23,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -36,7 +37,6 @@ import static org.mockito.Mockito.when;
 class PcqBackendServiceImplTest {
 
     private static final String HEADER_VALUE = "Test_Loader";
-    private static final String RESPONSE_INCORRECT = "Not the correct response";
     private static final String TEST_PCQ_ID = "UNIT_TEST_PCQ_1";
     private static final String TEST_DCN_NUMBER = "UNIT_TEST_DCN_1";
     private static final String EXPECTED_MSG_1 = "PcqIds don't match";
@@ -79,12 +79,11 @@ class PcqBackendServiceImplTest {
 
         ResponseEntity responseEntity = pcqBackendService.submitAnswers(testRequest);
 
-        assertTrue(RESPONSE_INCORRECT, responseEntity.getBody() instanceof Map<?,?>);
+        assertInstanceOf(Map.class, responseEntity.getBody());
         Map<?,?> responseBodyMap = (Map<?, ?>) responseEntity.getBody();
-        assertEquals(EXPECTED_MSG_1, TEST_PCQ_ID, responseBodyMap.get(PCQ_ID_KEY));
-        assertEquals(EXPECTED_MSG_2, "201", responseBodyMap.get(STATUS_CODE_KEY));
-        assertEquals(EXPECTED_MSG_3, "Successfully created", responseBodyMap.get(STATUS_KEY));
-
+        assertEquals(TEST_PCQ_ID, responseBodyMap.get(PCQ_ID_KEY),EXPECTED_MSG_1);
+        assertEquals(HttpStatus.CREATED.value(), responseEntity.getStatusCode().value(),EXPECTED_MSG_2);
+        assertEquals("Successfully created", responseBodyMap.get(STATUS_KEY),EXPECTED_MSG_3);
 
         verify(mockPcqBackendFeignClient, times(1)).submitAnswers(anyString(), anyString(),
                                                                   any(PcqAnswerRequest.class));
@@ -102,11 +101,11 @@ class PcqBackendServiceImplTest {
 
         ResponseEntity responseEntity = pcqBackendService.submitAnswers(testRequest);
 
-        assertTrue(RESPONSE_INCORRECT, responseEntity.getBody() instanceof Map<?,?>);
+        assertInstanceOf(Map.class, responseEntity.getBody());
         Map<?,?> responseBodyMap = (Map<?, ?>) responseEntity.getBody();
-        assertEquals(EXPECTED_MSG_1, TEST_PCQ_ID, responseBodyMap.get(PCQ_ID_KEY));
-        assertEquals(EXPECTED_MSG_2, "400", responseBodyMap.get(STATUS_CODE_KEY));
-        assertEquals(EXPECTED_MSG_3, INVALID_REQUEST, responseBodyMap.get(STATUS_KEY));
+        assertEquals(TEST_PCQ_ID, responseBodyMap.get(PCQ_ID_KEY),EXPECTED_MSG_1);
+        assertEquals("400", responseBodyMap.get(STATUS_CODE_KEY),EXPECTED_MSG_2);
+        assertEquals(INVALID_REQUEST, responseBodyMap.get(STATUS_KEY),EXPECTED_MSG_3);
 
 
         verify(mockPcqBackendFeignClient, times(1)).submitAnswers(anyString(), anyString(),
@@ -125,11 +124,11 @@ class PcqBackendServiceImplTest {
 
         ResponseEntity responseEntity = pcqBackendService.submitAnswers(testRequest);
 
-        assertTrue(RESPONSE_INCORRECT, responseEntity.getBody() instanceof Map<?,?>);
+        assertInstanceOf(Map.class, responseEntity.getBody());
         Map<?,?> responseBodyMap = (Map<?, ?>) responseEntity.getBody();
-        assertEquals(EXPECTED_MSG_1, TEST_PCQ_ID, responseBodyMap.get(PCQ_ID_KEY));
-        assertEquals(EXPECTED_MSG_2, "403", responseBodyMap.get(STATUS_CODE_KEY));
-        assertEquals(EXPECTED_MSG_3, INVALID_REQUEST, responseBodyMap.get(STATUS_KEY));
+        assertEquals(TEST_PCQ_ID, responseBodyMap.get(PCQ_ID_KEY),EXPECTED_MSG_1);
+        assertEquals("403", responseBodyMap.get(STATUS_CODE_KEY),EXPECTED_MSG_2);
+        assertEquals(INVALID_REQUEST, responseBodyMap.get(STATUS_KEY),EXPECTED_MSG_3);
 
 
         verify(mockPcqBackendFeignClient, times(1)).submitAnswers(anyString(), anyString(),
@@ -148,11 +147,11 @@ class PcqBackendServiceImplTest {
 
         ResponseEntity responseEntity = pcqBackendService.submitAnswers(testRequest);
 
-        assertTrue(RESPONSE_INCORRECT, responseEntity.getBody() instanceof Map<?,?>);
+        assertInstanceOf(Map.class, responseEntity.getBody());
         Map<?,?> responseBodyMap = (Map<?, ?>) responseEntity.getBody();
-        assertEquals(EXPECTED_MSG_1, TEST_PCQ_ID, responseBodyMap.get(PCQ_ID_KEY));
-        assertEquals(EXPECTED_MSG_2, "500", responseBodyMap.get(STATUS_CODE_KEY));
-        assertEquals(EXPECTED_MSG_3, "Unknown error occurred", responseBodyMap.get(STATUS_KEY));
+        assertEquals(TEST_PCQ_ID, responseBodyMap.get(PCQ_ID_KEY),EXPECTED_MSG_1);
+        assertEquals("500", responseBodyMap.get(STATUS_CODE_KEY),EXPECTED_MSG_2);
+        assertEquals("Unknown error occurred", responseBodyMap.get(STATUS_KEY),EXPECTED_MSG_3);
 
 
         verify(mockPcqBackendFeignClient, times(1)).submitAnswers(anyString(), anyString(),
