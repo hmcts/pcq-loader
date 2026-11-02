@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -234,13 +235,13 @@ class BlobStorageManagerTest {
 
         testBlobStorageManager = new BlobStorageManager(blobStorageProperties, blobServiceClient, zipFileUtils);
 
-        try {
-            testBlobStorageManager.downloadFileFromBlobStorage(pcqContainer, TEST_BLOB_FILENAME1);
-            Assertions.fail("BlobProcessingException should be thrown");
-        } catch (BlobProcessingException bpe) {
-            verify(blobClient, times(1)).downloadToFile(
+
+        assertThrows(BlobProcessingException.class, () ->
+            testBlobStorageManager.downloadFileFromBlobStorage(pcqContainer, TEST_BLOB_FILENAME1));
+
+        verify(blobClient, times(1)).downloadToFile(
                 TEST_PCQ_FILE_PATH + "/" + TEST_BLOB_FILENAME1, true);
-        }
+
     }
 
     @Test
@@ -249,13 +250,12 @@ class BlobStorageManagerTest {
 
         testBlobStorageManager = new BlobStorageManager(blobStorageProperties, blobServiceClient, zipFileUtilsMock);
 
-        try {
-            testBlobStorageManager.downloadFileFromBlobStorage(pcqContainer, TEST_BLOB_FILENAME1);
-            Assertions.fail("BlobProcessingException should be thrown");
-        } catch (BlobProcessingException bpe) {
-            verify(blobClient, times(0)).downloadToFile(
-                TEST_PCQ_FILE_PATH + "/" + TEST_BLOB_FILENAME1, true);
-        }
+        assertThrows(BlobProcessingException.class, () ->
+            testBlobStorageManager.downloadFileFromBlobStorage(pcqContainer, TEST_BLOB_FILENAME1));
+
+        verify(blobClient, times(0)).downloadToFile(
+              TEST_PCQ_FILE_PATH + "/" + TEST_BLOB_FILENAME1, true);
+
     }
 
     @Test
@@ -362,7 +362,7 @@ class BlobStorageManagerTest {
 
         when(rejectedBlobClient.beginCopy(TEST_PCQ_BLOB_PATH + "/" + testFileName, null)).thenReturn(syncPoller);
 
-        Assertions.assertThrows(
+        assertThrows(
             BlobProcessingException.class,
             () -> testBlobStorageManager.moveFileToRejectedContainer(testFileName, pcqContainer)
         );
@@ -383,7 +383,7 @@ class BlobStorageManagerTest {
 
         when(processedBlobClient.beginCopy(TEST_PCQ_BLOB_PATH + "/" + testFileName, null)).thenReturn(syncPoller);
 
-        Assertions.assertThrows(
+        assertThrows(
             BlobProcessingException.class,
             () -> testBlobStorageManager.moveFileToProcessedFolder(testFileName, pcqContainer)
         );
@@ -410,7 +410,7 @@ class BlobStorageManagerTest {
         when(pollResponse.getValue()).thenReturn(copyInfo);
         when(copyInfo.getCopyStatus()).thenReturn(CopyStatusType.FAILED);
 
-        BlobProcessingException ex = Assertions.assertThrows(
+        BlobProcessingException ex = assertThrows(
             BlobProcessingException.class,
             () -> testBlobStorageManager.moveFileToRejectedContainer(testFileName, pcqContainer)
         );
