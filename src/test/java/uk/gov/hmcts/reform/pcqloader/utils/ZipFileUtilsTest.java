@@ -39,6 +39,8 @@ class ZipFileUtilsTest {
 
     private static final String BLOB_FILENAME_1 = "1579002492_31-08-2020-11-35-10.zip";
     private static final String BAD_ZIP = "1579002493_31-08-2020-11-35-ERROR.zip";
+    private static final String ZIP_OUTPUT_DIR = "zip-output";
+    private static final String ZIP_ASSERT_ERROR = "Exception message should contain the zip entry name";
 
     @Mock
     private File mockedFile;
@@ -51,6 +53,12 @@ class ZipFileUtilsTest {
 
     @Mock
     private Path folderPath;
+
+    @Mock
+    private ZipFile zipFile;
+
+    @Mock
+    private ZipEntry zipEntry;
 
     private File badZip;
     private File actualZip;
@@ -211,7 +219,6 @@ class ZipFileUtilsTest {
         when(testMockedFileSuccess.toPath()).thenReturn(innerPath);
 
         when(mockedFolder.toPath()).thenReturn(folderPath);
-
         when(mockedFolder.listFiles()).thenReturn(successFiles);
 
         try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
@@ -251,10 +258,7 @@ class ZipFileUtilsTest {
 
     @Test
     void testCheckUnzipFileSizeThrowsZipProcessingExceptionWhenReadFails() throws Exception {
-        ZipFile zipFile = mock(ZipFile.class);
-        ZipEntry zipEntry = mock(ZipEntry.class);
-
-        File outputDir = Files.createTempDirectory("zip-output").toFile();
+        File outputDir = Files.createTempDirectory(ZIP_OUTPUT_DIR).toFile();
         String entryName = "report.pdf";
 
         when(zipEntry.getName()).thenReturn(entryName);
@@ -265,15 +269,13 @@ class ZipFileUtilsTest {
             () -> zipFileUtils.checkUnzipFileSize(zipFile, zipEntry, outputDir, "report.pdf")
         );
 
-        assertTrue(ex.getMessage().contains("Unable to unpack zip file " + entryName));
+        assertTrue(ex.getMessage().contains("Unable to unpack zip file " + entryName),
+                   ZIP_ASSERT_ERROR);
     }
 
     @Test
     void testCheckUnzipFileSizeThrowsWhenCompressionRatioIsSuspicious() throws Exception {
-        ZipFile zipFile = mock(ZipFile.class);
-        ZipEntry zipEntry = mock(ZipEntry.class);
-
-        File outputDir = Files.createTempDirectory("zip-output").toFile();
+        File outputDir = Files.createTempDirectory(ZIP_OUTPUT_DIR).toFile();
         String entryName = "error.txt";
 
         when(zipEntry.getName()).thenReturn(entryName);
@@ -286,7 +288,9 @@ class ZipFileUtilsTest {
             () -> zipFileUtils.checkUnzipFileSize(zipFile, zipEntry, outputDir, "error.txt")
         );
 
-        assertTrue(ex.getMessage().contains("Ratio between compressed and uncompressed data is highly suspicious " + entryName));
+        assertTrue(ex.getMessage().contains(
+            "Ratio between compressed and uncompressed data is highly suspicious " + entryName),
+                   ZIP_ASSERT_ERROR);
     }
 
 }
