@@ -9,13 +9,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.util.ResourceUtils;
 import uk.gov.hmcts.reform.pcqloader.exceptions.ZipProcessingException;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -243,6 +247,46 @@ class ZipFileUtilsTest {
         File metaDataFile = zipFileUtils.getMetaDataFile(files);
         assertNotNull(metaDataFile, "File should not have been null");
         verify(mockedFile, times(1)).getName();
+    }
+
+    @Test
+    void testCheckUnzipFileSizeThrowsZipProcessingExceptionWhenReadFails() throws Exception {
+        ZipFile zipFile = mock(ZipFile.class);
+        ZipEntry zipEntry = mock(ZipEntry.class);
+
+        File outputDir = Files.createTempDirectory("zip-output").toFile();
+        String entryName = "report.pdf";
+
+        when(zipEntry.getName()).thenReturn(entryName);
+        when(zipFile.getInputStream(zipEntry)).thenThrow(new IOException("can't read zip entry"));
+
+        ZipProcessingException ex = assertThrows(
+            ZipProcessingException.class,
+            () -> zipFileUtils.checkUnzipFileSize(zipFile, zipEntry, outputDir, "report.pdf")
+        );
+
+        assertTrue(ex.getMessage().contains("Unable to unpack zip file " + entryName));
+    }
+
+    @Test
+    void testCheckUnzipFileSizeThrowsWhenCompressionRatioIsSuspicious() throws Exception {
+        ZipFile zipFile = mock(ZipFile.class);
+        ZipEntry zipEntry = mock(ZipEntry.class);
+
+        File outputDir = Files.createTempDirectory("zip-output").toFile();
+        String entryName = "error.txt";
+
+        when(zipEntry.getName()).thenReturn(entryName);
+        when(zipEntry.getCompressedSize()).thenReturn(1L);
+        when(zipFile.getInputStream(zipEntry))
+            .thenReturn(new ByteArrayInputStream("12345678901".getBytes(StandardCharsets.UTF_8)));
+
+        ZipProcessingException ex = assertThrows(
+            ZipProcessingException.class,
+            () -> zipFileUtils.checkUnzipFileSize(zipFile, zipEntry, outputDir, "error.txt")
+        );
+
+        assertTrue(ex.getMessage().contains("Ratio between compressed and uncompressed data is highly suspicious " + entryName));
     }
 
 }
