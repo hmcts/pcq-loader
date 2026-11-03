@@ -26,8 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -36,7 +35,7 @@ import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidCatchingGenericException"})
+@SuppressWarnings({"PMD.TooManyMethods"})
 class PcqLoaderComponentTest {
 
     private static final String TEST_BLOB_FILENAME1 = "1579002492_31-08-2020-11-35-10.zip";
@@ -45,7 +44,6 @@ class PcqLoaderComponentTest {
     private static final String TEST_EXCEPTION_MSG = "Test Exception";
     private static final String SUCCESS_MSG = "Successfully created";
     private static final String HTTP_CREATED = "201";
-    private static final String EXCEPTION_UNEXPECTED = "Exception not expected ";
     private static final String PAYLOAD_TEST_FILE = "testPayloadFiles/successMetaFile.json";
 
     private PcqLoaderComponent pcqLoaderComponent;
@@ -277,13 +275,10 @@ class PcqLoaderComponentTest {
         verify(fileUtil, times(1)).unzipBlobDownloadZipFile(zipDirectory);
         verify(unzippedFile, times(1)).listFiles();
         verify(fileUtil, times(1)).getMetaDataFile(listedFiles);
-        try {
-            verify(fileUtil, times(1)).readAllBytesFromFile(metaDataFile);
-            verify(payloadMappingHelper, times(1)).mapPayLoadToPcqAnswers(
-                jsonTestMetaData);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+
+        verify(fileUtil, times(1)).readAllBytesFromFile(metaDataFile);
+        verify(payloadMappingHelper, times(1)).mapPayLoadToPcqAnswers(jsonTestMetaData);
+
         verify(pcqBackendService, times(1)).submitAnswers(answerRequest);
         verify(blobStorageManager, times(1)).moveFileToProcessedFolder(TEST_BLOB_FILENAME1, blobContainerClient);
         verify(fileUtil, times(1)).deleteFilesFromLocalStorage(zipDirectory, unzippedFile);
@@ -640,13 +635,8 @@ class PcqLoaderComponentTest {
         verify(fileUtil, times(2)).unzipBlobDownloadZipFile(zipDirectory);
         verify(unzippedFile, times(2)).listFiles();
         verify(fileUtil, times(2)).getMetaDataFile(listedFiles);
-        try {
-            verify(fileUtil, times(2)).readAllBytesFromFile(metaDataFile);
-            verify(payloadMappingHelper, times(2)).mapPayLoadToPcqAnswers(
-                jsonTestMetaData);
-        } catch (Exception e) {
-            fail(EXCEPTION_UNEXPECTED + e.getMessage());
-        }
+        verify(fileUtil, times(2)).readAllBytesFromFile(metaDataFile);
+        verify(payloadMappingHelper, times(2)).mapPayLoadToPcqAnswers(jsonTestMetaData);
         verify(pcqBackendService, times(2)).submitAnswers(answerRequest);
         verify(blobStorageManager, times(1)).moveFileToProcessedFolder(TEST_BLOB_FILENAME1, blobContainerClient);
         verify(blobStorageManager, times(1)).moveFileToProcessedFolder(TEST_BLOB_FILENAME2, blobContainerClient);
@@ -837,7 +827,7 @@ class PcqLoaderComponentTest {
 
         thread.start();
         thread.interrupt();
-        assertTrue("Thread is not Interrupted", thread.isInterrupted());
+        assertTrue(thread.isInterrupted(), "Thread is not Interrupted");
         thread.join();
 
         verify(blobStorageManager, times(1)).getPcqContainer();

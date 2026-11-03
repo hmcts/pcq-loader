@@ -140,6 +140,11 @@ public class ZipFileUtils {
     }
 
     private boolean cleanUp(File file) {
-        return file.delete();
+        try {
+            return Files.deleteIfExists(file.toPath());
+        } catch (IOException e) {
+            log.error("An error occurred while deleting file {}", file.getName(), e);
+            return false;
+        }
     }
 }

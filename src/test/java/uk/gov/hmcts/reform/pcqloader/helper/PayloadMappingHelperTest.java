@@ -45,7 +45,7 @@ class PayloadMappingHelperTest {
     }
 
     @Test
-    void mapPayLoadSuccess() throws IOException {
+    void mapPayLoadSuccess() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/successMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -56,19 +56,13 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
-
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertUtils.assertSuccessMapping(mappedAnswers, metaData);
     }
 
     @Test
-    void mapPayLoadSuccessEmptyDobProvided() throws IOException {
+    void mapPayLoadSuccessEmptyDobProvided() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/successEmptyDobProvidedMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -80,19 +74,13 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
-
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertUtils.assertSuccessMapping(mappedAnswers, metaData);
     }
 
     @Test
-    void mapPayLoadMultipleIntElements() throws IOException {
+    void mapPayLoadMultipleIntElements() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/multipleReligionMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -103,19 +91,13 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
-
+        PcqAnswerRequest  mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertUtils.assertReligionInvalidMapping(mappedAnswers, metaData);
     }
 
     @Test
-    void mapPayLoadInvalidDob() throws IOException {
+    void mapPayLoadInvalidDob() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/invalidDobMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -126,19 +108,13 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
-
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertUtils.assertDobInvalidMapping(mappedAnswers, metaData);
     }
 
     @Test
-    void mapPayLoadInvalidDobAndDobProvidedEmpty() throws IOException {
+    void mapPayLoadInvalidDobAndDobProvidedEmpty() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/invalidDobEmptyProvidedMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -150,19 +126,13 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
-
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertUtils.assertDobInvalidMapping(mappedAnswers, metaData);
     }
 
     @Test
-    void mapPayLoadDisabilityNone() throws IOException {
+    void mapPayLoadDisabilityNone() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/disabilityNoneMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -173,19 +143,13 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
-
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertUtils.assertDisabilityNoneMapping(mappedAnswers, metaData);
     }
 
     @Test
-    void mapMultipleEthnicity() throws IOException {
+    void mapMultipleEthnicity() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/multipleEthnicityMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -196,19 +160,13 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
-
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertUtils.assertMultipleEthnicityMapping(mappedAnswers, metaData);
     }
 
     @Test
-    void mapInvalidOtherValues() throws IOException {
+    void mapInvalidOtherValues() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/invalidOtherValuesMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -219,18 +177,13 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertUtils.assertInvalidOtherMapping(mappedAnswers, metaData);
     }
 
     @Test
-    void mapInvalidOtherValuesMultiple() throws IOException {
+    void mapInvalidOtherValuesMultiple() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/multipleInvalidOtherValuesMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -241,27 +194,17 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertUtils.assertMultipleInvalidOtherMapping(mappedAnswers, metaData);
     }
 
     @Test
-    void payloadScannableItemMissing() throws IOException {
+    void payloadScannableItemMissing() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/noScannableItemsMetaFile.json");
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertNull(mappedAnswers, "Mapped Answers should be null");
 
@@ -294,7 +237,7 @@ class PayloadMappingHelperTest {
     }
 
     @Test
-    void mapPayLoadDobNotProvided() throws IOException {
+    void mapPayLoadDobNotProvided() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/dobNotProvidedMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -305,19 +248,13 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
-
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertUtils.assertDobNotProvidedMapping(mappedAnswers, metaData);
     }
 
     @Test
-    void mapPayLoadDobEmptyNotProvided() throws IOException {
+    void mapPayLoadDobEmptyNotProvided() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/dobEmptyNotProvidedMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -328,19 +265,13 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
-
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertUtils.assertDobNotProvidedMapping(mappedAnswers, metaData);
     }
 
     @Test
-    void mapPayLoadNoDisabilityCondition() throws IOException {
+    void mapPayLoadNoDisabilityCondition() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/noDisabilityMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -351,19 +282,13 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
-
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertUtils.assertNoDisabilityCondition(mappedAnswers, metaData, 2);
     }
 
     @Test
-    void mapPayLoadNoPreferenceDisabilityCondition() throws IOException {
+    void mapPayLoadNoPreferenceDisabilityCondition() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/notPreferDisabilityMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -375,19 +300,14 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
 
         assertUtils.assertNoDisabilityCondition(mappedAnswers, metaData, 0);
     }
 
     @Test
-    void mapPayLoadNoDisabilityImpact() throws IOException {
+    void mapPayLoadNoDisabilityImpact() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/noDisabilityImpactMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -398,19 +318,13 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
-
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertUtils.assertNoDisabilityImpact(mappedAnswers, metaData, 3);
     }
 
     @Test
-    void mapPayLoadNotPreferDisabilityImpact() throws IOException {
+    void mapPayLoadNotPreferDisabilityImpact() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/notPreferDisabilityImpactMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -422,19 +336,13 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
-
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertUtils.assertNoDisabilityImpact(mappedAnswers, metaData, 0);
     }
 
     @Test
-    void mapPayLoadLanguageLevelEmpty() throws IOException {
+    void mapPayLoadLanguageLevelEmpty() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/emptyLanguageMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -445,19 +353,13 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
-
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertUtils.assertSuccessMapping(mappedAnswers, metaData);
     }
 
     @Test
-    void mapPayLoadMainLanguageEmpty() throws IOException {
+    void mapPayLoadMainLanguageEmpty() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/emptyMainLanguageMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -468,19 +370,14 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertEquals(1, mappedAnswers.getPcqAnswers().getEnglishLanguageLevel(), ENGLISH_LANGUAGE_LEVEL_MSG);
         assertUtils.assertLanguageMapping(mappedAnswers, metaData, null);
     }
 
     @Test
-    void mapPayLoadMainLanguageNotPreferred() throws IOException {
+    void mapPayLoadMainLanguageNotPreferred() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/notPreferMainLanguageMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -491,19 +388,14 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertNull(mappedAnswers.getPcqAnswers().getEnglishLanguageLevel(), ENGLISH_LANGUAGE_LEVEL_MSG);
         assertUtils.assertLanguageMapping(mappedAnswers, metaData, 0);
     }
 
     @Test
-    void mapPayLoadMainLanguageOther() throws IOException {
+    void mapPayLoadMainLanguageOther() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         String metaDataPayLoad = jsonStringFromFile("testPayloadFiles/otherMainLanguageMetaFile.json");
         PcqMetaData metaData = jsonMetaDataObjectFromString(metaDataPayLoad);
@@ -514,12 +406,7 @@ class PayloadMappingHelperTest {
         // Assert the expected and actual payloads are correct before invoking the mapping.
         assertUtils.assertPayLoads(expectedPcqPayload, actualPayLoad);
 
-        PcqAnswerRequest mappedAnswers = null;
-        try {
-            mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail(FAIL_ASSERT_MSG, e);
-        }
+        PcqAnswerRequest mappedAnswers = payloadMappingHelper.mapPayLoadToPcqAnswers(metaDataPayLoad);
 
         assertUtils.assertOtherLanguageMapping(mappedAnswers, metaData);
     }
@@ -538,11 +425,11 @@ class PayloadMappingHelperTest {
         return new String(Files.readAllBytes(resource.toPath()));
     }
 
-    private static PcqPayLoad jsonPayloadObjectFromString(String jsonString) throws IOException {
+    private static PcqPayLoad jsonPayloadObjectFromString(String jsonString) {
         return new ObjectMapper().readValue(jsonString, PcqPayLoad.class);
     }
 
-    private static PcqMetaData jsonMetaDataObjectFromString(String jsonString) throws IOException {
+    private static PcqMetaData jsonMetaDataObjectFromString(String jsonString) {
         return new ObjectMapper().readValue(jsonString, PcqMetaData.class);
     }
 
