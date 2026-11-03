@@ -16,17 +16,13 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
@@ -291,6 +287,81 @@ class ZipFileUtilsTest {
         assertTrue(ex.getMessage().contains(
             "Ratio between compressed and uncompressed data is highly suspicious " + entryName),
                    ZIP_ASSERT_ERROR);
+    }
+
+    @Test
+    void testDeleteFilesFromLocalStorageWarnsWhenZipFileDeleteFails() throws Exception {
+        when(mockedFile.getName()).thenReturn("test.zip");
+        when(mockedFile.toPath()).thenReturn(Paths.get("/tmp/test.zip"));
+
+        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
+            mockedFiles.when(() -> Files.deleteIfExists(mockedFile.toPath())).thenReturn(false);
+
+            assertDoesNotThrow(() -> zipFileUtils.deleteFilesFromLocalStorage(mockedFile, null));
+
+            mockedFiles.verify(() -> Files.deleteIfExists(mockedFile.toPath()));
+        }
+    }
+
+    @Test
+    void testConfirmFileCanBeCreatedWhenParentDirectoryIsCreated() throws IOException {
+        when(mockedFile.getParentFile()).thenReturn(mockedFolder);
+        when(mockedFolder.exists()).thenReturn(false);
+        when(mockedFolder.mkdirs()).thenReturn(true);
+        when(mockedFolder.isDirectory()).thenReturn(true);
+        when(mockedFile.exists()).thenReturn(false);
+        when(mockedFile.createNewFile()).thenReturn(true);
+        when(mockedFile.toPath()).thenReturn(mockedPath);
+
+        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
+            mockedFiles.when(() -> Files.deleteIfExists(mockedPath)).thenReturn(true);
+
+            boolean result = zipFileUtils.confirmFileCanBeCreated(mockedFile);
+
+            assertTrue(result);
+            mockedFiles.verify(() -> Files.deleteIfExists(mockedPath));
+            verify(mockedFolder).mkdirs();
+        }
+    }
+
+    @Test
+    void testConfirmFileCanBeCreatedReturnsFalseWhenFolderIsNotDirectory() throws IOException {
+        when(mockedFile.getParentFile()).thenReturn(mockedFolder);
+        when(mockedFolder.exists()).thenReturn(true);
+        when(mockedFolder.isDirectory()).thenReturn(false);
+
+        boolean result = zipFileUtils.confirmFileCanBeCreated(mockedFile);
+
+        assertFalse(result);
+        verify(mockedFile, times(0)).createNewFile();
+    }
+
+    @Test
+    void testUnzipBlobDownloadZipFileInvalidExtensionThrowsException() {
+        when(mockedFile.exists()).thenReturn(true);
+        when(mockedFile.isFile()).thenReturn(true);
+        when(mockedFile.getPath()).thenReturn("/tmp/not-a-zip.txt");
+        when(mockedFile.getName()).thenReturn("not-a-zip.txt");
+
+        ZipProcessingException ex = assertThrows(
+            ZipProcessingException.class,
+            () -> zipFileUtils.unzipBlobDownloadZipFile(mockedFile)
+        );
+
+        assertTrue(ex.getMessage().contains("Unable to process blob zip file not-a-zip.txt"));
+    }
+
+    @Test
+    void testDeleteFilesFromLocalStorageReturnsFalseWhenDeleteThrowsIOException() throws Exception {
+        when(mockedFile.getName()).thenReturn("temp-file.txt");
+        when(mockedFile.toPath()).thenReturn(Paths.get("/tmp/temp-file.txt"));
+
+        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
+            mockedFiles.when(() -> Files.deleteIfExists(mockedFile.toPath()))
+                .thenThrow(new IOException("delete failed"));
+
+            assertDoesNotThrow(() -> zipFileUtils.deleteFilesFromLocalStorage(mockedFile, null));
+        }
     }
 
 }
