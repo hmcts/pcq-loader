@@ -22,7 +22,13 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
@@ -318,7 +324,7 @@ class ZipFileUtilsTest {
 
             boolean result = zipFileUtils.confirmFileCanBeCreated(mockedFile);
 
-            assertTrue(result);
+            assertTrue(result, "Should create file when parent directory is created");
             mockedFiles.verify(() -> Files.deleteIfExists(mockedPath));
             verify(mockedFolder).mkdirs();
         }
@@ -332,7 +338,7 @@ class ZipFileUtilsTest {
 
         boolean result = zipFileUtils.confirmFileCanBeCreated(mockedFile);
 
-        assertFalse(result);
+        assertFalse(result, "Should not create file when parent folder is not a directory");
         verify(mockedFile, times(0)).createNewFile();
     }
 
@@ -348,11 +354,12 @@ class ZipFileUtilsTest {
             () -> zipFileUtils.unzipBlobDownloadZipFile(mockedFile)
         );
 
-        assertTrue(ex.getMessage().contains("Unable to process blob zip file not-a-zip.txt"));
+        assertTrue(ex.getMessage().contains("Unable to process blob zip file not-a-zip.txt"),
+                  ZIP_ASSERT_ERROR);
     }
 
     @Test
-    void testDeleteFilesFromLocalStorageReturnsFalseWhenDeleteThrowsIOException() throws Exception {
+    void testDeleteFilesFromLocalStorageReturnsFalseWhenDeleteThrowsIoException() throws Exception {
         when(mockedFile.getName()).thenReturn("temp-file.txt");
         when(mockedFile.toPath()).thenReturn(Paths.get("/tmp/temp-file.txt"));
 
